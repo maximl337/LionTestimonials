@@ -45,7 +45,7 @@
 @if(Session::has('message'))
 <script type="text/javascript">
     
-    swal("Good job!", "Your profile was updated", "success")
+    swal("Good job!", "Your profile was updated", "success");
 
 
 </script>

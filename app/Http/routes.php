@@ -7,6 +7,7 @@ Route::get('/', function () {
 
 
 Route::group(['middleware' => 'web'], function () {
+    
     Route::auth();
 
     Route::get('/home', 'HomeController@index');
@@ -16,5 +17,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/profile/edit', 'UserController@editProfile');
 
     Route::post('/user', 'UserController@update');
+
+    Route::get('/user/verify/{token}', 'UserController@verify');
 
 });

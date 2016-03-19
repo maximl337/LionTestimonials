@@ -16,6 +16,9 @@ class User extends Authenticatable
         'last_name', 
         'email', 
         'password',
+        'verification_token',
+        'verification_sent_at',
+        'verified_at'
         
     ];
 

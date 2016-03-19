@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Session;
+use Auth;
 use Validator;
+use App\Services\UserVerificationService;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -65,10 +69,35 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'first_name'            => $data['first_name'],
+            'last_name'             => $data['last_name'],
+            'email'                 => $data['email'],
+            'password'              => bcrypt($data['password'])
         ]);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        Auth::guard($this->getGuard())->login($this->create($request->all()));
+
+        (new UserVerificationService)->send(Auth::user());
+
+        Session::flash('success', 'Thank you for registering. We have sent a verification mail to the email on record. Please go to your inbox and click on the verification link to activate your account.');
+
+        return redirect($this->redirectPath());
     }
 }

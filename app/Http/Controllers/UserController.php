@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use Session;
+use Carbon\Carbon;
 use App\Http\Requests;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -41,4 +42,26 @@ class UserController extends Controller
 
         return view('users.edit', compact('user'));
     }
+
+    public function verify($token)
+    {
+        // get authenticated users token
+        $user = Auth::user();
+
+        if($token != $user->verification_token) {
+
+            Session::flash('error', 'Given token did not match the one on record.');
+
+            return redirect('/profile');
+        }
+
+        $user->verified_at = Carbon::now();
+
+        $user->update();
+
+        Session::flash('success', 'Thank you. Your account is now verified');
+
+        return redirect('/profile');
+    }
+
 }
