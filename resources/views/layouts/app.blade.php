@@ -43,9 +43,16 @@
                 </button>
 
                 <!-- Branding Image -->
+                @if (Auth::guest())
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Lion
                 </a>
+
+                @else
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    Lion
+                </a>
+                @endif
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
