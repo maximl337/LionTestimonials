@@ -47,7 +47,7 @@ class ContactController extends Controller
 
         Auth::user()->contacts()->save($contact);
 
-        Session::flash('success', 'Contact create. Send them an invitation');
+        Session::flash('success', 'Contact created. Now preview and send them an invitation');
 
         return redirect('contacts');
     }

@@ -8,7 +8,7 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    <a href="{{ url('contacts') }}" class="btn btn-primary"> Contacts </a>
                 </div>
             </div>
         </div>

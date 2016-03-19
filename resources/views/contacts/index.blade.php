@@ -26,7 +26,10 @@
                                             <div class="col-md-4">
                                                 <p>Name: {{ $contact->first_name . ' ' . $contact->last_name }}</p>
                                                 <p>Email: {{ $contact->email }}</p>
-                                                <p>Phone: {{ $contact->phone }}</p>
+                                                @if(!empty($contact->phone))
+                                                    <p>Phone: {{ $contact->phone }}</p>
+                                                @endif
+                                                
                                             </div>
                     
                                         @endforeach
