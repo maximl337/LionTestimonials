@@ -10,7 +10,7 @@
 
                 <div class="panel-body">
                     
-                    <form enctype="multipart/form-data" id="import_csv_form" method="" action="" role="form">
+                    <form enctype="multipart/form-data" id="import_csv_form" method="POST" action="{{ url('contacts/import') }}" role="form">
 
                         {!! csrf_field() !!}
 

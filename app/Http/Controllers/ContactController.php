@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
+use Excel;
 use App\Contact;
 use Session;
 use App\Http\Requests\CreateContactRequest;
@@ -56,9 +57,38 @@ class ContactController extends Controller
         return view('contacts.import');
     }
 
-    public function massStore(Request $request)
+    public function importCsv(Request $request)
     {
-    	# code...
+    	$this->validate($request, [
+                'csv' => 'required'
+            ]);
+
+        if ($request->hasFile('csv')) {
+
+            $file = $request->file('csv');
+
+            $destinationPath = storage_path('contact_imports');
+
+            $fileName = Auth::id() . '-' . microtime(true) . '-' . $file->getClientOriginalName();
+
+            $file->move($destinationPath, $fileName);
+            
+            Excel::load(storage_path('contact_imports') . '/' . $fileName, function($reader) {
+
+                // Getting all results
+                $results = $reader->get();
+                dd($results);
+
+                // ->all() is a wrapper for ->get() and will work the same
+                //$results = $reader->all();
+
+            });
+
+        }
+
+        dd("Did not get file");
+
+        
     }
 
     
