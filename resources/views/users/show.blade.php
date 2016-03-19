@@ -4,9 +4,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            @if(Session::has('key'))
-                    {{ Session::get('key') }}
-            @endif
             <div class="panel panel-default">
 
                 <div class="panel-heading">Profile <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a></div>

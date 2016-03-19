@@ -13,10 +13,11 @@
 
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/all.css" rel="stylesheet">
+    
 
     <!-- Vendor styles -->
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css">
 
     <style>
         body {
@@ -68,6 +69,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                                 <li><a href="{{ url('/profile') }}">Profile</a></li>
+                                <li><a href="{{ url('/contacts') }}">Contacts</a></li>
                             </ul>
                         </li>
                     @endif
