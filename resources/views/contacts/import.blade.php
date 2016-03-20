@@ -16,6 +16,9 @@
 
                         <div class="form-group{{ $errors->has('csv') ? ' has-error' : '' }}">
                             <label for="csv">CSV</label>
+                            <span class="help-block">
+                                    <strong>Import a csv with the following headers: 'firstname', 'lastname', 'email', 'phone' (optional)</strong>
+                                </span>
                             <input id="csv" class="form-control " type="file" name="csv" value="{{ old('csv') }}" />
                             @if ($errors->has('csv'))
                                 <span class="help-block">

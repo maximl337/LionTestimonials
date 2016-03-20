@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use File;
 use Auth;
 use Excel;
+use Validator;
 use App\Contact;
 use Session;
 use App\Http\Requests\CreateContactRequest;
@@ -65,30 +67,117 @@ class ContactController extends Controller
 
         if ($request->hasFile('csv')) {
 
-            $file = $request->file('csv');
+            try {
 
-            $destinationPath = storage_path('contact_imports');
+                // get file
+                $file = $request->file('csv');
 
-            $fileName = Auth::id() . '-' . microtime(true) . '-' . $file->getClientOriginalName();
+                // define storage path
+                $destinationPath = storage_path('contact_imports');
 
-            $file->move($destinationPath, $fileName);
-            
-            Excel::load(storage_path('contact_imports') . '/' . $fileName, function($reader) {
+                // make file name
+                $fileName = Auth::id() . '-' . microtime(true) . '-' . md5($file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
 
-                // Getting all results
-                $results = $reader->get();
-                dd($results);
+                // move file
+                $file->move($destinationPath, $fileName);
 
-                // ->all() is a wrapper for ->get() and will work the same
-                //$results = $reader->all();
+                $error = false;
+                
+                // start parsing excel
+                Excel::load($destinationPath . '/' . $fileName, function($reader) use ($destinationPath, $fileName, &$error) {
 
-            });
+                    $firstRow = $reader->first()->toArray();
+
+                    if( !empty($firstRow['firstname']) && 
+                        !empty($firstRow['lastname']) &&
+                        !empty($firstRow['email'])) {
+
+                        // Getting all results
+                        $results = $reader->get(['firstname', 'lastname', 'email', 'phone']);
+
+                        $message = $this->storeContacts($results);
+
+                        Session::flash('success', 'Contacts imported. ' . $message);
+
+                        File::delete($destinationPath . '/' . $fileName);
+                        
+                    } else {
+
+                        Session::flash('error', 'Required columns not found');
+
+                        File::delete($destinationPath . '/' . $fileName);
+
+                        $error = true;
+
+                    }
+
+                }); // EO Excel load
+
+            } catch(\Maatwebsite\Excel\Exceptions\LaravelExcelException $e) {
+
+                Session::flash('error', $e->getMessage());
+
+                $error = true;
+
+            } catch(\Exception $e) {
+
+                Session::flash('error', $e->getMessage());
+
+                $error = true;
+
+            }
+
+            if($error) {
+                return redirect()->back();
+            } 
+
+            return redirect('/contacts');
 
         }
 
-        dd("Did not get file");
-
         
+    }
+
+    public function storeContacts($contacts)
+    {
+
+        $message = [];
+
+        if(!is_null($contacts)) {
+
+            foreach($contacts as $contact) {
+
+                $emailValidator = Validator::make([
+                        'email' => $contact->email
+                    ], [
+                        'email' => 'email|unique:contacts,email,NULL,id,user_id,' . Auth::id()
+                    ]);
+
+                if($emailValidator->fails()) {
+
+                    $message[] = $contact->email . ' is not a valid email or has already been invited';
+                    
+                    continue;
+                }
+
+                $newContact = new Contact([
+                        'first_name' => $contact->firstname,
+                        'last_name' => $contact->lastname,
+                        'email' => $contact->email,
+                        'phone' => !empty($contact->phone) ? $contact->phone : ''
+                    ]);
+
+                Auth::user()->contacts()->save($newContact);
+
+            } // eo foreach
+
+        } // endif
+
+        if(count($message) > 0) {
+            return " Some contacts could not be imported due to an invalid email";
+        }
+
+        return false;
     }
 
     
