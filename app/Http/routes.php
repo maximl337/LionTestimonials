@@ -1,5 +1,8 @@
 <?php
+if (App::environment('staging') || App::environment('production')) {
 
+    Log::useFiles('php://stderr');
+}
 
 Route::get('/', 'HomeController@welcome');
 
