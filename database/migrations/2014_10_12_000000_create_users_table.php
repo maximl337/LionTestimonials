@@ -31,7 +31,7 @@ class CreateUsersTable extends Migration
 
             $table->string('verification_token')->nullable();
             $table->dateTime('verification_sent_at');
-            $table->dateTime('verified_at');
+            $table->dateTime('verified_at')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

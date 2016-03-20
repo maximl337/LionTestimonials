@@ -10,9 +10,15 @@
 
                 <div class="panel-body">
 
+                    @if(!is_null($user->verified_at))
+
+                        <p><span class="label label-success">Verified</span></p>
+                    @endif
+
                     <p>Name: {{ $user->first_name . ' ' . $user->last_name }}</p>
 
                     <p>Email: {{ $user->email }}</p>
+                    
                     
                     
                 </div> <!-- .panel-body -->

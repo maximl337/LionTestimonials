@@ -180,5 +180,28 @@ class ContactController extends Controller
         return false;
     }
 
+    public function emailPreview($id)
+    {
+        try {
+
+            $contact = Contact::findOrFail($id);
+            
+            return view('contacts.email', compact('contact'));
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact with the given id does not exist');
+
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+    }
+
     
 }

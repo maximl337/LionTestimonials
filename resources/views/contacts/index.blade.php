@@ -16,28 +16,85 @@
                         
                     @else
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                @foreach($contacts->chunk(3) as $contactRow)
+                    @if(is_null(Auth::user()->verified_at))
 
-                                    <div class="row contacts">
-                                        @foreach($contactRow as $contact) 
+                        <p class="alert alert-warning">Verify your account to invite contacts</p>
 
-                                            <div class="col-md-4">
-                                                <p>Name: {{ $contact->first_name . ' ' . $contact->last_name }}</p>
-                                                <p>Email: {{ $contact->email }}</p>
-                                                @if(!empty($contact->phone))
-                                                    <p>Phone: {{ $contact->phone }}</p>
-                                                @endif
+                    @endif
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @foreach($contacts->chunk(3) as $contactRow)
+
+                                <div class="row contacts">
+                                    @foreach($contactRow as $contact) 
+
+                                        <div class="col-md-4">
+                                            <div class="panel panel-default">
+
+                                                <div class="panel-body">
+
+                                                    <p>Name: {{ $contact->first_name . ' ' . $contact->last_name }}</p>
+                                            
+                                                    <p>Email: {{ $contact->email }}</p>
+                                                    
+                                                    @if(!empty($contact->phone))
+                                                        <p>Phone: {{ $contact->phone }}</p>
+                                                    @endif
+                                                    
+                                                    <p>Invitations</p>
+
+                                                    <p>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle {{ is_null(Auth::user()->verified_at) ? ' disabled' : '' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Invite <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                        <li>
+                                                            @if(!$contact->email_sent_at)
+                                                                <a class="" href="{{ url('contacts/'.$contact->id.'/email') }}">Send Email</a>
+                                                            @else
+                                                                <a href="#"><span class="text-muted">Email sent</span></a>
+                                                            @endif
+                                                        </li>
+                                                        <li>
+                                                            @if(!$contact->sms_sent_at)
+                                                                <a href="#">Send SMS</a>
+                                                            @else
+                                                                <a href="#"><span class="text-muted">SMS sent</span></a>
+                                                            @endif
+                                                        </li>
+                                                        <li role="separator" class="divider"></li>
+                                                        <li><a href="#">Send Custom links</a></li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- @if(!$contact->email_sent_at)
+                                                        <a href="#" class="btn btn-small btn-primary {{ is_null(Auth::user()->verified_at) ? ' disabled' : '' }}">Email</a>
+                                                    @else
+                                                        <a href="#" class="btn btn-small btn-success disabled">Email Sent</a>
+                                                    @endif
+
+                                                    @if(!$contact->sms_sent_at)
+                                                        <a href="#" class="btn btn-small btn-primary {{ is_null(Auth::user()->verified_at) ? ' disabled' : '' }}">SMS</a>
+                                                    @else
+                                                        <a href="#" class="btn btn-small btn-success disabled">SMS sent</a>
+                                                    @endif -->
+                                                    </p>
+                                                    
+                                                </div> <!-- /.panel-body -->
                                                 
-                                            </div>
-                    
-                                        @endforeach
-                                    </div> <!-- .row -->
+                                            </div> <!-- /.panel -->
 
-                                @endforeach
-                            </div> <!-- .col -->
-                        </div><!-- .row -->
+                                            
+                                        </div> <!-- /.col-md-4 -->
+                
+                                    @endforeach
+                                </div> <!-- .row -->
+
+                            @endforeach
+                        </div> <!-- .col -->
+                    </div><!-- .row -->
 
                     @endif
                     

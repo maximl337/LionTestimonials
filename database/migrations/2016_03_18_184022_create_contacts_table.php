@@ -19,9 +19,9 @@ class CreateContactsTable extends Migration
             $table->string('last_name');
             $table->string('email');
             $table->string('phone')->nullable();
-            $table->boolean('invitation_sent')->default(false);
-            $table->string('token');
-            $table->dateTime('invitation_sent_at');
+            $table->string('token')->nullable();
+            $table->boolean('email_sent_at')->nullable();
+            $table->boolean('sms_sent_at')->nullable();
             $table->timestamps();
         });
 

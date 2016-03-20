@@ -29,4 +29,6 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('contacts/import', 'ContactController@importCsv');
 
+    Route::get('contacts/{id}/email', 'ContactController@emailPreview');
+
 });
