@@ -20,8 +20,8 @@ class CreateTestimonialsTable extends Migration
             $table->string('email');
             $table->text('body')->nullable();
             $table->string('video')->nullable();
-            $table->boolean('approved')->default(false);
-            $table->boolean('seen')->default(false);
+            $table->dateTime('approved_at')->nullable();
+            $table->dateTime('seen_at')->nullable();
             $table->timestamps();
         });
 

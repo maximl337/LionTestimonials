@@ -19,5 +19,10 @@ class Testimonial extends Model
     	return $this->belongsTo('App\User');
     }
 
+    public function contact()
+    {
+        return $this->belongsTo('App\Contact');
+    }
+
     
 }

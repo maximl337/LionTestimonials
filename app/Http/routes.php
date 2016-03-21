@@ -40,4 +40,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('testimonials/create', 'TestimonialController@create');
 
     Route::post('testimonials', 'TestimonialController@store');
+
+    Route::get('testimonials', 'TestimonialController@getTestimonials');
 });

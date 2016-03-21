@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
 use Mail;
 use Session;
 use App\User;
@@ -13,6 +14,22 @@ use App\Http\Requests;
 
 class TestimonialController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['create', 'store']]);
+    }
+
+    public function getTestimonials(Request $request)
+    {
+        $limit = $request->get('limit') ?: 9;
+
+        $page = $request->get('page') ?: 0;
+
+        $testimonials = Auth::user()->testimonials()->with('contact')->paginate($limit);
+
+        return view('testimonials.index', compact('testimonials'));
+    }
 
 	/**
 	 * [create description]
