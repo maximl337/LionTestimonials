@@ -14,17 +14,20 @@ class CreateTestimonialsTable extends Migration
     {
         Schema::create('testimonials', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('author_id')->unsigned();
-            $table->integer('subject_id')->unsigned();
+            $table->integer('contact_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('rating')->unsigned();
+            $table->string('email');
             $table->text('body')->nullable();
             $table->string('video')->nullable();
+            $table->boolean('approved')->default(false);
+            $table->boolean('seen')->default(false);
             $table->timestamps();
         });
 
         Schema::table('testimonials', function (Blueprint $table) {
-            $table->foreign('author_id')->references('id')->on('users');
-            $table->foreign('subject_id')->references('id')->on('users');
+            $table->foreign('contact_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

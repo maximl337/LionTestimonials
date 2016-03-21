@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 
 use File;
 use Auth;
+use Mail;
 use Excel;
+use Session;
 use Validator;
 use App\Contact;
-use Session;
-use App\Http\Requests\CreateContactRequest;
+use Carbon\Carbon;
 use App\Http\Requests;
+use App\Http\Requests\CreateContactRequest;
 
 class ContactController extends Controller
 {
@@ -20,6 +22,11 @@ class ContactController extends Controller
     	$this->middleware('auth');
     }
 
+    /**
+     * [index description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function index(Request $request)
     {
     	$limit = $request->get('limit') ?: 9;
@@ -31,11 +38,20 @@ class ContactController extends Controller
     	return view('contacts.index', compact('contacts'));
     }
 
+    /**
+     * [create description]
+     * @return [type] [description]
+     */
     public function create()
     {
     	return view('contacts.create');
     }
 
+    /**
+     * [store description]
+     * @param  CreateContactRequest $request [description]
+     * @return [type]                        [description]
+     */
     public function store(CreateContactRequest $request)
     {
         $input = $request->input();
@@ -54,15 +70,25 @@ class ContactController extends Controller
         return redirect('contacts');
     }
 
+    /**
+     * [import description]
+     * @return [type] [description]
+     */
     public function import()
     {
         return view('contacts.import');
     }
 
+    /**
+     * [importCsv description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function importCsv(Request $request)
     {
     	$this->validate($request, [
-                'csv' => 'required'
+                'csv' => 'required',
+                'g-recaptcha-response' => 'required|recaptcha',
             ]);
 
         if ($request->hasFile('csv')) {
@@ -138,6 +164,11 @@ class ContactController extends Controller
         
     }
 
+    /**
+     * [storeContacts description]
+     * @param  [type] $contacts [description]
+     * @return [type]           [description]
+     */
     public function storeContacts($contacts)
     {
 
@@ -180,6 +211,12 @@ class ContactController extends Controller
         return false;
     }
 
+    /**
+     * Preview of the email to be sent
+     * 
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function emailPreview($id)
     {
         try {
@@ -201,6 +238,76 @@ class ContactController extends Controller
             return redirect()->back();
 
         }
+    }
+
+    /**
+     * [sendEmail description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function sendEmail(Request $request) 
+    {
+        $this->validate($request, [
+                'contact_id' => 'required|exists:contacts,id'   
+            ]);
+
+        try {
+
+            $input = $request->input();
+
+            // get contact
+            $contact = Contact::findOrFail($input['contact_id']);
+
+            //make token
+            $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
+
+            $params = [
+                'token' => $token,
+                'id' => $contact->id
+            ];
+
+            //make url
+            $url = env('APP_URL') . 'testimonials/create?' . http_build_query($params);
+
+            $data = [
+                'user' => Auth::user(),
+                'contact' => $contact,
+                'url' => $url
+            ];
+
+            // send mail
+            Mail::send('emails.invite', $data, function($m) use ($contact) {
+                $m->from('hello@lion.com', 'Lion Testimonials');
+                $m->to($contact->email, $contact->first_name)->subject('Account verification');
+            });
+
+            // update contact
+            $contact->update([
+                    'token' => $token,
+                    'email_sent_at' => Carbon::now()
+                ]);
+
+            Session::flash('success', 'Email sent successfully');
+
+            return redirect('/contacts');
+
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact with the given id does not exist');
+
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+
+        
+
     }
 
     

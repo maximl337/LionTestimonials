@@ -15,11 +15,20 @@
                     <p><a href="#">Click here</a></p>
                     
                 
-                    <form id="" method="" action="" role="form">
+                    <form id="" method="POST" action="{{ url('contacts/email/send') }}" role="form">
+
+                        {!! csrf_field() !!}
+
+                        <input type="hidden" name="contact_id" value="{{ $contact->id }}">
+
                         <div class="form-group">
-                            <label for="">
                             <input id="" class="form-control btn btn-primary" type="submit" value="Looks good. Send it." />
                         </div>
+                        @if ($errors->has('contact_id'))
+                            <span class="help-block">
+                                <strong>Contact id not found in request</strong>
+                            </span>
+                        @endif
                         
                     </form>
                 </div> <!-- .panel-body -->

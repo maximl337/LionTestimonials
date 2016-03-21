@@ -57,6 +57,7 @@ class AuthController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'g-recaptcha-response' => 'required|recaptcha',
         ]);
     }
 
@@ -96,7 +97,7 @@ class AuthController extends Controller
 
         (new UserVerificationService)->send(Auth::user());
 
-        Session::flash('success', 'Thank you for registering. We have sent a verification mail to the email on record. Please go to your inbox and click on the verification link to activate your account.');
+        Session::flash('success', 'Confirm your account with the email we sent you.');
 
         return redirect($this->redirectPath());
     }

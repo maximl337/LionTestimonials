@@ -40,4 +40,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Contact');
     }
+
+    public function testimonials()
+    {
+        return $this->hasMany('App\Testimonial');
+    }
 }

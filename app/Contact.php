@@ -12,9 +12,9 @@ class Contact extends Model
     	'last_name',
     	'email',
     	'phone',
-    	'invitation_sent',
     	'token',
-    	'invitation_sent_at'
+        'email_sent_at',
+        'sms_sent_at',
     ];
 
     public function user()

@@ -39,4 +39,15 @@
 
 </script>
 @endif
+
+@if(Session::has('error'))
+<script type="text/javascript">
+    
+    swal("Uh oh!", "{{ Session::get('error') }}", "error");
+
+    //console.log('has message');
+
+</script>
+@endif
 @endsection
+

@@ -160,6 +160,7 @@ return [
          * Vendor Service Providers
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 
@@ -211,6 +212,7 @@ return [
          * Vendor Aliases
          */
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
 
     ],
 

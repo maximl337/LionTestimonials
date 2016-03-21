@@ -26,6 +26,15 @@
                                 </span>
                             @endif
                         </div>
+
+                        <div class="form-group{{ $errors->has('csv') ? ' has-error' : '' }}">
+                            {!! Recaptcha::render() !!}
+                            @if ($errors->has('g-recaptcha-response'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         
                         <div class="form-group">
                             <input type="submit" value="Upload" class="form-control btn btn-primary">

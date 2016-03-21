@@ -1,0 +1,1 @@
+You have a new testimonial: {{ $user->getName() }}

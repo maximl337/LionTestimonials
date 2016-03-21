@@ -20,8 +20,8 @@ class CreateContactsTable extends Migration
             $table->string('email');
             $table->string('phone')->nullable();
             $table->string('token')->nullable();
-            $table->boolean('email_sent_at')->nullable();
-            $table->boolean('sms_sent_at')->nullable();
+            $table->dateTime('email_sent_at')->nullable();
+            $table->dateTime('sms_sent_at')->nullable();
             $table->timestamps();
         });
 

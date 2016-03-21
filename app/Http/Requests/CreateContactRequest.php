@@ -28,7 +28,8 @@ class CreateContactRequest extends Request
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email|unique:contacts,email,NULL,id,user_id,' . Auth::id(),
-            'phone' => 'digits:10'
+            'phone' => 'digits:10',
+            'g-recaptcha-response' => 'required|recaptcha',
 
         ];
     }

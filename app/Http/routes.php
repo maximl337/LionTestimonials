@@ -34,4 +34,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('contacts/{id}/email', 'ContactController@emailPreview');
 
+    Route::post('contacts/email/send', 'ContactController@sendEmail');
+
+    /** Testimonials */
+    Route::get('testimonials/create', 'TestimonialController@create');
+
+    Route::post('testimonials', 'TestimonialController@store');
 });
