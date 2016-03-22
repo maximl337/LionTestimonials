@@ -5,7 +5,20 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Add Testimonial</div>
+                <div class="panel-heading">
+                    Testimonial
+                
+                    <div class="btn-group pull-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        filter <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="?filter=approved">Approved</a></li>
+                            <li><a href="?filter=unapproved">Unapproved</a></li>
+                            <li><a href="?">Clear</a></li>
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="panel-body">
 
@@ -26,7 +39,7 @@
                                                 @if(!is_null($testimonial->approved_at))
                                                     <a href="#" class="btn btn-small btn-success disabled">Approved</a>
                                                 @else
-                                                    <a href="#" class="btn btn-small btn-primary">Approve</a>
+                                                    <a href="#" data-id="{{ $testimonial->id }}" class="approve btn btn-small btn-primary">Approve</a>
                                                 @endif
                                             </p>     
                                         </div> <!-- .panel-body -->
@@ -65,5 +78,50 @@
 
 </script>
 @endif
+
+<script type="text/javascript">
+$(function() {
+
+    $(document).on("click", ".approve", function(e) {
+        e.preventDefault();
+
+        $this = $(this);
+
+        $this.addClass('disabled');
+
+        $this.html('<i class="fa fa-cog fa-spin"></i>');
+
+        var sendData = {
+            _token: "{{ csrf_token() }}",
+            id: $this.data('id'),
+        };
+
+        $.ajax({
+            type : "POST",
+            url : "testimonials/approve",
+            data : sendData,
+            //contentType: "application/json; charset=UTF-8",
+            success: function (response) {  
+                $this.removeClass('btn-primary').addClass('btn-success').html('Approved');
+            },
+            statusCode: {
+                403: function() {
+                    swal("Uh oh!", "Forbidden request", "error");
+                },
+                404: function() {
+                    swal("Uh oh!", "Could not find the resource", "error");
+                },
+                500: function() {
+                    swal("Uh oh!", "Internal server error", "error");
+                }
+            },
+            error: function (e) {
+                swal("Uh oh!", e, "error");
+            } 
+        });
+
+    });
+});
+</script>
 
 @endsection

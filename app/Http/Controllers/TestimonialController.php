@@ -9,6 +9,7 @@ use Mail;
 use Session;
 use App\User;
 use App\Contact;
+use Carbon\Carbon;
 use App\Testimonial;
 use App\Http\Requests;
 
@@ -18,6 +19,9 @@ class TestimonialController extends Controller
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['create', 'store']]);
+
+        $this->middleware('testimonial.owner', ['only' => ['approve']]);
+
     }
 
     public function getTestimonials(Request $request)
@@ -26,7 +30,20 @@ class TestimonialController extends Controller
 
         $page = $request->get('page') ?: 0;
 
-        $testimonials = Auth::user()->testimonials()->with('contact')->paginate($limit);
+        $filter = $request->get('filter') ?: 'all';
+
+        if($filter == 'approved') {
+
+            $testimonials = Auth::user()->testimonials()->approved()->with('contact')->paginate($limit);
+        }
+        elseif ($filter == 'unapproved') {
+
+            $testimonials = Auth::user()->testimonials()->unapproved()->with('contact')->paginate($limit);
+        }
+        else {
+            
+            $testimonials = Auth::user()->testimonials()->with('contact')->paginate($limit);
+        }
 
         return view('testimonials.index', compact('testimonials'));
     }
@@ -144,5 +161,39 @@ class TestimonialController extends Controller
     	Session::flash('success', 'Testimonial Created. Thank you.');
 
     	return redirect()->back();
+    }
+
+    /**
+     * [approve description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function approve(Request $request)
+    {
+        $this->validate($request, [
+                'id' => 'required|exists:testimonials,id',
+            ]);
+
+        try {
+
+            Testimonial::findOrFail($request->get('id'))->update(['approved_at' => Carbon::now()]);
+
+            return response()->json([
+                'message' => 'Testimonial updated'
+            ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            return response()->json([
+                'message' => 'Could not find the testimonial'
+            ], 404);
+
+        } catch(\Exception $e) {
+
+            return response()->json([
+                'message' => 'Internal server error'
+            ], 500);
+        }
+        
     }
 }

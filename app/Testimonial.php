@@ -10,9 +10,22 @@ class Testimonial extends Model
     	'contact_id',
     	'user_id',
     	'rating',
+        'email',
     	'body',
-    	'video'
+    	'video',
+        'approved_at',
+        'seen_at',
     ];
+
+    public function scopeApproved($query)
+    {
+        return $query->whereNotNull('approved_at');
+    }
+
+    public function scopeUnapproved($query)
+    {
+        return $query->whereNull('approved_at');
+    }
 
     public function user()
     {

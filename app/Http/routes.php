@@ -42,4 +42,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('testimonials', 'TestimonialController@store');
 
     Route::get('testimonials', 'TestimonialController@getTestimonials');
+
+    Route::post('testimonials/approve', 'TestimonialController@approve');
 });
