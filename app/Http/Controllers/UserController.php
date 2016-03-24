@@ -28,11 +28,8 @@ class UserController extends Controller
 
     public function getProfile()
     {
-    	//$user = User::where('id', Auth::id())->remember(5)->first();
 
-        $user = Cache::remember('user', 5, function() {
-            return Auth::user();
-        });
+        $user = Auth::user();
 
     	return view('users.show', compact('user'));
     }

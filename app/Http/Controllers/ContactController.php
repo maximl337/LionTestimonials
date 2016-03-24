@@ -34,9 +34,7 @@ class ContactController extends Controller
 
         $page = $request->get('page') ?: 0;
     	
-        $contacts = Cache::remember('contacts', 5, function() use ($limit, $page) {
-            return Auth::user()->contacts()->latest()->paginate($limit);
-        });
+        $contacts = Auth::user()->contacts()->latest()->paginate($limit);
     	
         //$contacts = Auth::user()->contacts()->latest()->paginate($limit);
 
