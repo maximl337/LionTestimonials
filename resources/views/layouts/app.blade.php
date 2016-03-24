@@ -19,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css">
 
+    @yield('head')
+
     <style>
         body {
             font-family: 'Lato';

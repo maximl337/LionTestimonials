@@ -6,7 +6,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Testimonial
+                    You Testimonials
                 
                     <div class="btn-group pull-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,6 +30,7 @@
 
                                     <div class="panel panel-default">
                                         <div class="panel-body">
+                                            <p class="pull-right"><a href="testimonials/{{ $testimonial->id }}">view</a></p>
                                             <p>From: {{ $testimonial->contact->first_name . ' ' . $testimonial->contact->last_name }}</p>
                                             <p>Email: {{ $testimonial->contact->email }}</p>
                                             <p>Rating: {{ $testimonial->rating }}</p>

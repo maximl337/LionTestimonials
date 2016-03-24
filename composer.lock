@@ -4,9 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a4486a34d0a58d151eba76129b58bc23",
-    "content-hash": "76baf6a767c11120f515d60236bdd756",
+    "hash": "88fcbd1cb6073d759638c63816d69e90",
+    "content-hash": "1e7da693846d99a28e5aaa6140f3eeb8",
     "packages": [
+        {
+            "name": "adyg/php-imgur-api-client",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Adyg/php-imgur-api-client.git",
+                "reference": "9b617984faf66bde400d028289c3794529cbbc99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Adyg/php-imgur-api-client/zipball/9b617984faf66bde400d028289c3794529cbbc99",
+                "reference": "9b617984faf66bde400d028289c3794529cbbc99",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "guzzle/guzzle": ">=3.7",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Imgur\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Ghiuta",
+                    "email": "adrian.ghiuta@gmail.com",
+                    "homepage": "http://adyg.github.com"
+                }
+            ],
+            "description": "Imgur API v3 client",
+            "homepage": "https://github.com/Adyg/php-imgur-api-client",
+            "keywords": [
+                "api",
+                "imgur"
+            ],
+            "time": "2014-02-18 13:57:27"
+        },
         {
             "name": "aws/aws-sdk-php",
             "version": "3.17.0",
@@ -2098,6 +2142,54 @@
                 "swift"
             ],
             "time": "2016-01-29 10:34:57"
+        },
+        {
+            "name": "redeman/imgur-laravel",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarkRedeman/Imgur-Laravel.git",
+                "reference": "dafa66aba0252e367357d3200fa7f7ce9d74ff24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarkRedeman/Imgur-Laravel/zipball/dafa66aba0252e367357d3200fa7f7ce9d74ff24",
+                "reference": "dafa66aba0252e367357d3200fa7f7ce9d74ff24",
+                "shasum": ""
+            },
+            "require": {
+                "adyg/php-imgur-api-client": "~1.0.0",
+                "illuminate/support": "~5.0 || ~4.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Redeman\\Imgur\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Redeman",
+                    "email": "markredeman@gmail.com"
+                }
+            ],
+            "description": "Laravel Package for Imgur API. Provides easy access to the adyg/php-imgur-api-client library.",
+            "keywords": [
+                "api",
+                "imgur",
+                "laravel",
+                "wrapper"
+            ],
+            "time": "2015-12-23 15:04:13"
         },
         {
             "name": "swiftmailer/swiftmailer",

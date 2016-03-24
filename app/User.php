@@ -12,10 +12,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+    
         'first_name', 
         'last_name', 
-        'email', 
-        'password',
+        // 'email',
+        // 'password',
+        'picture',
+        'business_name',
+        'business_logo',
+        'bio',
+        'street',
+        'city',
+        'country',
+        'state',
+        'zip',
         'verification_token',
         'verification_sent_at',
         'verified_at'
@@ -34,6 +44,15 @@ class User extends Authenticatable
     public function getName()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getAddress()
+    {
+        return $this->street . ' ' .
+                $this->city . ' ' .
+                $this->state . ' ' .
+                $this->zip . ' ' .
+                $this->country;
     }
 
     public function contacts()

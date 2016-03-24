@@ -24,8 +24,14 @@ class UpdateUserRequest extends Request
     public function rules()
     {
         return [
-            'first_name' => 'max:255',
-            'last_name' => 'max:255',
+        
+            'first_name' => 'max:255|required',
+            'last_name' => 'max:255|required',
+            'business_name' => 'max:255',
+            'picture'   => 'image|max:5000',
+            'business_logo' => 'image|max:5000',
+            'country' => 'max:2',
+            'state' => 'max:2'
 
         ];
     }

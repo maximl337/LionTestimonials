@@ -4,23 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Cache;
 use Auth;
 use App\User;
 use Session;
+use App\Services\ImageService;
+use App\Services\ImageHandler;
 use Carbon\Carbon;
 use App\Http\Requests;
 use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    public function __construct()
+
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
     {
     	$this->middleware('auth');
+
+        $this->imageService = $imageService;
     }
 
     public function getProfile()
     {
-    	$user = Auth::user();
+    	//$user = User::where('id', Auth::id())->remember(5)->first();
+
+        $user = Cache::remember('user', 5, function() {
+            return Auth::user();
+        });
 
     	return view('users.show', compact('user'));
     }
@@ -38,9 +50,27 @@ class UserController extends Controller
 
         $user->update($request->input());
 
+        if($request->hasFile('picture')) {
+
+           //$user->picture = $this->imageService->upload( $request->file('picture')->getRealPath() );
+            $user->picture = (new ImageHandler)->save($request->file('picture'));
+        }
+
+        if($request->hasFile('business_logo')) {
+
+           //$user->business_logo = $this->imageService->upload( $request->file('business_logo')->getRealPath() );
+            $user->business_logo = (new ImageHandler)->save($request->file('business_logo'), 'business_logo');
+        }
+
+        $user->save();
+
         Session::flash('message', 'Profile updated');
 
-        return view('users.edit', compact('user'));
+        return redirect()->back();
+
+        // return reponse()->json([
+        //         'message' => 'profile updated'
+        //     ], 200);
     }
 
     public function verify($token)

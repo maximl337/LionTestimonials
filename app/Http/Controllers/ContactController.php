@@ -8,6 +8,7 @@ use File;
 use Auth;
 use Mail;
 use Excel;
+use Cache;
 use Session;
 use Validator;
 use App\Contact;
@@ -33,7 +34,11 @@ class ContactController extends Controller
 
         $page = $request->get('page') ?: 0;
     	
-    	$contacts = Auth::user()->contacts()->latest()->paginate($limit);
+        $contacts = Cache::remember('contacts', 5, function() use ($limit, $page) {
+            return Auth::user()->contacts()->latest()->paginate($limit);
+        });
+    	
+        //$contacts = Auth::user()->contacts()->latest()->paginate($limit);
 
     	return view('contacts.index', compact('contacts'));
     }
@@ -161,7 +166,6 @@ class ContactController extends Controller
 
         }
 
-        
     }
 
     /**
@@ -278,7 +282,7 @@ class ContactController extends Controller
             // send mail
             Mail::send('emails.invite', $data, function($m) use ($contact) {
                 $m->from('hello@lion.com', 'Lion Testimonials');
-                $m->to($contact->email, $contact->first_name)->subject('Account verification');
+                $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
             });
 
             // update contact
@@ -310,5 +314,49 @@ class ContactController extends Controller
 
     }
 
+    /**
+     * [sendEmailSelf description]
+     * @return [type] [description]
+     */
+    public function sendEmailSelf()
+    {
+
+        try {
+
+            $user = Auth::user();
+
+            $data = [
+                'user' => $user,
+                'contact' => $user,
+                'url' => "#"
+            ];
+
+            // send mail
+            Mail::send('emails.invite', $data, function($m) use ($user) {
+                $m->from('hello@lion.com', 'Lion Testimonials');
+                $m->to($user->email, $user->first_name)->subject('Account verification');
+            });
+
+            Session::flash('success', 'Email sent successfully');
+
+            return redirect()->back();
+
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact with the given id does not exist');
+
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+
+        
+    }
     
 }

@@ -41,11 +41,33 @@ class TestimonialController extends Controller
             $testimonials = Auth::user()->testimonials()->unapproved()->with('contact')->paginate($limit);
         }
         else {
-            
+
             $testimonials = Auth::user()->testimonials()->with('contact')->paginate($limit);
         }
 
         return view('testimonials.index', compact('testimonials'));
+    }
+
+    public function getTestimonial($id, Request $request)
+    {
+        try {
+
+            $testimonial = Testimonial::findOrFail($id);
+
+            return view('testimonials.show', compact('testimonial'));
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Could not find the resource');
+
+            return redirect()->back();
+
+        } catch(\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+        }
     }
 
 	/**
