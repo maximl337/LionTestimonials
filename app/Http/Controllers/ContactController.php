@@ -289,8 +289,14 @@ class ContactController extends Controller
             // get contact
             $contact = Contact::findOrFail($input['contact_id']);
 
-            //make token
-            $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
+            $token = $contact->token;
+
+            if(is_null($token)) {
+                
+                //make token
+                $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
+
+            }
 
             $params = [
                 'token' => $token,

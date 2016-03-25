@@ -26,7 +26,6 @@ class CreateTestimonialsTable extends Migration
         });
 
         Schema::table('testimonials', function (Blueprint $table) {
-            $table->foreign('contact_id')->references('id')->on('users');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
