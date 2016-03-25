@@ -9,6 +9,7 @@ use Auth;
 use Mail;
 use Excel;
 use Cache;
+use Twilio;
 use Session;
 use Validator;
 use App\Contact;
@@ -243,6 +244,34 @@ class ContactController extends Controller
     }
 
     /**
+     * [smsPreview description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function smsPreview($id)
+    {
+        try {
+
+            $contact = Contact::findOrFail($id);
+            
+            return view('contacts.sms', compact('contact'));
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact with the given id does not exist');
+
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+    }
+
+    /**
      * [sendEmail description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -308,8 +337,6 @@ class ContactController extends Controller
 
         }
 
-        
-
     }
 
     /**
@@ -355,6 +382,83 @@ class ContactController extends Controller
         }
 
         
+    }
+
+
+    public function sendSMS(Request $request)
+    {
+        $this->validate($request, [
+                'contact_id' => 'required|exists:contacts,id'   
+            ]);
+
+        try {
+
+            $input = $request->input();
+
+            // get contact
+            $contact = Contact::findOrFail($input['contact_id']);
+
+            if(empty($contact->phone)) {
+                throw new Exception('Contact does not have a phone numbe ron record');
+            }
+
+            $token = $contact->token;
+
+            if(is_null($token)) {
+                
+                //make token
+                $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
+
+            }
+            
+            $params = [
+                'token' => $token,
+                'id' => $contact->id
+            ];
+
+            //make url
+            $url = env('APP_URL') . 'testimonials/create?' . http_build_query($params);
+
+            // $data = [
+            //     'user' => Auth::user(),
+            //     'contact' => $contact,
+            //     'url' => $url
+            // ];
+
+            // // send mail
+            // Mail::send('emails.invite', $data, function($m) use ($contact) {
+            //     $m->from('hello@lion.com', 'Lion Testimonials');
+            //     $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
+            // });
+
+            $message = 'Hi ' . $contact->first_name . ', '. Auth::user()->getName() .' has requested a testimonial from you for his services. This should take no more than a couple of minutes. Click the link below to send the testimonial. '. $url ;
+
+            Twilio::message($contact->phone, $message);
+
+            // update contact
+            $contact->update([
+                    'token' => $token,
+                    'sms_sent_at' => Carbon::now()
+                ]);
+
+            Session::flash('success', 'SMS sent successfully');
+
+            return redirect('/contacts');
+
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact with the given id does not exist');
+
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
     }
     
 }

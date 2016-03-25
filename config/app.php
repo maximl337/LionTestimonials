@@ -162,6 +162,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Redeman\Imgur\ImgurServiceProvider::class,
+        Aloha\Twilio\Support\Laravel\ServiceProvider::class,
 
     ],
 
@@ -215,6 +216,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Imgur'     => Redeman\Imgur\Facades\Imgur::class,
+        'Twilio' => Aloha\Twilio\Support\Laravel\Facade::class,
 
     ],
 

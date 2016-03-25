@@ -57,13 +57,15 @@
                                                                 <a href="#"><span class="text-muted">Email sent</span></a>
                                                             @endif
                                                         </li>
-                                                        <li>
-                                                            @if(!$contact->sms_sent_at)
-                                                                <a href="#">Send SMS</a>
-                                                            @else
-                                                                <a href="#"><span class="text-muted">SMS sent</span></a>
-                                                            @endif
-                                                        </li>
+                                                        @if(!empty($contact->phone))
+                                                            <li>
+                                                                @if(!$contact->sms_sent_at)
+                                                                    <a href="{{ url('contacts/'.$contact->id.'/sms') }}">Send SMS</a>
+                                                                @else
+                                                                    <a href="#"><span class="text-muted">SMS sent</span></a>
+                                                                @endif
+                                                            </li>
+                                                        @endif
                                                         <li role="separator" class="divider"></li>
                                                         <li><a href="#">Send Custom links</a></li>
                                                         </ul>
