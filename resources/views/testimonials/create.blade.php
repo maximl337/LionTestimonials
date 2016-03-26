@@ -61,10 +61,12 @@
 
                             <!-- Video -->
 
-                            <div  id="html-video" class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
+                            <div style="display: none;" id="mobile-video" class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
                                 <label for="body">Video</label>
                                 <input class="form-control" type="file" name="video" accept="video/*" capture>
-                                <canvas></canvas>
+                                <!-- <video controls>
+                                    <source src="" type="video/mp4" />
+                                </video> -->
                                 @if ($errors->has('body'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('body') }}</strong>
@@ -129,46 +131,19 @@
 
 <script type="text/javascript">
 
-    var input = document.querySelector('input[type=file]'); // see Example 4
 
-    input.onchange = function () {
-      var file = input.files[0];
+    if ( Modernizr.touch ) { 
 
-      //upload(file);
-      drawOnCanvas(file);   
-      //displayAsImage(file);
-    };
+        $("#mobile-video").show();
 
-// function upload(file) {
-//   var form = new FormData(),
-//       xhr = new XMLHttpRequest();
-
-//   form.append('image', file);
-//   xhr.open('post', 'server.php', true);
-//   xhr.send(form);
-// }
-
-
-    function drawOnCanvas(file) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-        var dataURL = e.target.result,
-            c = document.querySelector('canvas'), // see Example 4
-            ctx = c.getContext('2d'),
-            img = new Image();
-
-        img.onload = function() {
-          c.width = img.width;
-          c.height = img.height;
-          ctx.drawImage(img, 0, 0);
-        };
-
-        img.src = dataURL;
-        };
-
-        reader.readAsDataURL(file);
+    } else {
+        
+        $("#desktop-video").show();
     }
+
+    // MOBILE
+    
+    // EO MOBILE
 </script>
 
 @endsection
