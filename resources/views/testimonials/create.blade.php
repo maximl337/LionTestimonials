@@ -17,7 +17,7 @@
 
                     @else
 
-                        <form id="create-testimonial" method="post" action="{{ url('/testimonials') }}" role="form">
+                        <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ url('/testimonials') }}" role="form">
 
                             {!! csrf_field() !!}
                                 
@@ -32,7 +32,7 @@
                                 <hr />
                             </div>
 
-                            <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email">Your Email</label>
                                 <span class="help-block">We will not share your email or send you unsolicited mails.</span>
                                 <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" placeholder="your_email@example.com" />
@@ -43,7 +43,7 @@
                                 @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('rating') ? ' has-error' : '' }}">
                                 <label for="rating">Rating</label>
                                 <select id="rating" name="rating" class="form-control">
                                     <option value="1">1</option>
@@ -59,7 +59,22 @@
                                 @endif
                             </div>
 
-                            <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <!-- Video -->
+
+                            <div  id="html-video" class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
+                                <label for="body">Video</label>
+                                <input class="form-control" type="file" name="video" accept="video/*" capture>
+                                <canvas></canvas>
+                                @if ($errors->has('body'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('body') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            
+                            <!-- EO video -->
+
+                            <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
                                 <label for="body">Testimonial</label>
                                 <textarea id="body" class="form-control" name="body" rows="10" placeholder="Write your testimonial here"></textarea>
                                 @if ($errors->has('body'))
@@ -111,5 +126,49 @@
 
 </script>
 @endif
+
+<script type="text/javascript">
+
+    var input = document.querySelector('input[type=file]'); // see Example 4
+
+    input.onchange = function () {
+      var file = input.files[0];
+
+      //upload(file);
+      drawOnCanvas(file);   
+      //displayAsImage(file);
+    };
+
+// function upload(file) {
+//   var form = new FormData(),
+//       xhr = new XMLHttpRequest();
+
+//   form.append('image', file);
+//   xhr.open('post', 'server.php', true);
+//   xhr.send(form);
+// }
+
+
+    function drawOnCanvas(file) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+        var dataURL = e.target.result,
+            c = document.querySelector('canvas'), // see Example 4
+            ctx = c.getContext('2d'),
+            img = new Image();
+
+        img.onload = function() {
+          c.width = img.width;
+          c.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+
+        img.src = dataURL;
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
 
 @endsection
