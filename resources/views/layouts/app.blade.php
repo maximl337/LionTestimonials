@@ -98,6 +98,8 @@
 
     <!-- Vendor JS -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/gumadapter.js"></script>
 
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 

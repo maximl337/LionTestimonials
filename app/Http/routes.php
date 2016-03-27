@@ -6,6 +6,10 @@ if (App::environment('staging') || App::environment('production')) {
 
 Route::get('/', 'HomeController@welcome');
 
+Route::get('/video-test', function() {
+    return view('video-test');
+});
+
 
 Route::group(['middleware' => 'web'], function () {
     
@@ -52,4 +56,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('testimonials/approve', 'TestimonialController@approve');
 
     Route::get('testimonials/{id}', 'TestimonialController@getTestimonial');
+
+    Route::post('testimonials/desktop/video', 'TestimonialController@saveDesktopVideo');
+
+    Route::get('test/video', 'TestimonialController@showVid');
 });

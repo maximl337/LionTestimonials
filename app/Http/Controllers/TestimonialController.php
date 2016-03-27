@@ -218,4 +218,45 @@ class TestimonialController extends Controller
         }
         
     }
+
+    public function saveDesktopVideo(Request $request)
+    {
+        try {
+
+            foreach(array('video', 'audio') as $type) {
+                
+                if ( $request->hasFile("${type}-blob") ) {
+
+                    $file = $request->file("${type}-blob");
+
+                    $fileName = Auth::id() . '-' . uniqid(rand()) . '-' . $file->getClientOriginalName();
+
+                    $destinationPath = storage_path('media');
+
+                    $file->move($destinationPath, $fileName);
+                }
+            }
+
+            return response()->json([
+                    'message' => 'looks good'
+                ], 201);
+
+        } catch(\Exception $e) {
+
+            return response()->json([
+                    'error' => $e->getMessage()
+                ], 500);
+
+        }
+
+        
+    }
+
+    public function showVid()
+    {
+        
+        header("Content-Type: video/webm");
+
+        echo file_get_contents(storage_path('media') . '/' . '1-2741556f7fb7758323-blob');
+    }
 }
