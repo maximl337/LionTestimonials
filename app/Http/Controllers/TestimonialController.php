@@ -258,9 +258,9 @@ class TestimonialController extends Controller
 
         if($exists) {
 
-            Session::flash('error', 'You have already added a testimonial');
-
-            return redirect()->back();
+            return response()->json([
+                    'error' => "You have already added a testimonial"
+                ], 409);
         }
 
         if($request->hasFile('video')) {
@@ -305,10 +305,9 @@ class TestimonialController extends Controller
         });
 
 
-        Session::flash('success', 'Testimonial Created. Thank you.');
-
-        return redirect()->back();
-
+        return response()->json([
+                    'message' => 'looks good'
+                ], 201);
 
     }
 
