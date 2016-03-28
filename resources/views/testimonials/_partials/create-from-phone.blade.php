@@ -89,7 +89,7 @@
                     <input type="submit" value="Create" class="form-control btn btn-primary" />
                 </div>
                 
-            <!-- </form> -->
+            </form>
 
         @endif
     </div> <!-- .panel-body -->
