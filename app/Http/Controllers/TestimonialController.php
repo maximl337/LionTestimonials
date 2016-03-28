@@ -292,7 +292,8 @@ class TestimonialController extends Controller
         $user->testimonials()->save($testimonial);
 
         $data = [
-            'user' => $user
+            'user' => $user,
+            'testimonial' => $testimonial
         ];
 
         // mail the user
@@ -374,7 +375,8 @@ class TestimonialController extends Controller
             $user->testimonials()->save($testimonial);
 
             $data = [
-                'user' => $user
+                'user' => $user,
+                'testimonial' => $testimonial
             ];
 
             // mail the user
