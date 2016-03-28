@@ -108,7 +108,7 @@ $(function() {
 
         $.ajax({
             type : "POST",
-            url : "testimonials/approve",
+            url : "{{ env('APP_URL') }}testimonials/approve",
             data : sendData,
             //contentType: "application/json; charset=UTF-8",
             success: function (response) {  
