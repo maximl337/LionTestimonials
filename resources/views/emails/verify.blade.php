@@ -1,1 +1,1 @@
-Click here to verify your account: <a href="{!! $url !!}">$url</a>
+Click here to verify your account: <a href="{!! $url !!}">{{ $url }}</a>
