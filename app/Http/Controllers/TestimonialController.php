@@ -18,7 +18,7 @@ class TestimonialController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['create', 'store']]);
+        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone']]);
 
         $this->middleware('testimonial.owner', ['only' => ['approve']]);
 
@@ -219,23 +219,163 @@ class TestimonialController extends Controller
         
     }
 
-    public function saveDesktopVideo(Request $request)
+    /**
+     * [storeFromPhone description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function storeFromPhone(Request $request)
     {
+
+        $this->validate($request, [
+
+                'contact_id' => 'required|exists:contacts,id',
+                'user_id' => 'required|exists:contacts,user_id|exists:users,id',
+                'rating' => 'required|integer|max:5|min:1',
+                'email' => 'email|required',
+                'video' => 'max:20000|required_without:body',
+                'body' => 'required_without:video',
+                'g-recaptcha-response' => 'required|recaptcha',
+
+            ], [
+                'video.required_without' => 'Please add a video if not adding any text',
+                'body.required_without' => 'Please add some text if not adding a video',
+                'email.email' => 'Email is not valid',
+                'email.required' => 'Email is required'
+            ]);
+
+        $input = $request->input();
+
+        $exists = Testimonial::where('contact_id', $input['contact_id'])->where('user_id', $input['user_id'])->exists();
+
+        if($exists) {
+
+            Session::flash('error', 'You have already added a testimonial');
+
+            return redirect()->back();
+        }
+
+        if($request->hasFile('video')) {
+            
+            $storage = storage_path('media');
+            
+            $file = $request->file('video');
+
+            $type = $file->getMimeType();
+
+            $fileName = Auth::id() . '-' . uniqid(microtime(true)) . '-' . $file->getClientOriginalName();
+
+            $file->move($storage, $fileName);
+        }
+        
+        // create testimonial
+        $testimonial = new Testimonial([
+
+                'contact_id' => $input['contact_id'],
+                'rating' => $input['rating'],
+                'body' => $input['body'],
+                'video' => !empty($fileName) ? $fileName : "",
+                'video_type' => !empty($type) ? $type : "",
+                'email' => $input['email']
+
+            ]);
+
+        $user = User::findOrFail($input['user_id']);
+
+        $user->testimonials()->save($testimonial);
+
+        $data = [
+            'user' => $user
+        ];
+
+        // mail the user
+        Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
+            $m->from('hello@lion.com', 'Lion Testimonials');
+
+            $m->to($user->email, $user->getName())->subject("New Testimonial");
+        });
+
+
+        Session::flash('success', 'Testimonial Created. Thank you.');
+
+        return redirect()->back();
+
+
+    }
+
+    public function storeFromDesktop(Request $request)
+    {
+        $this->validate($request, [
+
+                'contact_id' => 'required|exists:contacts,id',
+                'user_id' => 'required|exists:contacts,user_id|exists:users,id',
+                'rating' => 'required|integer|max:5|min:1',
+                'email' => 'email|required',
+                'video' => 'max:20000|required_without:body',
+                'body' => 'required_without:video',
+
+            ], [
+                'video.required_without' => 'Please add a video if not adding any text',
+                'body.required_without' => 'Please add some text if not adding a video',
+                'email.email' => 'Email is not valid',
+                'email.required' => 'Email is required'
+            ]);
+
         try {
 
-            foreach(array('video', 'audio') as $type) {
-                
-                if ( $request->hasFile("${type}-blob") ) {
+            $input = $request->input();
 
-                    $file = $request->file("${type}-blob");
+            $exists = Testimonial::where('contact_id', $input['contact_id'])->where('user_id', $input['user_id'])->exists();
 
-                    $fileName = Auth::id() . '-' . uniqid(rand()) . '-' . $file->getClientOriginalName();
+            if($exists) {
 
-                    $destinationPath = storage_path('media');
+                Session::flash('error', 'You have already added a testimonial');
 
-                    $file->move($destinationPath, $fileName);
-                }
+                return response()->json([
+                    'error' => "You have already added a testimonial"
+                ], 409);
             }
+
+            if($request->hasFile('video')) {
+            
+                $storage = storage_path('media');
+                
+                $file = $request->file('video');
+
+                $type = 'video/webm';
+
+                $fileName = Auth::id() . '-' . uniqid(microtime(true)) . '-' . $file->getClientOriginalName();
+
+                $file->move($storage, $fileName);
+
+            }
+
+            // create testimonial
+            $testimonial = new Testimonial([
+
+                    'contact_id' => $input['contact_id'],
+                    'rating' => $input['rating'],
+                    'body' => $input['body'],
+                    'video' => !empty($fileName) ? $fileName : "",
+                    'video_type' => !empty($type) ? $type : "",
+                    'email' => $input['email']
+
+                ]);
+
+            $user = User::findOrFail($input['user_id']);
+
+            $user->testimonials()->save($testimonial);
+
+            $data = [
+                'user' => $user
+            ];
+
+            // mail the user
+            Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
+                $m->from('hello@lion.com', 'Lion Testimonials');
+
+                $m->to($user->email, $user->getName())->subject("New Testimonial");
+            });
 
             return response()->json([
                     'message' => 'looks good'
@@ -249,7 +389,6 @@ class TestimonialController extends Controller
 
         }
 
-        
     }
 
     public function showVid()
@@ -257,6 +396,6 @@ class TestimonialController extends Controller
         
         header("Content-Type: video/webm");
 
-        echo file_get_contents(storage_path('media') . '/' . '1-2741556f7fb7758323-blob');
+        echo file_get_contents(storage_path('media') . '/' . '1-1459184409.736356f96319b3c46-blob');
     }
 }

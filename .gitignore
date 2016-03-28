@@ -8,4 +8,5 @@ Homestead.json
 .phpintel
 /.phpintel
 /storage/contact_imports
+/storage/media
 /public/images/users

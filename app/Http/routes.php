@@ -57,7 +57,9 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('testimonials/{id}', 'TestimonialController@getTestimonial');
 
-    Route::post('testimonials/desktop/video', 'TestimonialController@saveDesktopVideo');
+    Route::post('testimonials/desktop', 'TestimonialController@storeFromDesktop');
+
+    Route::post('testimonials/phone', 'TestimonialController@storeFromPhone');
 
     Route::get('test/video', 'TestimonialController@showVid');
 });

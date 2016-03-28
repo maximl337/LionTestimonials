@@ -41,8 +41,6 @@
                                                     @if(!empty($contact->phone))
                                                         <p>Phone: {{ $contact->phone }}</p>
                                                     @endif
-                                                    
-                                                    <p>Invitations</p>
 
                                                     <p>
                                                     <div class="btn-group">

@@ -13,6 +13,7 @@ class Testimonial extends Model
         'email',
     	'body',
     	'video',
+        'video_type',
         'approved_at',
         'seen_at',
     ];

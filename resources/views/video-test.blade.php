@@ -29,30 +29,6 @@
 
 <script type="text/javascript">
 
-			$(document).on("click", "button.start", function(e) {
-
-				var $this = $(this);
-
-				$this.text('stop').removeClass("start").addClass("stop");
-				
-				$(".state").text("...recording");
-
-				startRecording();
-
-			});
-
-			$(document).on("click", "button.stop", function(e) {
-
-				var $this = $(this);
-
-				$this.text('start').removeClass("stop").addClass("start");
-				
-				$(".state").text("");
-
-				stopRecording();
-
-			});
-
 			var video = document.querySelector('video');
 			var streamRecorder;
 			var webcamstream;
@@ -63,56 +39,58 @@
                        navigator.msGetUserMedia)
 
             if (navigator.getUserMedia) {
-               console.log('getUserMedia supported.');
+               	
+               	var recorder;
 
-                 var errorCallback = function(e) {
-				    console.log('Reeeejected!', e);
-				  };
+				function successCallback(audioVideoStream) {
+				    recorder = RecordRTC(audioVideoStream, {
+				        type: 'video',
+				        mimeType: 'video/webm',
+				        bitsPerSecond: 512 * 8 * 1024
+				    });
+				    recorder.startRecording();
+				}
 
-				  // Not showing vendor prefixes.
-				  navigator.getUserMedia({video: true, audio: true}, function(localMediaStream) {
-				    video.src = window.URL.createObjectURL(localMediaStream);
+				function errorCallback(error) {
+				    console.error(error);
+				}
 
-				    webcamstream = localMediaStream;
+				var mediaConstraints = {
+				    video: true,
+				    audio: true
+				};
 
-				    // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
-				    // See crbug.com/110938.
-				    video.onloadedmetadata = function(e) {
-				      // Ready to go. Do some stuff.
-				    };
-				  }, errorCallback);
-
-
-				  function startRecording() {
-					    navigator.getUserMedia({video: true, audio: true}, function(localMediaStream) {
-					    video.src = window.URL.createObjectURL(localMediaStream);
-
-						    streamRecorder = localMediaStream.record();
-
-						    // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
-						    // See crbug.com/110938.
-						    video.onloadedmetadata = function(e) {
-						      // Ready to go. Do some stuff.
-						    };
-					  }, errorCallback);
-					}
-
-					function stopRecording() {
-					    streamRecorder.getRecordedData(postVideoToServer);
-					}
+				navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
                
-               function postVideoToServer(videoblob) {
+				document.querySelector('#btn-stop-recording').onclick = function() {
+					if (!recorder) return;
+					recorder.stopRecording(function() {
+						var audioVideoBlob = recorder.blob;
 
-				    // var data = {};
-				    // data.video = videoblob;
-				    // data.metadata = 'test metadata';
-				    // data.action = "upload_video";
-				    // jQuery.post("http://www.foundthru.co.uk/uploadvideo.php", data, onUploadSuccess);
-				    video.src = window.URL.createObjectURL(videoblob);
-				}
-				function onUploadSuccess() {
-				    alert ('video uploaded');
-				}
+						// you can upload Blob to PHP/ASPNET server
+						//uploadBlob(audioVideoBlob);
+
+						// you can even upload DataURL
+						// recorder.getDataURL(function(dataURL) {
+						// 	$.ajax({
+						// 		type: 'POST',
+						// 		url: '/save.php',
+						// 		data: {
+						// 			dataURL: dataURL
+						// 		},
+						// 		contentType: 'application/json; charset=utf-8',
+						// 		success: function(msg) {
+						// 			alert('Successfully uploaded.');
+						// 		},
+						// 		error: function(jqXHR, textStatus, errorMessage) {
+						// 			alert('Error:' + JSON.stringify(errorMessage));
+						// 		}
+						// 	});
+						// });
+					});
+				};
+               	
+
             } else {
                console.log('getUserMedia not supported on your browser!');
             }
