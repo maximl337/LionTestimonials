@@ -55,14 +55,23 @@
 </script>
 @endif
 
+@if(APP_ENV('staging') || APP_ENV('production')) 
+
 <script type="text/javascript">
 
+    // hide video capibility if no SSL
+    if(location.protocol != 'https:') {
+        $("#desktop-video").remove();
+        $("#submit-without-video")html("Submit");
+    }
+    
+</script>
+    
 
-    // if ( Modernizr.touch ) { 
 
-    //     $("#mobile-video").show();
+@endif
 
-    // } 
+<script type="text/javascript">
 
     var isMobile = false; //initiate as false
     // device detection
@@ -78,9 +87,7 @@
 
         $(".desktop").show();
     }
-</script>
 
-<script>
     (function() {
         var params = {},
             r = /([^&=]+)=?([^&]*)/g;

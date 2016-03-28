@@ -263,7 +263,7 @@ class TestimonialController extends Controller
 
             $type = $file->getMimeType();
 
-            $fileName = Auth::id() . '-' . uniqid(microtime(true)) . '-' . $file->getClientOriginalName();
+            $fileName = $input['contact_id'] . '-' . uniqid(microtime(true)) . '-' . $file->getClientOriginalName();
 
             $file->move($storage, $fileName);
         }
