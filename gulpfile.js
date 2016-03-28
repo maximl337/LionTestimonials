@@ -12,6 +12,11 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix.sass('app.scss').scripts([
+        'RecordRTC.js',
+        'gumadapter.js'
+    ]).version(["public/build/css/all.css", "public/build/js/all.js"]);
+
+
     
 }); 
