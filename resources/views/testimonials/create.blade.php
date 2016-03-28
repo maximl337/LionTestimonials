@@ -80,10 +80,12 @@
     if(isMobile) {
 
         $(".phone").show();
+        $(".desktop").remove();
 
     } else {
 
         $(".desktop").show();
+        $(".phone").remove();
     }
 
     (function() {

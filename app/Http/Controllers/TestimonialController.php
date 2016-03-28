@@ -246,6 +246,7 @@ class TestimonialController extends Controller
 
             ], [
                 'video.required_without' => 'Please add a video if not adding any text',
+                'video.max' => 'Video is larger than 20MB. Please upload a smaller video',
                 'body.required_without' => 'Please add some text if not adding a video',
                 'email.email' => 'Email is not valid',
                 'email.required' => 'Email is required'
