@@ -54,6 +54,10 @@ class TestimonialController extends Controller
 
             $testimonial = Testimonial::findOrFail($id);
 
+            $encodedVideo = base64_encode(file_get_contents(storage_path('media') . '/' . $testimonial->video));
+
+            $testimonial->video_src = "data:".$testimonial->video_type.";base64," . $encodedVideo;
+
             return view('testimonials.show', compact('testimonial'));
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

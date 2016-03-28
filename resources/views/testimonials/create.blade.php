@@ -67,8 +67,6 @@
     
 </script>
     
-
-
 @endif
 
 <script type="text/javascript">
@@ -111,6 +109,7 @@
 
 
 <script>
+
     function intallFirefoxScreenCapturingExtension() {
         InstallTrigger.install({
             'Foo': {

@@ -19,6 +19,16 @@
 
                     <hr />
 
+                    @if(!empty($testimonial->video)) 
+                    
+                    <video controls>
+                        <source type="{{ $testimonial->video_type }}" src="{{ $testimonial->video_src }}"> 
+                    </video>
+
+                    @endif
+                       
+                   
+
                     <p>{{ $testimonial->body }}</p>
 
                     <p>From: <strong>{{ $testimonial->contact()->first()->first_name }}</strong> <span class="pull-right">{{ $testimonial->created_at->diffForHumans() }}</span></p>
@@ -50,9 +60,5 @@
 
 </script>
 @endif
-
-<script type="text/javascript">
-
-</script>
 
 @endsection

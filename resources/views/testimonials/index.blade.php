@@ -34,7 +34,16 @@
                                             <p>From: {{ $testimonial->contact->first_name . ' ' . $testimonial->contact->last_name }}</p>
                                             <p>Email: {{ $testimonial->contact->email }}</p>
                                             <p>Rating: {{ $testimonial->rating }}</p>
-                                            <p>Body: {{ $testimonial->body }}</p>   
+                                            <p>Body: {{ str_limit($testimonial->body, 20) }}</p>   
+                                                
+                                            @if(!is_null($testimonial->video))
+
+                                                <p>
+                                                    <span class="label label-success">Has video</span>
+                                                </p>
+                                                
+
+                                            @endif
 
                                             <p>
                                                 @if(!is_null($testimonial->approved_at))
