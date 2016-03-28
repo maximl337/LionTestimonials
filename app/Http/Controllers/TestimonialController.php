@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Log;
 use Auth;
 use Mail;
 use Session;
@@ -230,6 +231,8 @@ class TestimonialController extends Controller
      */
     public function storeFromPhone(Request $request)
     {
+
+        Log::info('Testimonial:storeFromPhone', [serialize($request->input())]);
 
         $this->validate($request, [
 
