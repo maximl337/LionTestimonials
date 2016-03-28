@@ -38,8 +38,6 @@
 
                     @endif
                        
-                   
-
                     <p>{{ $testimonial->body }}</p>
 
                     <p>From: <strong>{{ $testimonial->contact()->first()->first_name }}</strong> <span class="pull-right">{{ $testimonial->created_at->diffForHumans() }}</span></p>
@@ -67,7 +65,6 @@
     
     swal("Uh oh!", "{{ Session::get('error') }}", "error");
 
-
 </script>
 @endif
 
@@ -75,7 +72,6 @@
 <script type="text/javascript">
     
     swal("Good job!", "{{ Session::get('success') }}", "success");
-
 
 </script>
 @endif
