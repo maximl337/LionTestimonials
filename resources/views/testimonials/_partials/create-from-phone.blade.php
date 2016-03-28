@@ -12,12 +12,6 @@
         @else
 
             <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ url('/testimonials/phone') }}" role="form">
-
-                {!! csrf_field() !!}
-                    
-                <input type="hidden" name="contact_id" value="{{ $data['contact']->id }}">
-
-                <input type="hidden" name="user_id" value="{{ $data['user']->id }}">                                
                 
                 <div class="form-group">
                     <h3>You are writting a testimonial for {{ $data['user']->getName() }}</h3>
@@ -56,7 +50,7 @@
 
                 <div id="mobile-video" class="form-group{{ $errors->has('video') ? ' has-error' : '' }}">
                     <label for="video">Video</label>
-                    <input class="form-control" type="file" name="video" capture="camcorder">
+                    <input class="form-control" id="video" type="file" name="video" accept="video/*,video/mp4,video/x-m4v" capture="camcorder">
                     @if ($errors->has('video'))
                         <span class="help-block">
                             <strong>{{ $errors->first('video') }}</strong>

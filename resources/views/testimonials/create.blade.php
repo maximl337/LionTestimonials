@@ -651,4 +651,58 @@
     });
 </script>
 
+
+<script type="text/javascript">
+$(function() {
+
+    $(document).on('submit', 'form#create-testimonial', function(e) {
+
+        e.preventDefault();
+
+        swal({
+                title: "Loading",   
+                text: "Fetching events, hangon...",   
+                imageUrl: '',  
+                showConfirmButton: false
+            });
+
+        var formData = new FormData();
+
+        formData.append('video', $("input#video").files[0]);
+
+        formData.append('_token', "{{ csrf_token() }}");
+
+        formData.append('contact_id', "{{ $data['contact']->id }}");
+
+        formData.append('user_id', "{{ $data['user']->id }}");
+
+        formData.append('email', $("input#email").val());
+
+        formData.append('rating', $("select#rating").val());
+
+        formData.append('body', $("textarea#body").val());
+
+        $.ajax({
+            url: "{{ url('testimonials/phone') }}",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                swal("Good job!", "Testimonials added", "success");
+                $(".phone").hide();
+                $(".done").show();
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                //alert('Error:' + JSON.stringify(errorMessage));
+
+                swal("Error!", jqXHR.responseText, "error");
+            }
+        });
+
+    });
+
+});
+</script>
+
 @endsection
