@@ -62,7 +62,7 @@
     // hide video capibility if no SSL
     if(location.protocol != 'https:') {
         $("#desktop-video").remove();
-        $("#submit-without-video")html("Submit");
+        $("#submit-without-video").html("Submit");
     }
     
 </script>
