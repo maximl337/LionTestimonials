@@ -55,7 +55,7 @@
 </script>
 @endif
 
-@if(APP_ENV('staging') || APP_ENV('production')) 
+@if(env('APP_ENV') == 'staging' || env('APP_ENV') == 'production') 
 
 <script type="text/javascript">
 
