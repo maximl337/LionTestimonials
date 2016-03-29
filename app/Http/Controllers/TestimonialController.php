@@ -232,7 +232,7 @@ class TestimonialController extends Controller
     public function storeFromPhone(Request $request)
     {
 
-        Log::info('Testimonial:storeFromPhone', [serialize($request->input())]);
+        Log::info('Testimonial:storeFromPhone', ['data' => $request->input()]);
 
         $this->validate($request, [
 
