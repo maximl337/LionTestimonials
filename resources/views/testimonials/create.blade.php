@@ -708,6 +708,11 @@ $(function() {
                 //alert('Error:' + JSON.stringify(errorMessage));
 
                 swal("Error!", jqXHR.responseText, "error");
+            },
+            statusCode: {
+                500: function(xhr) {
+                    swal("Error!", jqXHR.responseText, "error");
+                }
             }
         });
 
