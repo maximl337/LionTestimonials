@@ -82,12 +82,17 @@
     if(isMobile) {
 
         $(".phone").show();
-        $(".desktop").remove();
+        $(".desktop").hide();
 
-    } else if(!isMobile || isAndroid) {
+    } else if(!isMobile) {
 
         $(".desktop").show();
-        $(".phone").remove();
+        $(".phone").hide();
+    }
+
+    if(isAndroid) {
+        $(".desktop").show();
+        $(".phone").hide();
     }
 
     
