@@ -50,7 +50,7 @@
 
                 <div id="mobile-video" class="form-group{{ $errors->has('video') ? ' has-error' : '' }}">
                     <label for="video">Video</label>
-                    <input class="form-control" id="video" type="file" name="video" accept="video/*,video/mp4,video/x-m4v" capture="camcorder">
+                    <input class="form-control" id="video" type="file" name="video" accept="*" capture="camcorder">
                     @if ($errors->has('video'))
                         <span class="help-block">
                             <strong>{{ $errors->first('video') }}</strong>
