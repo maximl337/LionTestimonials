@@ -45,6 +45,7 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
+                    <div class="rateit" data-rateit-backingfld="#rating" data-size="32"></div>
                     @if ($errors->has('rating'))
                         <span class="help-block">
                             <strong>{{ $errors->first('rating') }}</strong>

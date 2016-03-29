@@ -581,7 +581,8 @@
 
         formData.append('email', $(".desktop #email").val());
 
-        formData.append('rating', $(".desktop select#rating").val());
+        //formData.append('rating', $(".desktop select#rating").val());
+        formData.append('rating', $(".desktop .rateit").rateit('value'));
 
         formData.append('body', $(".desktop textarea#body").val());
 
@@ -636,7 +637,8 @@
 
         formData.append('email', $(".desktop #email").val());
 
-        formData.append('rating', $(".desktop select#rating").val());
+        //formData.append('rating', $(".desktop select#rating").val());
+        formData.append('rating', $(".desktop .rateit").rateit('value'));
 
         formData.append('body', $(".desktop textarea#body").val());
 
@@ -662,72 +664,8 @@
 
 
 <script type="text/javascript">
-// $(function() {
 
-//     $(document).on('submit', 'form#create-testimonial', function(e) {
 
-//         e.preventDefault();
-
-//         swal({
-//                 title: "Working",   
-//                 text: "Uploading testimonial...",   
-//                 imageUrl: '<i class="fa fa-cog fa-spin"></i>',  
-//                 showConfirmButton: false
-//             });
-
-//         var formData = new FormData();
-
-//         formData.append('video', ($("input#video"))[0].files[0]);
-
-//         formData.append('_token', "{{ csrf_token() }}");
-
-//         formData.append('contact_id', "{{ $data['contact']->id }}");
-
-//         formData.append('user_id', "{{ $data['user']->id }}");
-
-//         formData.append('email', $("input#email").val());
-
-//         formData.append('rating', $("select#rating").val());
-
-//         formData.append('body', $("textarea#body").val());
-
-//         if(($("input#video"))[0].files[0] === undefined && $("textarea#body").val().length <= 0) {
-//             swal("Error!", "Please add a video or some text to the testimonial", "error");
-//             return;
-//         }
-
-//         if(($("input#video"))[0].files[0] != undefined) {
-//             if(($("input#video"))[0].files[0].size <= 0) {
-//                 swal("Error!", "Video file not found", "error");
-//             }
-//         }
-
-//         $.ajax({
-//             url: "{{ url('testimonials/phone') }}",
-//             type: "POST",
-//             data: formData,
-//             processData: false,
-//             contentType: false,
-//             success: function(response) {
-//                 swal("Good job!", "Testimonials added", "success");
-//                 $(".phone").hide();
-//                 $(".done").show();
-//             },
-//             error: function(jqXHR, textStatus, errorMessage) {
-//                 //alert('Error:' + JSON.stringify(errorMessage));
-
-//                 swal("Error!", jqXHR.responseText, "error");
-//             },
-//             statusCode: {
-//                 500: function(xhr) {
-//                     swal("Error!", jqXHR.responseText, "error");
-//                 }
-//             }
-//         });
-
-//     });
-
-// });
 </script>
 
 @endsection

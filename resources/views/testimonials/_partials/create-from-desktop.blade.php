@@ -28,15 +28,15 @@
         </div>
 
         <div class="form-group{{ $errors->has('rating') ? ' has-error' : '' }}">
-            <label for="rating">Rating</label>
-            <select id="rating" name="rating" class="form-control">
-                <option disabled selected value> -- select an option -- </option>
+            <label for="rating">Rating</label><br />
+            <select id="rating" name="rating" class="hidden">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
+            <div class="rateit" data-rateit-backingfld="#rating"></div>
             @if ($errors->has('rating'))
                 <span class="help-block">
                     <strong>{{ $errors->first('rating') }}</strong>

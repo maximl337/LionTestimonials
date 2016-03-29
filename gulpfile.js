@@ -14,7 +14,8 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('app.scss').scripts([
         'RecordRTC.js',
-        'gumadapter.js'
+        'gumadapter.js',
+        'jquery.rateit.min.js'
     ]).version(["public/build/css/all.css", "public/build/js/all.js"]);
 
 

@@ -252,7 +252,7 @@ class TestimonialController extends Controller
 
             $testimonial->update(['approved_at' => Carbon::now()]);
 
-            $contact = $testimonials->contact()->first();
+            $contact = $testimonial->contact()->first();
 
             $url = env('APP_URL') . 'users/' . $testimonial->user_id . '/public';
 
@@ -282,7 +282,7 @@ class TestimonialController extends Controller
         } catch(\Exception $e) {
 
             return response()->json([
-                'message' => 'Internal server error'
+                'message' => $e->getMessage()
             ], 500);
         }
         
