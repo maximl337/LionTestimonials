@@ -36,11 +36,10 @@
                     @if(!is_null($user->verified_at))
                         <span class="label label-success">Verified</span>
                     @endif
-                    <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a></div>
+                    <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a>
+                </div>
 
-                <div class="panel-body">
-
-                    
+                <div class="panel-body">                    
 
                     <div class="row">
                         <div class="col-md-4 col-md-offset-4">
@@ -53,6 +52,10 @@
                             </div>
                             
                         </div>
+                    </div>
+
+                    <div class="testimonials">
+                        <iframe style="width:100%;" src="{{ url('users' . '/' . $user->id . '/testimonials/public') }}"></iframe>
                     </div>
 
                     @if(!empty($user->business_name) ||
@@ -96,8 +99,15 @@
                         @endif
 
                     @endif
-                    
-                    
+
+                    <div class="row">
+                        <div class="col-md-10 col-offset-md-1">
+                            <h5>Copy the code below and add it to any website to show your approved testimonials</h5>
+                            <pre style="padding-left: 0px;">
+                                &lt;iframe style="width: 100%;" src="{{ url('users' . '/' . $user->id . '/testimonials/public') }}"&gt;&lt;/iframe&gt;
+                            </pre>
+                        </div>
+                    </div>
                     
                 </div> <!-- .panel-body -->
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use View;
 use Log;
 use Auth;
 use Mail;
@@ -19,7 +20,7 @@ class TestimonialController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone']]);
+        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials']]);
 
         $this->middleware('testimonial.owner', ['only' => ['approve']]);
 
@@ -47,6 +48,33 @@ class TestimonialController extends Controller
         }
 
         return view('testimonials.index', compact('testimonials'));
+    }
+
+    public function publicTestimonials($id, Request $request)
+    {
+        $limit = $request->get('limit') ?: 1;
+
+        $page = $request->get('page') ?: 0;
+
+        try {
+
+            $testimonials = User::findOrFail($id)->testimonials()->approved()->with('contact')->paginate($limit);
+
+            if ($request->ajax()) {
+                return response()->json(View::make('testimonials._partials.testimonials', array('testimonials' => $testimonials))->render());
+            }
+
+            return view('testimonials.public', compact('testimonials'));
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            return view('errors.404');
+
+        } catch (\Exception $e) {
+
+            return view('errors.503', ['message' => $e->getMessage()]);
+        }
+        
     }
 
     public function getTestimonial($id, Request $request)
@@ -402,17 +430,10 @@ class TestimonialController extends Controller
     }
 
     /**
-     * [showVid description]
-     * @return [type] [description]
+     * [showTestimonialVideo description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
      */
-    public function showVid()
-    {
-        
-        header("Content-Type: video/webm");
-
-        echo file_get_contents(storage_path('media') . '/' . '1-1459184409.736356f96319b3c46-blob');
-    }
-
     public function showTestimonialVideo($id)
     {
         try {
