@@ -10,9 +10,7 @@
 
                 <div class="panel-body">
 
-                    <p>Hi {{ $contact->first_name }},</p>
-                    <p>{{ Auth::user()->getName() }} has requested a testimonial from you for his services. This should take no more than a couple of minutes. Click the link below to send the testimonial </p>
-                    <p><a href="#">Click here</a></p>
+                    
                     
                 
                     <form id="" method="POST" action="{{ url('contacts/email/send') }}" role="form">
@@ -22,13 +20,24 @@
                         <input type="hidden" name="contact_id" value="{{ $contact->id }}">
 
                         <div class="form-group">
-                            <input id="" class="form-control btn btn-primary" type="submit" value="Looks good. Send it." />
+                            <label for="message">Customize Message</label>
+                            <textarea style="padding: 10px; font-size: 20px;" id="message" class="form-control" name="message" rows="6"> Hi {{ $contact->first_name }}, &#013;&#010;{{ Auth::user()->getName() }} has requested a testimonial from you for his services. &#013;&#010;This should take no more than a couple of minutes.</textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label>The link below will be added to your customized message.</label>
+                            <pre><a href="#">Click here</a> to submit testimonial.</pre>
+                        </div>
+
                         @if ($errors->has('contact_id'))
                             <span class="help-block">
                                 <strong>Contact id not found in request</strong>
                             </span>
                         @endif
+
+                        <div class="form-group">
+                            <input id="" class="form-control btn btn-primary" type="submit" value="Looks good. Send it." />
+                        </div>
                         
                     </form>
                 </div> <!-- .panel-body -->

@@ -36,7 +36,10 @@
                     @if(!is_null($user->verified_at))
                         <span class="label label-success">Verified</span>
                     @endif
-                    <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a>
+                    
+                    @if(Auth::check())
+                        <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a>
+                    @endif
                 </div>
 
                 <div class="panel-body">                    
@@ -99,8 +102,8 @@
                         @endif
 
                     @endif
-
-                    <div class="row">
+            
+                    <div class="row {{ Auth::check() ? '' : ' hidden' }}">
                         <div class="col-md-10 col-offset-md-1">
                             <h5>Copy the code below and add it to any website to show your approved testimonials</h5>
                             <pre style="padding-left: 0px;">

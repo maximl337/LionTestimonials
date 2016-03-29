@@ -21,6 +21,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('profile/edit', 'UserController@editProfile');
 
+    Route::get('users/{id}/public', 'UserController@showPublic');
+
     Route::post('user', 'UserController@update');
 
     Route::get('user/verify/{token}', 'UserController@verify');

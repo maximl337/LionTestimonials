@@ -20,12 +20,17 @@ class TestimonialController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials']]);
+        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials', 'showTestimonialVideo']]);
 
         $this->middleware('testimonial.owner', ['only' => ['approve']]);
 
     }
 
+    /**
+     * [getTestimonials description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function getTestimonials(Request $request)
     {
         $limit = $request->get('limit') ?: 9;
@@ -50,6 +55,12 @@ class TestimonialController extends Controller
         return view('testimonials.index', compact('testimonials'));
     }
 
+    /**
+     * [publicTestimonials description]
+     * @param  [type]  $id      [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function publicTestimonials($id, Request $request)
     {
         $limit = $request->get('limit') ?: 1;
@@ -77,6 +88,12 @@ class TestimonialController extends Controller
         
     }
 
+    /**
+     * [getTestimonial description]
+     * @param  [type]  $id      [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function getTestimonial($id, Request $request)
     {
         try {
@@ -231,7 +248,26 @@ class TestimonialController extends Controller
 
         try {
 
-            Testimonial::findOrFail($request->get('id'))->update(['approved_at' => Carbon::now()]);
+            $testimonial = Testimonial::findOrFail($request->get('id'));
+
+            $testimonial->update(['approved_at' => Carbon::now()]);
+
+            $contact = $testimonials->contact()->first();
+
+            $url = env('APP_URL') . 'users/' . $testimonial->user_id . '/public';
+
+            $data = [
+                'contact' => $contact,
+                'testimonial' => $testimonial,
+                'url' => $url
+            ];
+
+            Mail::send('emails.testimonial_approved', $data, function($m) use ($testimonial, $contact) {
+                $m->from('hello@lion.com', 'Lion Testimonials');
+
+                $m->to($testimonial->email, $contact->first_name)->subject("Testimonial approved");
+            });
+
 
             return response()->json([
                 'message' => 'Testimonial updated'
@@ -326,11 +362,11 @@ class TestimonialController extends Controller
         ];
 
         // mail the user
-        // Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
-        //     $m->from('hello@lion.com', 'Lion Testimonials');
+        Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
+            $m->from('hello@lion.com', 'Lion Testimonials');
 
-        //     $m->to($user->email, $user->getName())->subject("New Testimonial");
-        // });
+            $m->to($user->email, $user->getName())->subject("New Testimonial");
+        });
 
 
         Session::flash('success', 'Testimonial Created. Thank you.');

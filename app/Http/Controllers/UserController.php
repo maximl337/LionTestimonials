@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function __construct(ImageService $imageService)
     {
-    	$this->middleware('auth');
+    	$this->middleware('auth', ['except' => ['showPublic']]);
 
         $this->imageService = $imageService;
     }
@@ -32,6 +32,24 @@ class UserController extends Controller
         $user = Auth::user();
 
     	return view('users.show', compact('user'));
+    }
+
+    public function showPublic($id)
+    {
+        try {
+
+            $user = User::findOrFail($id);
+
+            return view('users.show', compact('user'));
+        
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            return view('errors.404');
+        
+        } catch (\Exception $e) {
+
+            return view('errors.500');
+        }
     }
 
     public function editProfile()

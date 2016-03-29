@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Log;
 use File;
 use Auth;
 use Mail;
@@ -279,12 +280,15 @@ class ContactController extends Controller
     public function sendEmail(Request $request) 
     {
         $this->validate($request, [
-                'contact_id' => 'required|exists:contacts,id'   
+                'contact_id' => 'required|exists:contacts,id',
+                'message'   => 'required' 
             ]);
 
         try {
 
             $input = $request->input();
+
+            Log::info('sendEmail', [$input['message']]);
 
             // get contact
             $contact = Contact::findOrFail($input['contact_id']);
@@ -301,15 +305,15 @@ class ContactController extends Controller
             $params = [
                 'token' => $token,
                 'id' => $contact->id
+                
             ];
 
             //make url
             $url = env('APP_URL') . 'testimonials/create?' . http_build_query($params);
 
             $data = [
-                'user' => Auth::user(),
-                'contact' => $contact,
-                'url' => $url
+                'url' => $url,
+                'body' => $input['message'] . " "
             ];
 
             // send mail
