@@ -401,11 +401,39 @@ class TestimonialController extends Controller
 
     }
 
+    /**
+     * [showVid description]
+     * @return [type] [description]
+     */
     public function showVid()
     {
         
         header("Content-Type: video/webm");
 
         echo file_get_contents(storage_path('media') . '/' . '1-1459184409.736356f96319b3c46-blob');
+    }
+
+    public function showTestimonialVideo($id)
+    {
+        try {
+
+            $testimonial = Testimonial::findOrFail($id);
+
+            if(empty($testimonial->video)) {
+                die("Video does not exist");
+            }
+
+            header("Content-Type: " . $testimonial->video_type);
+
+            echo file_get_contents(storage_path('media') . '/' . $testimonial->video);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            echo $e->getMessage();
+
+        } catch(\Exception $e) {
+
+            echo $e->getMessage();
+        }
     }
 }

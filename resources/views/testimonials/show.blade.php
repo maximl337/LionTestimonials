@@ -6,6 +6,11 @@
             max-width: 100%;
             max-height: 400px;
         }
+        #video {
+            width: 720px;
+            height: 486px;
+            margin: auto auto;
+        }
     </style>
 @endsection
 @section('content')
@@ -32,10 +37,11 @@
 
                     @if(!empty($testimonial->video)) 
                     
-                    <video controls>
+                    <!-- <video controls>
                         <source type="{{ $testimonial->video_type }}" src="{{ $testimonial->video_src }}"> 
-                    </video>
+                    </video> -->
 
+                    <iframe id="video" src="{{ url('video') . '/' . $testimonial->id  }}"></iframe>
                     @endif
                        
                     <p>{{ $testimonial->body }}</p>

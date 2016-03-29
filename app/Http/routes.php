@@ -62,4 +62,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('testimonials/phone', 'TestimonialController@storeFromPhone');
 
     Route::get('test/video', 'TestimonialController@showVid');
+
+    Route::get('video/{id}', 'TestimonialController@showTestimonialVideo');
 });
