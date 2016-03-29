@@ -13,6 +13,10 @@
         background: none;
         overflow: hidden;
     }
+
+    #video {
+        max-width: 100%;
+    }
 </style>
 @endsection
 

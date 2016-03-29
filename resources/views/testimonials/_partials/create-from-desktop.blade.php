@@ -91,7 +91,7 @@
 
                 <br />
 
-                <video controls muted></video>
+                <video id="video" controls muted></video>
 
                  <br>
 
