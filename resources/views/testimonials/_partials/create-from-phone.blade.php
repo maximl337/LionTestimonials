@@ -11,8 +11,14 @@
 
         @else
 
-            <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ url('/testimonials/phone') }}" role="form">
+            <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ env('APP_URL') . 'testimonials/phone' }}" role="form">
+
+                <input type="hidden" name="user_id" value="{{ $data['user']->id }}">
                 
+                <input type="hidden" name="contact_id" value="{{ $data['contact']->id }}">
+
+                {!! csrf_field() !!}
+
                 <div class="form-group">
                     <h3>You are writting a testimonial for {{ $data['user']->getName() }}</h3>
                     <hr />

@@ -240,14 +240,14 @@ class TestimonialController extends Controller
                 'user_id' => 'required|exists:contacts,user_id|exists:users,id',
                 'rating' => 'required|integer|max:5|min:1',
                 'email' => 'email|required',
-                //'video' => 'max:20000|required_without:body',
-                //'body' => 'required_without:video',
+                'video' => 'max:20000|required_without:body',
+                'body' => 'required_without:video',
                 //'g-recaptcha-response' => 'required|recaptcha',
 
             ], [
-                //'video.required_without' => 'Please add a video if not adding any text',
-                //'video.max' => 'Video is larger than 20MB. Please upload a smaller video',
-                //'body.required_without' => 'Please add some text if not adding a video',
+                'video.required_without' => 'Please add a video if not adding any text',
+                'video.max' => 'Video is larger than 20MB. Please upload a smaller video',
+                'body.required_without' => 'Please add some text if not adding a video',
                 'email.email' => 'Email is not valid',
                 'email.required' => 'Email is required'
             ]);
@@ -258,9 +258,9 @@ class TestimonialController extends Controller
 
         if($exists) {
 
-            return response()->json([
-                    'error' => "You have already added a testimonial"
-                ], 409);
+            Session::flash('error', 'You have already added a testimonial');
+
+            return redirect()->back();
         }
 
         if($request->hasFile('video')) {
@@ -305,9 +305,10 @@ class TestimonialController extends Controller
         });
 
 
-        return response()->json([
-                    'message' => 'looks good'
-                ], 201);
+        Session::flash('success', 'Testimonial Created. Thank you.');
+
+        return redirect()->back();
+
 
     }
 
