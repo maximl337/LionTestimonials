@@ -682,9 +682,15 @@ $(function() {
 
         formData.append('body', $("textarea#body").val());
 
-        if(($("input#video"))[0].files[0] == undefined && $("textarea#body").val().length <= 0) {
+        if(($("input#video"))[0].files[0] === undefined && $("textarea#body").val().length <= 0) {
             swal("Error!", "Please add a video or some text to the testimonial", "error");
             return;
+        }
+
+        if(($("input#video"))[0].files[0] != undefined) {
+            if(($("input#video"))[0].files[0].size <= 0) {
+                swal("Error!", "Video file not found", "error");
+            }
         }
 
         $.ajax({
