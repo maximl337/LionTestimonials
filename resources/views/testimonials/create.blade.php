@@ -88,6 +88,7 @@
         $(".phone").remove();
     }
 
+    
     (function() {
         var params = {},
             r = /([^&=]+)=?([^&]*)/g;
@@ -107,10 +108,7 @@
 
         window.params = params;
     })();
-</script>
 
-
-<script>
 
     function intallFirefoxScreenCapturingExtension() {
         InstallTrigger.install({
