@@ -14,6 +14,7 @@ class Testimonial extends Model
     	'body',
     	'video',
         'video_type',
+        'storage_path',
         'approved_at',
         'seen_at',
     ];

@@ -11,6 +11,7 @@ use Mail;
 use Excel;
 use Cache;
 use Twilio;
+use Storage;
 use Session;
 use Validator;
 use App\Contact;
@@ -108,6 +109,11 @@ class ContactController extends Controller
 
                 // make file name
                 $fileName = Auth::id() . '-' . microtime(true) . '-' . md5($file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+
+                Storage::put(
+                        'lion-testimonials/user-csv/' . Auth::id() . '/' . $fileName,
+                        file_get_contents($file->getRealPath())
+                    );
 
                 // move file
                 $file->move($destinationPath, $fileName);

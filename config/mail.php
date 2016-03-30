@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'hello@lion-testimonials.herokuapp.com', 'name' => 'Mr. Robot'],
+    'from' => ['address' => 'hello@sellwithreviews.com', 'name' => 'Sell with reviews'],
 
     /*
     |--------------------------------------------------------------------------

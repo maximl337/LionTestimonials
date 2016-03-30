@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use View;
 use Log;
 use Auth;
+use View;
 use Mail;
+use Storage;
 use Session;
 use App\User;
 use App\Contact;
@@ -99,10 +100,6 @@ class TestimonialController extends Controller
         try {
 
             $testimonial = Testimonial::findOrFail($id);
-
-            $encodedVideo = base64_encode(file_get_contents(storage_path('media') . '/' . $testimonial->video));
-
-            $testimonial->video_src = "data:".$testimonial->video_type.";base64," . $encodedVideo;
 
             return view('testimonials.show', compact('testimonial'));
 
@@ -263,7 +260,6 @@ class TestimonialController extends Controller
             ];
 
             Mail::send('emails.testimonial_approved', $data, function($m) use ($testimonial, $contact) {
-                $m->from('hello@lion.com', 'Lion Testimonials');
 
                 $m->to($testimonial->email, $contact->first_name)->subject("Testimonial approved");
             });
@@ -329,15 +325,22 @@ class TestimonialController extends Controller
 
         if($request->hasFile('video')) {
             
-            $storage = storage_path('media');
+            //$storage = storage_path('media');
             
             $file = $request->file('video');
 
             $type = $file->getMimeType();
 
-            $fileName = $input['contact_id'] . '-' . uniqid(microtime(true)) . '-' . $file->getClientOriginalName();
+            $fileName = $input['contact_id'] . '-' . time() . '-' . md5($file->getClientOriginalName()) . $file->getClientOriginalExtension();
 
-            $file->move($storage, $fileName);
+            $storage_path = 'lion-testimonials/videos/' . $input['user_id'] . '/' . $fileName;
+
+            Storage::put(
+                        $storage_path,
+                        file_get_contents($file->getRealPath())
+                    );
+
+            //$file->move($storage, $fileName);
         }
         
         // create testimonial
@@ -348,6 +351,7 @@ class TestimonialController extends Controller
                 'body' => $input['body'],
                 'video' => !empty($fileName) ? $fileName : "",
                 'video_type' => !empty($type) ? $type : "",
+                'storage_path' => !empty($storage_path) ? $storage_path : "",
                 'email' => $input['email']
 
             ]);
@@ -411,15 +415,22 @@ class TestimonialController extends Controller
 
             if($request->hasFile('video')) {
             
-                $storage = storage_path('media');
+                //$storage = storage_path('media');
                 
                 $file = $request->file('video');
 
                 $type = 'video/webm';
 
-                $fileName = Auth::id() . '-' . uniqid(microtime(true)) . '-' . $file->getClientOriginalName();
+                $fileName = $input['contact_id'] . '-' . time() . '-' . md5($file->getClientOriginalName()) . $file->getClientOriginalExtension();
 
-                $file->move($storage, $fileName);
+                $storage_path = 'lion-testimonials/videos/' . $input['user_id'] . '/' . $fileName;
+
+                Storage::put(
+                            $storage_path,
+                            file_get_contents($file->getRealPath())
+                        );
+
+                //$file->move($storage, $fileName);
 
             }
 
@@ -431,6 +442,7 @@ class TestimonialController extends Controller
                     'body' => $input['body'],
                     'video' => !empty($fileName) ? $fileName : "",
                     'video_type' => !empty($type) ? $type : "",
+                    'storage_path' => !empty($storage_path) ? $storage_path : "",
                     'email' => $input['email']
 
                 ]);
@@ -446,7 +458,6 @@ class TestimonialController extends Controller
 
             // mail the user
             Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
-                $m->from('hello@lion.com', 'Lion Testimonials');
 
                 $m->to($user->email, $user->getName())->subject("New Testimonial");
             });
@@ -482,7 +493,11 @@ class TestimonialController extends Controller
 
             header("Content-Type: " . $testimonial->video_type);
 
-            echo file_get_contents(storage_path('media') . '/' . $testimonial->video);
+            $video = Storage::get('lion-testimonials/videos/1/1-1459348703-ee26908bf9629eeb4b37dac350f4754a');
+
+            Log::info('video from amazon', [gettype($video)]);
+
+            echo $video;
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 

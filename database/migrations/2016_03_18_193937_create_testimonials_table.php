@@ -21,6 +21,7 @@ class CreateTestimonialsTable extends Migration
             $table->text('body')->nullable();
             $table->string('video')->nullable();
             $table->string('video_type')->nullable();
+            $table->string('storage_path')->nullable();
             $table->dateTime('approved_at')->nullable();
             $table->dateTime('seen_at')->nullable();
             $table->timestamps();
