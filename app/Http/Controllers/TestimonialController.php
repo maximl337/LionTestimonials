@@ -333,7 +333,7 @@ class TestimonialController extends Controller
 
             $fileName = $input['contact_id'] . '-' . time() . '-' . md5($file->getClientOriginalName()) . $file->getClientOriginalExtension();
 
-            $storage_path = 'lion-testimonials/videos/' . $input['user_id'] . '/' . $fileName;
+            $storage_path = 'sellwithreviews.com/'.env('APP_ENV').'/videos/' . $input['user_id'] . '/' . $fileName;
 
             Storage::put(
                         $storage_path,
@@ -423,7 +423,7 @@ class TestimonialController extends Controller
 
                 $fileName = $input['contact_id'] . '-' . time() . '-' . md5($file->getClientOriginalName()) . $file->getClientOriginalExtension();
 
-                $storage_path = 'lion-testimonials/videos/' . $input['user_id'] . '/' . $fileName;
+                $storage_path = 'sellwithreviews.com/'.env('APP_ENV').'/videos/' . $input['user_id'] . '/' . $fileName;
 
                 Storage::put(
                             $storage_path,
@@ -493,7 +493,7 @@ class TestimonialController extends Controller
 
             header("Content-Type: " . $testimonial->video_type);
 
-            $video = Storage::get('lion-testimonials/videos/1/1-1459348703-ee26908bf9629eeb4b37dac350f4754a');
+            $video = Storage::get($testimonial->storage_path);
 
             Log::info('video from amazon', [gettype($video)]);
 
