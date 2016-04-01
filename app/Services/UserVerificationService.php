@@ -25,7 +25,6 @@ class UserVerificationService {
 		
 		// send email
 		Mail::send('emails.verify', ['user' => $user, 'url' => $url], function ($m) use ($user) {
-            $m->from('hello@lion.com', 'Lion Testimonials');
 
             $m->to($user->email, $user->first_name)->subject('Account verification');
         });

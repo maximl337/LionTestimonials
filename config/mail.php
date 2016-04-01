@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'hello@sellwithreviews.com', 'name' => 'Sell with reviews'],
+    'from' => ['address' => 'notification@sellwithreviews.com', 'name' => 'Robot'],
 
     /*
     |--------------------------------------------------------------------------

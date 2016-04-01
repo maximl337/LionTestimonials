@@ -324,7 +324,6 @@ class ContactController extends Controller
 
             // send mail
             Mail::send('emails.invite', $data, function($m) use ($contact) {
-                $m->from('hello@lion.com', 'Lion Testimonials');
                 $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
             });
 
@@ -374,7 +373,6 @@ class ContactController extends Controller
 
             // send mail
             Mail::send('emails.invite', $data, function($m) use ($user) {
-                $m->from('hello@lion.com', 'Lion Testimonials');
                 $m->to($user->email, $user->first_name)->subject('Account verification');
             });
 

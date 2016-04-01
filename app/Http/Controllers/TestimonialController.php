@@ -221,7 +221,6 @@ class TestimonialController extends Controller
 
     	// mail the user
     	Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
-    		$m->from('hello@lion.com', 'Lion Testimonials');
 
     		$m->to($user->email, $user->getName())->subject("New Testimonial");
     	});
@@ -367,7 +366,6 @@ class TestimonialController extends Controller
 
         // mail the user
         Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
-            $m->from('hello@lion.com', 'Lion Testimonials');
 
             $m->to($user->email, $user->getName())->subject("New Testimonial");
         });
