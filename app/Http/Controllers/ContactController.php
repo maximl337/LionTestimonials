@@ -77,6 +77,108 @@ class ContactController extends Controller
     }
 
     /**
+     * [edit description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function edit($id)
+    {
+        try {
+
+            $contact = Contact::findOrFail($id);
+
+            return view('contacts.edit', compact('contact'));
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact not found');
+
+            return redirect()->back();
+
+        } catch(\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+
+        
+    }
+
+    /**
+     * [update description]
+     * @param  [type]  $id      [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function update($id, Request $request)
+    {
+        $this->validate($request, [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'email' => 'required|email|unique:contacts,email,'. $id .',id,user_id,' . Auth::id(),
+                'phone' => 'digits:10'
+            ],
+            [
+                'email.unique' => "You already have a contact with that email"
+            ]);
+
+        try {
+
+            $contact = Contact::findOrFail($id);
+
+            $contact->update($request->input());
+
+            Session::flash('success', 'Contact updated');
+
+            return redirect()->back();
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact not found');
+
+            return redirect()->back();
+
+        } catch(\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+    }
+
+    /**
+     * [destroy description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function destroy($id)
+    {
+        try {
+
+            $contact = Contact::findOrFail($id);
+
+            $contact->delete();
+
+            Session::flash('success', 'Contact deleted');
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact not found');
+
+        } catch(\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+        }
+
+        return redirect('contacts');
+        
+    }
+
+    /**
      * [import description]
      * @return [type] [description]
      */

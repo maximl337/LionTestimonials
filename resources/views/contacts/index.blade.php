@@ -34,6 +34,16 @@
 
                                                 <div class="panel-body">
 
+                                                    <div class="btn-group pull-right">
+                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fa fa-gear"></i> <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="{{ url('contacts/' . $contact->id) }}">Edit</a></li>
+                                                            <li><a href="#">Delete</a></li>
+                                                        </ul>
+                                                    </div>
+
                                                     <p>Name: {{ $contact->first_name . ' ' . $contact->last_name }}</p>
                                             
                                                     <p>Email: {{ $contact->email }}</p>

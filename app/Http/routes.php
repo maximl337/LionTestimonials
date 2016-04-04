@@ -48,6 +48,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('contacts/sms/send', 'ContactController@sendSMS');
 
+    Route::get('contacts/{id}', 'ContactController@edit');
+
+    Route::post('contacts/{id}', 'ContactController@update');
+
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
 
