@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Contact;
 use Closure;
-use App\Testimonial;
-use Auth;
+use Session;
 
-class TestimonialOwner
+class ContactOwner
 {
     /**
      * Handle an incoming request.
@@ -19,17 +19,27 @@ class TestimonialOwner
     {
 
         try {
-            
-            $testimonialOwner = Testimonial::findOrFail($request->get('id'))->user()->firstOrFail();
 
-            if($testimonialOwner->id != $request->user()->id) {
+            $contact = Contact::findOrFail($request->id);
 
-                return response()->json([
+            $contactOwner = $contact->user()->firstOrFail();
+
+            if($contactOwner->id != $request->user()->id) {
+
+                if($request->ajax()) {
+
+                    return response()->json([
                         'error' => [
                             'message' => 'Request not authorized', 
                             'status' => '403'
                         ]
                     ], 403);
+
+                }
+                
+                Session::Flash('error', 'Forbidden request');
+
+                return redirect()->back();
                 
             }
 
@@ -37,14 +47,21 @@ class TestimonialOwner
 
         } catch (\Exception $e) {
 
-            return response()->json([
+            if($request->ajax()) {
+                return response()->json([
                         'error' => [
-                            'message' => 'Resource not found', 
+                            'message' => $e->getMessage(), 
                             'status' => '404'
                         ]
                     ], 404);
+            }
+
+            Session::Flash('error', $e->getMessage());
+
+            return redirect()->back();
+            
 
         }
-        
+
     }
 }

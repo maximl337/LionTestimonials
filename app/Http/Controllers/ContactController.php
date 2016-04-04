@@ -24,6 +24,8 @@ class ContactController extends Controller
     public function __construct()
     {
     	$this->middleware('auth');
+
+        $this->middleware('contact.owner', ['only' => ['update', 'destroy']]);
     }
 
     /**
@@ -162,19 +164,20 @@ class ContactController extends Controller
 
             $contact->delete();
 
-            Session::flash('success', 'Contact deleted');
+            return response()->json([
+                'message' => 'Contact deleted'], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
-            Session::flash('error', 'Contact not found');
+            return response()->json([
+                'message' => 'Contact not found'], 404);
 
         } catch(\Exception $e) {
 
-            Session::flash('error', $e->getMessage());
+            return response()->json([
+                'message' => $e->getMessage], 500);
 
         }
-
-        return redirect('contacts');
         
     }
 

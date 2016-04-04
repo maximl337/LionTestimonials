@@ -49,5 +49,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'testimonial.owner' => \App\Http\Middleware\TestimonialOwner::class,
+        'contact.owner' => \App\Http\Middleware\ContactOwner::class,
     ];
 }

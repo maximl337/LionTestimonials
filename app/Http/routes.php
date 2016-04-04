@@ -52,6 +52,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('contacts/{id}', 'ContactController@update');
 
+    Route::delete('contacts/{id}', 'ContactController@destroy');
+
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
 

@@ -30,7 +30,7 @@
                                     @foreach($contactRow as $contact) 
 
                                         <div class="col-md-4">
-                                            <div class="panel panel-default">
+                                            <div class="panel panel-default contact">
 
                                                 <div class="panel-body">
 
@@ -40,7 +40,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li><a href="{{ url('contacts/' . $contact->id) }}">Edit</a></li>
-                                                            <li><a href="#">Delete</a></li>
+                                                            <li><a class="delete-contact" data-id="{{ $contact->id }}" href="#">Delete</a></li>
                                                         </ul>
                                                     </div>
 
@@ -120,12 +120,59 @@
 
 @section('footer')
 
+<script type="text/javascript">
+    $(document).on('click', '.delete-contact', function(e) {
+        
+        e.preventDefault();
+
+        var $this = $(this);
+
+        var id = $this.attr('data-id');
+
+        var sendData = {
+            _token: "{{ csrf_token() }}",
+            id: id
+        };
+
+        $.ajax({
+            type : "DELETE",
+            url : "{{ env('APP_URL') }}" + "contacts/" + id,
+            data : sendData,
+            //contentType: "application/json; charset=UTF-8",
+            success: function (response) {  
+                $this.parents('.contact').remove();
+                swal('Good job!', 'Contact deleted', 'success');
+            },
+            statusCode: {
+                403: function() {
+                    swal("Uh oh!", "Forbidden request", "error");
+                },
+                404: function() {
+                    swal("Uh oh!", "Could not find the resource", "error");
+                },
+                500: function() {
+                    swal("Uh oh!", "Internal server error", "error");
+                }
+            },
+            error: function (e) {
+                swal("Uh oh!", e, "error");
+            } 
+        });
+
+    });
+</script>
+
 @if(Session::has('success'))
 <script type="text/javascript">
     
     swal("Good job!", "{{ Session::get('success') }}", "success");
 
-    //console.log('has message');
+</script>
+@endif
+@if(Session::has('error'))
+<script type="text/javascript">
+    
+    swal("Uh oh!", "{{ Session::get('error') }}", "error");
 
 </script>
 @endif
