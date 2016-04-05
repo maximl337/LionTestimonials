@@ -13,6 +13,7 @@ use Session;
 use App\User;
 use App\Contact;
 use Carbon\Carbon;
+use App\Invitation;
 use App\Testimonial;
 use App\Http\Requests;
 
@@ -127,7 +128,7 @@ class TestimonialController extends Controller
     	
     	$this->validate($request, [
     			'id' => 'required|exists:contacts,id',
-    			'token' => 'required|exists:contacts,token',
+                'token' => 'required|exists:invitations,token',
     		], [
     			'token.exists' => "The given token was not found in our records",
     			'id.exists' => "The given id was not found in our records",
@@ -139,12 +140,14 @@ class TestimonialController extends Controller
 
     	try {
 
-    		$contact = Contact::where('id', $input['id'])->where('token', $input['token'])->firstOrFail();
+    		$invitation = Invitation::where('contact_id', $input['id'])->where('token', $input['token'])->firstOrFail();
+
+            $contact = $invitation->contact()->first();
 
     		$user = $contact->user()->first();
 
     		// check if token matches
-    		if($contact->token != $input['token']) {
+    		if($invitation->token != $input['token']) {
     			throw new \Exception("Given token does not match the one on record");
     		}
 

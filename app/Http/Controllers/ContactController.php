@@ -16,6 +16,7 @@ use Session;
 use Validator;
 use App\Contact;
 use Carbon\Carbon;
+use App\Invitation;
 use App\Http\Requests;
 use App\Http\Requests\CreateContactRequest;
 
@@ -399,24 +400,13 @@ class ContactController extends Controller
 
             $input = $request->input();
 
-            Log::info('sendEmail', [$input['message']]);
-
-            // get contact
             $contact = Contact::findOrFail($input['contact_id']);
 
-            $token = $contact->token;
-
-            if(is_null($token)) {
-                
-                //make token
-                $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
-
-            }
+            $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
 
             $params = [
                 'token' => $token,
                 'id' => $contact->id
-                
             ];
 
             //make url
@@ -432,11 +422,12 @@ class ContactController extends Controller
                 $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
             });
 
-            // update contact
-            $contact->update([
-                    'token' => $token,
-                    'email_sent_at' => Carbon::now()
+            $invitation = new Invitation([
+                    'email' => true,
+                    'token' => $token
                 ]);
+
+            $contact->invitation()->save($invitation);
 
             Session::flash('success', 'Email sent successfully');
 

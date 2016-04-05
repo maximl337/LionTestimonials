@@ -22,4 +22,9 @@ class Contact extends Model
     	return $this->belongsTo('App\User');
     }
 
+    public function invitation()
+    {
+        return $this->hasMany('App\Invitation');
+    }
+
 }
