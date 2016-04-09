@@ -509,7 +509,7 @@ class ContactController extends Controller
             $contact = Contact::findOrFail($input['contact_id']);
 
             if(empty($contact->phone)) {
-                throw new Exception('Contact does not have a phone numbe ron record');
+                throw new Exception('Contact does not have a phone number on record');
             }
 
             $token = $contact->token;
@@ -529,27 +529,16 @@ class ContactController extends Controller
             //make url
             $url = env('APP_URL') . 'testimonials/create?' . http_build_query($params);
 
-            // $data = [
-            //     'user' => Auth::user(),
-            //     'contact' => $contact,
-            //     'url' => $url
-            // ];
-
-            // // send mail
-            // Mail::send('emails.invite', $data, function($m) use ($contact) {
-            //     $m->from('hello@lion.com', 'Lion Testimonials');
-            //     $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
-            // });
-
-            $message = 'Hi ' . $contact->first_name . ', '. Auth::user()->getName() .' has requested a testimonial from you for his services. This should take no more than a couple of minutes. Click the link below to send the testimonial. '. $url ;
+            $message = 'Hi ' . $contact->first_name . ', '. Auth::user()->getName() .' has requested a testimonial from you for his services. This should take no more than a couple of minutes. Click the link below to send the testimonial. '. $url;
 
             Twilio::message($contact->phone, $message);
 
-            // update contact
-            $contact->update([
-                    'token' => $token,
-                    'sms_sent_at' => Carbon::now()
+            $invitation = new Invitation([
+                    'sms' => true,
+                    'token' => $token
                 ]);
+
+            $contact->invitation()->save($invitation);
 
             Session::flash('success', 'SMS sent successfully');
 
