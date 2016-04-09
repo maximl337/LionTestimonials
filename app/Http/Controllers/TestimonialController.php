@@ -304,7 +304,7 @@ class TestimonialController extends Controller
                 'email' => 'email|required',
                 'video' => 'max:20000|required_without:body',
                 'body' => 'required_without:video',
-                'g-recaptcha-response' => 'required|recaptcha',
+                //'g-recaptcha-response' => 'required|recaptcha',
 
             ], [
                 'video.required_without' => 'Please add a video if not adding any text',
@@ -391,7 +391,7 @@ class TestimonialController extends Controller
                 'email' => 'email|required',
                 'video' => 'max:20000|required_without:body',
                 'body' => 'required_without:video',
-                'g-recaptcha-response' => 'required|recaptcha',
+                //'g-recaptcha-response' => 'required|recaptcha',
 
             ], [
                 'video.required_without' => 'Please add a video if not adding any text',
