@@ -143,19 +143,20 @@
                 $this.parents('.contact').remove();
                 swal('Good job!', 'Contact deleted', 'success');
             },
-            // statusCode: {
-            //     403: function() {
-            //         swal("Uh oh!", "Forbidden request", "error");
-            //     },
-            //     404: function() {
-            //         swal("Uh oh!", "Could not find the resource", "error");
-            //     },
-            //     500: function() {
-            //         swal("Uh oh!", "Internal server error", "error");
-            //     }
-            // },
+            statusCode: {
+                403: function() {
+                    swal("Uh oh!", "Forbidden request", "error");
+                },
+                404: function() {
+                    swal("Uh oh!", "Could not find the resource", "error");
+                },
+                500: function() {
+                    swal("Uh oh!", "Internal server error", "error");
+                }
+            },
             error: function (e) {
-                swal("Uh oh!", e.responseText, "error");
+                //swal("Uh oh!", e, "error");
+                console.log(e);
             } 
         });
 
