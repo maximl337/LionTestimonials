@@ -23,7 +23,7 @@ class CreateInvitationsTable extends Migration
         });
 
         Schema::table('invitations', function (Blueprint $table) {
-            $table->foreign('contact_id')->references('id')->on('contacts');
+            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
         });
     }
 
