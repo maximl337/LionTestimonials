@@ -194,14 +194,14 @@ class TestimonialController extends Controller
 
     	$input = $request->input();
 
-    	$exists = Testimonial::where('contact_id', $input['contact_id'])->where('user_id', $input['user_id'])->exists();
+    	// $exists = Testimonial::where('contact_id', $input['contact_id'])->where('user_id', $input['user_id'])->exists();
 
-    	if($exists) {
+    	// if($exists) {
 
-    		Session::flash('error', 'You have already added a testimonial');
+    	// 	Session::flash('error', 'You have already added a testimonial');
 
-    		return redirect()->back();
-    	}
+    	// 	return redirect()->back();
+    	// }
 
     	// create testimonial
     	$testimonial = new Testimonial([
@@ -318,12 +318,12 @@ class TestimonialController extends Controller
 
         $exists = Testimonial::where('contact_id', $input['contact_id'])->where('user_id', $input['user_id'])->exists();
 
-        if($exists) {
+        // if($exists) {
 
-            Session::flash('error', 'You have already added a testimonial');
+        //     Session::flash('error', 'You have already added a testimonial');
 
-            return redirect()->back();
-        }
+        //     return redirect()->back();
+        // }
 
         if($request->hasFile('video')) {
             
@@ -406,14 +406,14 @@ class TestimonialController extends Controller
 
             $exists = Testimonial::where('contact_id', $input['contact_id'])->where('user_id', $input['user_id'])->exists();
 
-            if($exists) {
+            // if($exists) {
 
-                Session::flash('error', 'You have already added a testimonial');
+            //     Session::flash('error', 'You have already added a testimonial');
 
-                return response()->json([
-                    'error' => "You have already added a testimonial"
-                ], 409);
-            }
+            //     return response()->json([
+            //         'error' => "You have already added a testimonial"
+            //     ], 409);
+            // }
 
             if($request->hasFile('video')) {
             
