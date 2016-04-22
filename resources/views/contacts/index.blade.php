@@ -75,7 +75,7 @@
                                                             </li>
                                                         @endif
                                                         <li role="separator" class="divider"></li>
-                                                        <li><a href="#">Send Custom links</a></li>
+                                                        <li><a href="{{ url('contacts/'.$contact->id.'/external/email') }}">Send external links</a></li>
                                                         </ul>
                                                     </div>
 

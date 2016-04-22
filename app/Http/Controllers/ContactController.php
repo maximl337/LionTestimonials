@@ -18,6 +18,7 @@ use App\Contact;
 use Carbon\Carbon;
 use App\Invitation;
 use App\Http\Requests;
+use App\ThirdPartyTestimonialSite;
 use App\Http\Requests\CreateContactRequest;
 
 class ContactController extends Controller
@@ -469,7 +470,7 @@ class ContactController extends Controller
 
             // send mail
             Mail::send('emails.invite', $data, function($m) use ($user) {
-                $m->to($user->email, $user->first_name)->subject('Account verification');
+                $m->to($user->email, $user->first_name)->subject('Email preview');
             });
 
             Session::flash('success', 'Email sent successfully');
@@ -548,6 +549,91 @@ class ContactController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
             Session::flash('error', 'Contact with the given id does not exist');
+
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+    }
+
+    public function externalLinksEmailPreview($id)
+    {
+        try {
+
+            $contact = Contact::findOrFail($id);
+
+            $links = Auth::user()->thirdPartyTestimonialSites()->get();
+            
+            return view('contacts.external_links_email_preview', [
+                    'contact' => $contact,
+                    'links' => $links 
+                ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', 'Contact with the given id does not exist');
+
+            return redirect()->back();
+            
+        } catch (\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->back();
+
+        }
+    }
+
+    public function sendExternalLinksEmail(Request $request)
+    {
+        $this->validate($request, [
+                'contact_id' => 'required|exists:contacts,id',
+                'message'   => 'required',
+                'links'     => 'required'
+            ]);
+
+        try {
+            
+            $input = $request->input();
+
+            $contact = Contact::findOrFail($input['contact_id']);
+
+            $user = Auth::user();
+
+            $message = $input['message'];
+
+            $url = [];
+
+            // add links to message:
+            foreach($input['links'] as $linkId) {
+
+                $site = ThirdPartyTestimonialSite::findOrFail($linkId);
+
+                $url[] = $site->url;
+            }
+
+            $data = [
+                "msg" => $message,
+                "urls" => $url
+            ];
+
+            // send mail
+            Mail::send('emails.inviteExternal', $data, function($m) use ($contact) {
+                $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
+            });
+
+            Session::flash('success', 'Email sent successfully');
+
+            return redirect('/contacts');
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            Session::flash('error', $e->getMessage());
 
             return redirect()->back();
             

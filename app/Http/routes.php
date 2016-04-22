@@ -48,6 +48,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('contacts/sms/send', 'ContactController@sendSMS');
 
+    Route::get('contacts/{id}/external/email', 'ContactController@externalLinksEmailPreview');
+
+    Route::post('contacts/external/email/send', 'ContactController@sendExternalLinksEmail');
+
     Route::get('contacts/{id}', 'ContactController@edit');
 
     Route::post('contacts/{id}', 'ContactController@update');
@@ -72,4 +76,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('video/{id}', 'TestimonialController@showTestimonialVideo');
 
     Route::get('users/{id}/testimonials/public', 'TestimonialController@publicTestimonials');
+
+    /** External Link */
+
+    Route::post('externalLinks/{id}', 'ExternalLinksController@update');
+
+    Route::resource('externalLinks', 'ExternalLinksController');
+    
 });

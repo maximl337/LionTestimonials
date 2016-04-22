@@ -9,9 +9,6 @@
                 <div class="panel-heading">Preview <a href="{{ url('contacts/email/self') }}" class="pull-right"> Send to self</a></div>
 
                 <div class="panel-body">
-
-                    
-                    
                 
                     <form id="" method="POST" action="{{ url('contacts/email/send') }}" role="form">
 

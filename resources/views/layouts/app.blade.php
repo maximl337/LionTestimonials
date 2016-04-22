@@ -80,6 +80,7 @@
                                 <li><a href="{{ url('/profile') }}">Profile</a></li>
                                 <li><a href="{{ url('/contacts') }}">Contacts</a></li>
                                 <li><a href="{{ url('/testimonials') }}">Testimonials</a></li>
+                                <li><a href="{{ url('/externalLinks') }}">External Links</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -104,6 +105,21 @@
     <script src="/js/all.js"></script>
 
     @yield('footer')
+
+    @if(Session::has('success'))
+    <script type="text/javascript">
+        
+        swal("Good job!", "{{ Session::get('success') }}", "success");
+
+    </script>
+    @endif
+    @if(Session::has('error'))
+    <script type="text/javascript">
+        
+        swal("Uh oh!", "{{ Session::get('error') }}", "error");
+
+    </script>
+    @endif
 
 </body>
 </html>
