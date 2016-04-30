@@ -6,8 +6,8 @@ if (App::environment('staging') || App::environment('production')) {
 
 Route::get('/', 'HomeController@welcome');
 
-Route::get('/video-test', function() {
-    return view('video-test');
+Route::get('/video-test-2', function() {
+    return view('video-test-2');
 });
 
 
