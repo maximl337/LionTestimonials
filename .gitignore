@@ -4,7 +4,6 @@
 Homestead.yaml
 Homestead.json
 .env
-.env.production
 .phpintel
 /.phpintel
 /storage/contact_imports

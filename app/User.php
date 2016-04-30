@@ -55,6 +55,11 @@ class User extends Authenticatable
                 $this->country;
     }
 
+    public function isAdmin()
+    {
+        return $this->is_admin ? true : false;
+    }
+
     public function contacts()
     {
         return $this->hasMany('App\Contact');
@@ -68,5 +73,10 @@ class User extends Authenticatable
     public function thirdPartyTestimonialSites()
     {
         return $this->hasMany('App\ThirdPartyTestimonialSite');
+    }
+
+    public function support_articles()
+    {
+        return $this->hasMany('App\SupportArticle');
     }
 }

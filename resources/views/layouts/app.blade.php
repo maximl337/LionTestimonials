@@ -61,6 +61,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/support') }}">Support</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -104,7 +105,7 @@
 
     <script src="/js/all.js"></script>
 
-    @yield('footer')
+    
 
     @if(Session::has('success'))
     <script type="text/javascript">
@@ -121,5 +122,6 @@
     </script>
     @endif
 
+    @yield('footer')
 </body>
 </html>

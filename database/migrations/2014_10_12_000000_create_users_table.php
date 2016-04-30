@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
             $table->string('zip')->nullable();
             $table->string('country')->nullable();
 
+            $table->boolean('is_admin')->default(false);
+
             $table->string('verification_token')->nullable();
             $table->dateTime('verification_sent_at');
             $table->dateTime('verified_at')->nullable();
