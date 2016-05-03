@@ -79,4 +79,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\SupportArticle');
     }
+
+    public function videos()
+    {
+        return $this->hasMany('App\Video');
+    }
 }

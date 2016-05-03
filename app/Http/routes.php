@@ -87,4 +87,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('support/{id}', 'SupportArticleController@update');
     
     Route::resource('support', 'SupportArticleController');
+
+    /** Videos */
+    Route::resource('videos', 'VideoController');
 });

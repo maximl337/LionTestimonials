@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    //
+    protected $fillable = [
+    	'token',
+    	'user_id',
+    	'title'
+    ];
+
+    public function user()
+    {
+    	return $this->belongsTo('App\User');
+    }
 }
