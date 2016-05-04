@@ -17,8 +17,6 @@
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 					<ziggeo ziggeo-video='{{ $video->token }}'
-					        ziggeo-width=320
-					        ziggeo-height=240
 					        responsive=true>
 					</ziggeo>
 				</div>

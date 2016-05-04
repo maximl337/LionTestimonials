@@ -12,9 +12,6 @@ class Contact extends Model
     	'last_name',
     	'email',
     	'phone',
-    	'token',
-        'email_sent_at',
-        'sms_sent_at',
     ];
 
     public function user()
@@ -25,6 +22,11 @@ class Contact extends Model
     public function invitation()
     {
         return $this->hasMany('App\Invitation');
+    }
+
+    public function getName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
 }

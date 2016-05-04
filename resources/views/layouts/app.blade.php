@@ -78,11 +78,12 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 
-                                <li><a href="{{ url('/profile') }}">Profile</a></li>
-                                <li><a href="{{ url('/contacts') }}">Contacts</a></li>
-                                <li><a href="{{ url('/testimonials') }}">Testimonials</a></li>
-                                <li><a href="{{ url('/externalLinks') }}">External Links</a></li>
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('profile') }}">Profile</a></li>
+                                <li><a href="{{ url('contacts') }}">Contacts</a></li>
+                                <li><a href="{{ url('testimonials') }}">Testimonials</a></li>
+                                <li><a href="{{ url('externalLinks') }}">External Links</a></li>
+                                <li><a href="{{ url('videos') }}"> Videos</a></li>
+                                <li><a href="{{ url('logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
                     @endif

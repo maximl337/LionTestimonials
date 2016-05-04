@@ -33,10 +33,18 @@
 							<div class="col-md-6 col-md-offset-3">
 								
 								<div class="video">
-									<h4>
-										{{ $video->title }}
-										<a title="Delete video" href="{{ url('videos/' . $video->id) }}" class="delete-video pull-right"><i class="fa fa-times"></i></a>
-									</h4>
+									
+
+									<div class="btn-group pull-right" style="padding-bottom: 5px;">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-gear"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a title="Delete video" href="{{ url('videos/' . $video->id) }}" class="delete-video"><i class="fa fa-trash"></i> Delete</a></li>
+											<li><a href="{{ url('videos/'.$video->id.'/email') }}"><i class="fa fa-envelope-o"></i> Send via email</a></li>
+											
+										</ul>
+									</div>
 									
 									<div>
 
@@ -47,6 +55,14 @@
 										</ziggeo>
 
 									</div>
+
+									<h4>
+										{{ $video->title }}
+										<!-- <a title="Delete video" href="{{ url('videos/' . $video->id) }}" class="delete-video pull-right"><i class="fa fa-gear"></i></a> -->
+										<!-- Single button -->
+
+									</h4>
+									<hr />
 								</div>
 								<!-- /.video -->
 

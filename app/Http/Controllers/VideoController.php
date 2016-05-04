@@ -94,4 +94,25 @@ class VideoController extends Controller
     		return response($e->getMessage(), 500);
     	}
     }
+
+    public function videoByEmailTemplate($id)
+    {
+        try {
+
+            $contacts = Auth::user()->contacts()->get();
+            
+            $video = Video::findOrFail($id);
+
+            $data = [
+                'contacts' => $contacts,
+                'video' => $video
+            ];
+
+            return view('videos.email_template', compact('data'));
+
+        } catch (\Exception $e) {
+            
+            return redirect()->back()->with("error", $e->getMessage());
+        }
+    }
 }

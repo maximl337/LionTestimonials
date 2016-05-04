@@ -15,6 +15,7 @@ class CreateVideosTable extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('thumbnail');
             $table->string('token')->comment = "Token received from Ziggeo";
             $table->integer('user_id')->unsigned();
             $table->timestamps();

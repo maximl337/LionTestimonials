@@ -90,4 +90,6 @@ Route::group(['middleware' => 'web'], function () {
 
     /** Videos */
     Route::resource('videos', 'VideoController');
+
+    Route::get('videos/{id}/email', 'VideoController@videoByEmailTemplate');
 });
