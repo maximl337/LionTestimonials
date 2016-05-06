@@ -13,39 +13,46 @@
 				<div class="panel-body">
 					
 					<form id="send_by_email" method="POST" action="{{ url('videos/send/email') }}" role="form">
+						{!! csrf_field() !!}
 						<input type="hidden" name="video_id" value="{{ $data['video']->id }}">
+						
 						<div class="form-group">
-							<div class="form-group">
-								<label for="contact">Contact</label>
-								<select id="contact" class="form-control" required>
-									<option selected="selected" disabled="disabled">Select a contact to send to</option>
-									@foreach($data['contacts'] as $contact)
-										<option value="{{ $contact->id }}"> {{ $contact->getName() . ' - ' . $contact->email }}  </option>
-									@endforeach
-								</select>
-							</div>
-							<div class="form-group">
-								<label for="message">Message</label>
-								<p class="helper-block">Customize the message</p>
-								<textarea id="message" class="form-control" name="message" rows="10" placeholder="Enter a custom message">{{ Auth::user()->getName() }} has sent you a video message.</textarea>
-							</div>
-							<div class="form-group">
-								<p class="text-muted">The following will be added to the message</p>
-								<p>Click on the link below to watch the video</p>
-								<p>
+							@include('errors.list')
+						</div>
+						
+						<div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
+							<label for="contact">Contact</label>
+							<select name="contact_id" id="contact" class="form-control" required>
+								<option selected="selected" disabled="disabled">Select a contact to send to</option>
+								@foreach($data['contacts'] as $contact)
+									<option value="{{ $contact->id }}"> {{ $contact->getName() . ' - ' . $contact->email }}  </option>
+								@endforeach
+							</select>
+														</div>
+						<div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
+							<label for="message">Message</label>
+							<p class="help-block">Customize the message</p>
+							<textarea id="message" class="form-control" name="message" rows="10" placeholder="Enter a custom message">{{ Auth::user()->getName() }} has sent you a video message.</textarea>
+							
+						</div>
+						<div class="form-group">
+							<p class="text-muted">The following will be added to the message</p>
+							<p>Click on the link below to watch the video</p>
+							<p>
 								<a href="#">
 								<img src="{{ $data['video']->thumbnail }}" name="{{ $data['video']->title }}" title="{{ $data['video']->title }}">
 								</a> <br />
 								<a href="#">
-								<em>link to the video</em>
+									<em>link to the video</em>
 								</a>
-								</p>
-							</div>
-
-							<div class="form-group">
-								<input id="" class="form-control btn btn-primary" type="text" value="Send" />
-							</div>
+							</p>
 						</div>
+
+						<div class="form-group">
+							<input class="form-control btn btn-primary" type="submit" value="Send" />
+						</div>
+						
+						
 						
 					</form>
 					

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
+use Mail;
 use App\User;
 use App\Video;
+use App\Contact;
 use App\Http\Requests;
 
 class VideoController extends Controller
@@ -145,12 +147,15 @@ class VideoController extends Controller
             ];
 
             // mail
-            Mail::send('emails.invite', $data, function($m) use ($contact) {
+            Mail::send('emails.send_video', $data, function($m) use ($contact) {
                 $m->to($contact->email, $contact->first_name)->subject('Video message');
             });
 
+            return redirect()->action('VideoController@index')->with('success', 'Email sent successfully');
+
         } catch (Exception $e) {
             
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

@@ -1,4 +1,4 @@
-{{ $msg }}
+{{ $body }}
 
 <p>Click on the link below to watch the video</p>
 <p>
@@ -9,7 +9,3 @@
 {{ url('videos/' . $video->id) }}
 </a>
 </p>
-
-<p>Click on the link below to watch it</p>
-
-<a href="{!! $url !!}">{{ $url }}</a>
