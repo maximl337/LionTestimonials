@@ -13,6 +13,7 @@
 				<div class="panel-body">
 					
 					<form id="send_by_email" method="POST" action="{{ url('videos/send/email') }}" role="form">
+						<input type="hidden" name="video_id" value="{{ $data['video']->id }}">
 						<div class="form-group">
 							<div class="form-group">
 								<label for="contact">Contact</label>
@@ -25,12 +26,20 @@
 							</div>
 							<div class="form-group">
 								<label for="message">Message</label>
-								<textarea id="message" class="form-control" name="message" rows="10" placeholder="Enter a custom message"></textarea>
+								<p class="helper-block">Customize the message</p>
+								<textarea id="message" class="form-control" name="message" rows="10" placeholder="Enter a custom message">{{ Auth::user()->getName() }} has sent you a video message.</textarea>
 							</div>
 							<div class="form-group">
-								<p class="helper-block">The following will be added to the message</p>
+								<p class="text-muted">The following will be added to the message</p>
 								<p>Click on the link below to watch the video</p>
-								<p><a href="#"><em>link to the video</em></a></p>
+								<p>
+								<a href="#">
+								<img src="{{ $data['video']->thumbnail }}" name="{{ $data['video']->title }}" title="{{ $data['video']->title }}">
+								</a> <br />
+								<a href="#">
+								<em>link to the video</em>
+								</a>
+								</p>
 							</div>
 
 							<div class="form-group">

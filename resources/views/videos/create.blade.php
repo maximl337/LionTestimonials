@@ -29,7 +29,11 @@
 							<input id="title" class="form-control" type="text" name="title" placeholder="Enter a title" required />
 						</div>
 						
-						<input type="hidden" name="token">
+						<input type="hidden" name="token" />
+
+						<input type="hidden" name="thumbnail" />
+
+						<input type="hidden" name="url" />
 
 						<div class="form-group">
 							
@@ -69,10 +73,22 @@
 
         ZiggeoApi.Events.on("submitted", function (data) {
             //alert("The video with token " + data.video.token + " has been submitted!");
-            $('form#create-video  input[type="submit"]').removeAttr("disabled");
+            storage.token = data.video.token;
+
+            var thumbnail = ZiggeoApi.Videos.image(data.video.token);
+
+            var url = ZiggeoApi.Videos.source(data.video.token);
 
             $('form#create-video  input[name="token"]').val(data.video.token);
-            storage.token = data.video.token;
+			
+			console.log(thumbnail);           
+            $('form#create-video  input[name="thumbnail"]').val(thumbnail);
+
+            console.log(url);
+            $('form#create-video  input[name="url"]').val(url);
+
+            $('form#create-video  input[type="submit"]').removeAttr("disabled");
+            
 
         });
 

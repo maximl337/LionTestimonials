@@ -52,7 +52,9 @@ class VideoController extends Controller
     {
     	$this->validate($request, [
     			'title' => 'required|max:255',
-    			'token' => 'required'
+    			'token' => 'required',
+                'thumbnail' => 'required',
+                'url' => 'required'
     		],
     		[
     			'token.required' => 'We were unable to store the video. Try refreshing the page and trying again'
@@ -63,7 +65,9 @@ class VideoController extends Controller
     		$video  = new Video([
     			
 	    			'token' => $request->get('token'),
-	    			'title' => $request->get('title')
+	    			'title' => $request->get('title'),
+                    'thumbnail' => $request->get('thumbnail'),
+                    'url'       => $request->get('url')
 
 	    			]);
 
@@ -113,6 +117,40 @@ class VideoController extends Controller
         } catch (\Exception $e) {
             
             return redirect()->back()->with("error", $e->getMessage());
+        }
+    }
+
+    public function sendByEmail(Request $request)
+    {
+        $this->validate($request, [
+                'contact_id' => 'required|exists:contacts,id',
+                'message' => 'required',
+                'video_id' => 'required|exists:videos,id'
+            ]);
+
+        try {
+
+            $input = $request->input();
+            
+            $contact = Contact::findOrFail($input['contact_id']);
+
+            $video = Video::findOrFail($input['video_id']);
+
+            $msg = $input['message'];
+
+            $data = [
+                'contact' => $contact,
+                'video'  => $video,
+                'body'   => $msg
+            ];
+
+            // mail
+            Mail::send('emails.invite', $data, function($m) use ($contact) {
+                $m->to($contact->email, $contact->first_name)->subject('Video message');
+            });
+
+        } catch (Exception $e) {
+            
         }
     }
 }

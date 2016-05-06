@@ -89,7 +89,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('support', 'SupportArticleController');
 
     /** Videos */
+    Route::get('videos/{id}/email', 'VideoController@videoByEmailTemplate');
+
+    Route::post('videos/send/email', 'VideoController@sendByEmail');
+
     Route::resource('videos', 'VideoController');
 
-    Route::get('videos/{id}/email', 'VideoController@videoByEmailTemplate');
+    
 });

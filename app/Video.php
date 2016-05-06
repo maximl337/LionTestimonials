@@ -10,7 +10,8 @@ class Video extends Model
     	'token',
     	'user_id',
     	'title',
-    	'screenshot'
+    	'thumbnail',
+        'url'
     ];
 
     public function user()
