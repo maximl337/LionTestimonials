@@ -15,3 +15,15 @@
     </div>
 </div>
 @endsection
+
+@section('footer')
+
+@if(Session::has('subscription_cancelled'))
+<script type="text/javascript">
+    
+    swal("We are sorry to see you go", "{{ Session::get('subscription_cancelled') }}", "info");
+
+</script>
+@endif
+
+@endsection

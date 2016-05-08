@@ -95,5 +95,19 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('videos', 'VideoController');
 
+    /** Subscription */
+    Route::get('billing', 'SubscriptionController@index');
+
+    Route::post('billing', 'SubscriptionController@subscribe');
+
+    Route::post('subscription/resume', 'SubscriptionController@resume');
+
+    Route::post('subscription/cancel', 'SubscriptionController@cancel');
+
+    Route::post(
+        'stripe/webhook',
+        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+    );
+
     
 });

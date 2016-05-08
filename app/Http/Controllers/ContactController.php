@@ -29,6 +29,8 @@ class ContactController extends Controller
     	$this->middleware('auth');
 
         $this->middleware('contact.owner', ['only' => ['update', 'destroy']]);
+
+        $this->middleware('subscribed');
     }
 
     /**

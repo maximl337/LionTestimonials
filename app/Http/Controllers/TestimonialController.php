@@ -26,6 +26,8 @@ class TestimonialController extends Controller
 
         $this->middleware('testimonial.owner', ['only' => ['approve']]);
 
+        $this->middleware('subscribed', ['only' => ['getTestimonials', 'getTestimonial', 'approve']]);
+
     }
 
     /**

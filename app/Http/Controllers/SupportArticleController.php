@@ -16,6 +16,8 @@ class SupportArticleController extends Controller
     	$this->middleware('auth');
 
     	$this->middleware('admin', ['except' => ['index', 'show']]);
+
+        $this->middleware('subscribed', ['only' => ['index', 'show']]);
     }
 
     public function index(Request $request)

@@ -83,6 +83,7 @@
                                 <li><a href="{{ url('testimonials') }}">Testimonials</a></li>
                                 <li><a href="{{ url('externalLinks') }}">External Links</a></li>
                                 <li><a href="{{ url('videos') }}"> Videos</a></li>
+                                <li><a href="{{ url('billing') }}"> Subscription</a></li>
                                 <li><a href="{{ url('logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>

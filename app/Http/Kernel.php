@@ -51,5 +51,6 @@ class Kernel extends HttpKernel
         'testimonial.owner' => \App\Http\Middleware\TestimonialOwner::class,
         'contact.owner' => \App\Http\Middleware\ContactOwner::class,
         'admin'         => \App\Http\Middleware\IsAdmin::class,
+        'subscribed'    => \App\Http\Middleware\Subscribed::class,
     ];
 }

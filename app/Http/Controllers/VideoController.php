@@ -17,6 +17,8 @@ class VideoController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth', ['except' => ['show']]);
+
+        $this->middleware('subscribed', ['except' => ['show']]);
 	}
 
     public function index(Request $request)

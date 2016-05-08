@@ -163,6 +163,7 @@ return [
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Redeman\Imgur\ImgurServiceProvider::class,
         Aloha\Twilio\Support\Laravel\ServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
 
     ],
 
