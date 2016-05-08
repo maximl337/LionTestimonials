@@ -17,12 +17,23 @@
                         <input type="hidden" name="contact_id" value="{{ $contact->id }}">
 
                         <div class="form-group">
-                            <label for="message">Customize Message</label>
-                            <textarea style="padding: 10px; font-size: 20px;" id="message" class="form-control" name="message" rows="6"> Hi {{ $contact->first_name }}, &#013;&#010;{{ Auth::user()->getName() }} has requested a testimonial from you for his services. &#013;&#010;This should take no more than a couple of minutes.</textarea>
+                            <label for="message">Customize Message *</label>
+                            <textarea required style="padding: 10px; font-size: 20px;" id="message" class="form-control" name="message" rows="6"> Hi {{ $contact->first_name }}, &#013;&#010;{{ Auth::user()->getName() }} has requested a testimonial from you for his services. &#013;&#010;This should take no more than a couple of minutes.</textarea>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="video">Attach Video</label>
+                            <span class="help-block"><a href="{{ url('videos/create?testimonial_request=true&contact_id=' . $contact->id) }}">Create</a> or select one you have already created</span>
+                            <select id="video" name="video_id" class="form-control">
+                                <option selected="selected" disabled="disabled">Select a video to attach to the request. (optional)</option>
+                                @foreach($videos as $video)
+                                    <option value="{{ $video->id }}" {{ $video->id == $video_id ? ' selected="selected"' : '' }} >{{ $video->title }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label>The link below will be added to your customized message.</label>
+                            <span class="help-block">The following will be added to the message</span>
                             <pre><a href="#">Click here</a> to submit testimonial.</pre>
                         </div>
 

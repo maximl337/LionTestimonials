@@ -29,6 +29,18 @@
 							<input id="title" class="form-control" type="text" name="title" placeholder="Enter a title" required />
 						</div>
 						
+						@if($testimonial_request)
+						
+							<input type="hidden" name="testimonial_request" value="true" />
+
+						@endif
+
+						@if($contact_id)
+						
+							<input type="hidden" name="contact_id" value="{{ $contact_id }}" />
+
+						@endif
+
 						<input type="hidden" name="token" />
 
 						<input type="hidden" name="thumbnail" />

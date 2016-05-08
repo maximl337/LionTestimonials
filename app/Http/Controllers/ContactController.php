@@ -14,6 +14,7 @@ use Twilio;
 use Storage;
 use Session;
 use Validator;
+use App\Video;
 use App\Contact;
 use Carbon\Carbon;
 use App\Invitation;
@@ -334,13 +335,17 @@ class ContactController extends Controller
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    public function emailPreview($id)
+    public function emailPreview($id, Request $request)
     {
         try {
 
             $contact = Contact::findOrFail($id);
+
+            $video_id = $request->get('video_id');
+
+            $videos = Auth::user()->videos()->get(['title', 'id']);
             
-            return view('contacts.email', compact('contact'));
+            return view('contacts.email', compact('contact', 'videos', 'video_id'));
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
@@ -405,17 +410,26 @@ class ContactController extends Controller
 
             $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
 
+            $video = false;
+
             $params = [
                 'token' => $token,
                 'id' => $contact->id
             ];
+
+            if(!empty($input['video_id'])) {
+                $video = Video::find($input['video_id']);
+            }
+            
 
             //make url
             $url = env('APP_URL') . 'testimonials/create?' . http_build_query($params);
 
             $data = [
                 'url' => $url,
-                'body' => $input['message'] . " "
+                'body' => $input['message'] . " ",
+                'video' => $video ?: false,
+                'user' => Auth::user()
             ];
 
             // send mail

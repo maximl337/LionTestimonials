@@ -45,9 +45,14 @@ class VideoController extends Controller
     	}
     }
 
-    public function create()
+    public function create(Request $request)
     {
-    	return view('videos.create');
+
+        $testimonial_request = $request->get('testimonial_request');
+
+        $contact_id = $request->get('contact_id');
+
+    	return view('videos.create', compact('testimonial_request', 'contact_id'));
     }
 
     public function store(Request $request)
@@ -74,6 +79,15 @@ class VideoController extends Controller
 	    			]);
 
     		Auth::user()->videos()->save($video);
+
+            // wants to send request
+            if($request->get('testimonial_request') && $request->get('contact_id')) {
+                return redirect()
+                        ->action('ContactController@emailPreview', 
+                                ['id' => $request->get('contact_id'),
+                                 'video_id' => $video->id])
+                        ->with("success", "Video attached to request");
+            }
 
     		return redirect()->action('VideoController@show', ['id' => $video->id])->with("success", "Video saved successfully");
 
