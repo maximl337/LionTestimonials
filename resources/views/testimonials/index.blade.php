@@ -36,7 +36,7 @@
                                             <p>Rating: {{ $testimonial->rating }}</p>
                                             <p>Body: {{ str_limit($testimonial->body, 20) }}</p>   
                                                 
-                                            @if(!empty($testimonial->video))
+                                            @if(!empty($testimonial->token))
 
                                                 <p>
                                                     <span class="label label-success">Has video</span>

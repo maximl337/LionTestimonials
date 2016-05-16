@@ -190,50 +190,62 @@ class TestimonialController extends Controller
     			'user_id' => 'required|exists:contacts,user_id|exists:users,id',
     			'rating' => 'integer|max:5|min:1',
     			'email' => 'email|required',
-                'g-recaptcha-response' => 'required|recaptcha',
+                'body' => 'required_without:token',
+                'token' => 'required_without:body',
+                'thumbnail' => 'required_with:token',
+                'url' => 'required_with:token'
+                //'g-recaptcha-response' => 'required|recaptcha',
 
-    		]);
+    		],[
+                'token.required_without' => 'Please add a video if not adding any text',
+                'body.required_without' => 'Please add some text if not adding a video',
+                'email.email' => 'Email is not valid',
+                'email.required' => 'Email is required'
+            ]);
 
     	$input = $request->input();
 
-    	// $exists = Testimonial::where('contact_id', $input['contact_id'])->where('user_id', $input['user_id'])->exists();
+        try {
 
-    	// if($exists) {
+            // create testimonial
+            $testimonial = new Testimonial([
 
-    	// 	Session::flash('error', 'You have already added a testimonial');
+                    'contact_id' => $input['contact_id'],
+                    'rating' => $input['rating'],
+                    'body' => !empty($input['body']) ? $input['body'] : "",
+                    'token' => !empty($input['token']) ? $input['token'] : "",
+                    'thumbnail' => !empty($input['thumbnail']) ? $input['thumbnail'] : "",
+                    'url' => !empty($input['url']) ? $input['url'] : "",
+                    'email' => $input['email']
 
-    	// 	return redirect()->back();
-    	// }
+                ]);
 
-    	// create testimonial
-    	$testimonial = new Testimonial([
+            $user = User::findOrFail($input['user_id']);
 
-    			'contact_id' => $input['contact_id'],
-    			'rating' => $input['rating'],
-    			'body' => $input['body'],
-    			'video' => !empty($input['video']) ? $input['video'] : "",
-    			'email' => $input['email']
+            $user->testimonials()->save($testimonial);
 
-    		]);
+            $data = [
+                'user' => $user,
+                'testimonial' => $testimonial
+            ];
 
-    	$user = User::findOrFail($input['user_id']);
+            // mail the user
+            Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
 
-    	$user->testimonials()->save($testimonial);
-
-    	$data = [
-    		'user' => $user
-    	];
-
-    	// mail the user
-    	Mail::send('emails.new_testimonial', $data, function($m) use ($user) {
-
-    		$m->to($user->email, $user->getName())->subject("New Testimonial");
-    	});
+                $m->to($user->email, $user->getName())->subject("New Testimonial");
+            });
 
 
-    	Session::flash('success', 'Testimonial Created. Thank you.');
+            Session::flash('success', 'Testimonial Created. Thank you.');
 
-    	return redirect()->back();
+            return redirect()->back();
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with("error", $e->getMessage());
+
+        }
+
     }
 
     /**

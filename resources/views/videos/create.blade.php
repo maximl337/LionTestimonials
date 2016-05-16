@@ -93,10 +93,10 @@
 
             $('form#create-video  input[name="token"]').val(data.video.token);
 			
-			console.log(thumbnail);           
+			
             $('form#create-video  input[name="thumbnail"]').val(thumbnail);
 
-            console.log(url);
+            
             $('form#create-video  input[name="url"]').val(url);
 
             $('form#create-video  input[type="submit"]').removeAttr("disabled");
@@ -107,7 +107,7 @@
         ZiggeoApi.Events.on("error_recorder", function (data, error) {
 			// Triggered when the video recorder encounters an error 
 			swal("Uh oh!", "The video recorder encountered an error. We will look into it. Reload the page and try again", "error");
-			console.log(error);
+			
 		});
 
 		ZiggeoApi.Events.on("access_forbidden", function (data, error) {
