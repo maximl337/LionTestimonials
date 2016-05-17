@@ -1,17 +1,9 @@
 @extends('layouts.app')
 
 @section('head')
-    <style type="text/css">
-        video {
-            max-width: 100%;
-            max-height: 400px;
-        }
-        #video {
-            width: 720px;
-            height: 486px;
-            margin: auto auto;
-        }
-    </style>
+    <link rel="stylesheet" href="//assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
+    <script src="//assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
+    <script>ZiggeoApi.token = "{{ env('ZIGGEO_APPLICATION_TOKEN') }}";</script>
 @endsection
 @section('content')
 <div class="container">
@@ -35,13 +27,11 @@
 
                     <hr />
 
-                    @if(!empty($testimonial->video)) 
+                    @if(!empty($testimonial->token)) 
                     
-                    <!-- <video controls>
-                        <source type="{{ $testimonial->video_type }}" src="{{ $testimonial->video_src }}"> 
-                    </video> -->
-
-                    <iframe id="video" src="{{ url('video') . '/' . $testimonial->id  }}"></iframe>
+                        <ziggeo ziggeo-video='{{ $testimonial->token }}'
+                                responsive=true>
+                        </ziggeo>
                     @endif
                        
                     <p>{{ $testimonial->body }}</p>

@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
-
-<link rel="stylesheet" href="//assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
-<script src="//assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
-<script>ZiggeoApi.token = "{{ env('ZIGGEO_APPLICATION_TOKEN') }}";</script>
+@section('head')
+	<link rel="stylesheet" href="//assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
+	<script src="//assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
+	<script>ZiggeoApi.token = "{{ env('ZIGGEO_APPLICATION_TOKEN') }}";</script>
+@endsection
 
 @section('content')
 
