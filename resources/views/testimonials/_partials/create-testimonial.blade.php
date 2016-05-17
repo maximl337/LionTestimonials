@@ -11,7 +11,7 @@
 
         @else
 
-            <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ env('APP_URL') . 'testimonials' }}" role="form">
+            <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ env('APP_URL') . 'testimonials' }}" role="form" novalidate>
 
                 <input type="hidden" name="user_id" value="{{ $data['user']->id }}">
                 
@@ -43,6 +43,7 @@
 
                 <div class="form-group{{ $errors->has('rating') ? ' has-error' : '' }}">
                     <label for="rating">Rating</label>
+                    <br />
                     <select id="rating" name="rating" class="form-control" required>
                         <option disabled selected value> -- select an option -- </option>
                         <option value="1">1</option>

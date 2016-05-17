@@ -22,11 +22,11 @@ class TestimonialController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials', 'showTestimonialVideo']]);
+        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials', 'thankyou', 'showTestimonialVideo']]);
 
         $this->middleware('testimonial.owner', ['only' => ['approve']]);
 
-        $this->middleware('subscribed', ['only' => ['getTestimonials', 'getTestimonial', 'approve']]);
+        $this->middleware('subscribed', ['only' => ['getTestimonials', 'getTestimonial', 'approve', 'create', 'store']]);
 
     }
 
@@ -236,9 +236,9 @@ class TestimonialController extends Controller
             });
 
 
-            Session::flash('success', 'Testimonial Created. Thank you.');
+            //Session::flash('success', 'Testimonial Created. Thank you.');
 
-            return redirect()->back();
+            return redirect('testimonials/thankyou');
 
         } catch (Exception $e) {
 
@@ -298,6 +298,11 @@ class TestimonialController extends Controller
             ], 500);
         }
         
+    }
+
+    public function thankyou()
+    {
+        return view('testimonials.thankyou');
     }
 
     /**

@@ -61,6 +61,8 @@ Route::group(['middleware' => 'web'], function () {
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
 
+    Route::get('testimonials/thankyou', 'TestimonialController@thankyou');
+
     Route::post('testimonials', 'TestimonialController@store');
 
     Route::get('testimonials', 'TestimonialController@getTestimonials');
@@ -72,6 +74,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('video/{id}', 'TestimonialController@showTestimonialVideo');
 
     Route::get('users/{id}/testimonials/public', 'TestimonialController@publicTestimonials');
+
+    
 
     /** External Link */
 

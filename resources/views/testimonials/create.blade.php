@@ -45,6 +45,32 @@
 
 $(function() { 
 
+    // form submit
+    $("form#create-testimonial").on("submit", function(e) {
+        
+        e.preventDefault(); 
+
+        var email = $(this).find('input#email').val();
+
+        var rating = $(this).find('select#rating').val();
+
+        console.log(email);
+        if(email === undefined || email === null || email.length == 0) {
+            swal("Uh oh!", "Please enter an email", "error");   
+            return false;
+        }
+
+        if(rating === undefined || rating === null || rating.length == 0) {
+            swal("Uh oh!", "Please add a rating", "error"); 
+            return false;
+        }
+
+        $('#create-testimonial')[0].submit();
+
+        
+
+    });
+
 
     storage = {};
 

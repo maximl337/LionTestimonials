@@ -26,12 +26,18 @@ class UserController extends Controller
         $this->imageService = $imageService;
     }
 
-    public function getProfile()
+    public function getProfile(Request $request)
     {
+
+        $limit = $request->get('limit') ?: 1;
+
+        $page = $request->get('page') ?: 0;
 
         $user = Auth::user();
 
-    	return view('users.show', compact('user'));
+        $testimonials = $user->testimonials()->approved()->with('contact')->paginate($limit);
+
+    	return view('users.show', compact('user', 'testimonials'));
     }
 
     public function showPublic($id)
