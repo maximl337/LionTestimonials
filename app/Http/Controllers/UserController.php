@@ -40,10 +40,14 @@ class UserController extends Controller
     	return view('users.show', compact('user', 'testimonials'));
     }
 
-    public function showPublic($id)
+    public function showPublic($id, Request $request)
     {
         try {
 
+            $limit = $request->get('limit') ?: 1;
+
+            $page = $request->get('page') ?: 0;
+            
             $user = User::findOrFail($id);
 
             $testimonials = $user->testimonials()->approved()->with('contact')->paginate($limit);
