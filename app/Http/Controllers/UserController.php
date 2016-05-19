@@ -46,7 +46,9 @@ class UserController extends Controller
 
             $user = User::findOrFail($id);
 
-            return view('users.show', compact('user'));
+            $testimonials = $user->testimonials()->approved()->with('contact')->paginate($limit);
+
+            return view('users.show', compact('user', 'testimonials'));
         
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 

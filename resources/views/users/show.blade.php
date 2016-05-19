@@ -61,12 +61,14 @@
                         </div>
                     </div>
 
-                        
+                        @if(count($testimonials) > 0)
                         <div class="row">
+                            
                             @foreach($testimonials as $testimonial)
                                 <div class="col-md-12">
 
-                                   <section>
+                                    @if(!empty($testimonial))
+                                    <section>
                                         <h2>Rating: {{ $testimonial->rating }}</h2>
                                         <p>{{ $testimonial->body }}</p>
                                         <p>
@@ -76,18 +78,18 @@
                                                 </ziggeo>
                                             @endif
                                         </p>
-                                        <p>From: <strong>{{ $testimonial->contact()->first()->first_name }}</strong> {{ $testimonial->created_at->diffForHumans() }}</p>
+                                        <p>{{ $testimonial->created_at->diffForHumans() }}</p>
                                         <hr />
                                     </section>
+                                    @endif
                                     
                                 </div> <!-- .col-md-4 -->
                             @endforeach
-
                             <div class="col-md-12">
                             {!! $testimonials->render() !!}
                             </div>
                         </div><!-- .row -->
-
+                        @endif
                   
 
                     @if(!empty($user->business_name) ||
