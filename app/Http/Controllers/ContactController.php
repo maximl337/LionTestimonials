@@ -127,7 +127,7 @@ class ContactController extends Controller
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'email' => 'required|email|unique:contacts,email,'. $id .',id,user_id,' . Auth::id(),
-                'phone' => 'digits:10'
+                'phone' => 'integer',
             ],
             [
                 'email.unique' => "You already have a contact with that email"
@@ -473,17 +473,26 @@ class ContactController extends Controller
      * [sendEmailSelf description]
      * @return [type] [description]
      */
-    public function sendEmailSelf()
+    public function sendEmailSelf(Request $request)
     {
 
         try {
 
             $user = Auth::user();
 
+            $input = $request->input();
+
+            $video = false;
+
+            if(!empty($input['video_id'])) {
+                $video = Video::find($input['video_id']);
+            }
+
             $data = [
-                'user' => $user,
-                'contact' => $user,
-                'url' => "#"
+                'url' => "#",
+                'body' => $input['message'] . " ",
+                'video' => $video ?: false,
+                'user' => Auth::user()
             ];
 
             // send mail

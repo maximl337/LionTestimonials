@@ -115,5 +115,20 @@
 			swal("Uh oh!", "The recorder needs to access your camera to proceed", "error");
 		});
 
+		ZiggeoApi.Events.on("error_player", function (data, error) {
+			// Triggered when the video player encounters an error 
+			swal("Uh oh!", "The recorder encountered an error: " + error, "error");
+		});
+
+		ZiggeoApi.Events.on("ready_to_record", function (data) {
+			// Triggered when a video recorder is ready to record a video
+			console.log("ready to record"); 
+		});
+
+		ZiggeoApi.Events.on("access_granted", function (data) {
+			// Triggered when the user grants access to the camera
+			console.log("Camera access given"); 
+		});
+
 </script>
 @endsection

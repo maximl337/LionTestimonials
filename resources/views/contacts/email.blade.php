@@ -6,11 +6,11 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
 
-                <div class="panel-heading">Preview <a href="{{ url('contacts/email/self') }}" class="pull-right"> Send to self</a></div>
+                <div class="panel-heading">Preview <a href="{{ url('contacts/email/self') }}" class="pull-right" id="send_to_self"> Send to self</a></div>
 
                 <div class="panel-body">
                 
-                    <form id="" method="POST" action="{{ url('contacts/email/send') }}" role="form">
+                    <form id="request_email" method="POST" action="{{ url('contacts/email/send') }}" role="form">
 
                         {!! csrf_field() !!}
 
@@ -56,6 +56,21 @@
 @endsection
 
 @section('footer')
+
+<script type="text/javascript">
+$(function() {
+    
+    $(document).on("click", "#send_to_self", function(e) {
+        e.preventDefault();
+
+        var url = $(this).attr("href");
+
+        var formData = $("form#request_email").serialize();
+
+        window.location.href = url + "?" + formData;
+    });            
+});
+</script>
 
 @if(Session::has('success'))
 <script type="text/javascript">
