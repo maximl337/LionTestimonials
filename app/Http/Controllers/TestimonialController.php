@@ -104,6 +104,12 @@ class TestimonialController extends Controller
 
             $testimonial = Testimonial::findOrFail($id);
 
+            // if unapproved and not owner
+            if(is_null($testimonial->approved_at) &&
+                $testimonial->user()->first()->id != Auth::id()) {
+                return redirect()->back()->with("error", "Forbidden access");
+            } 
+
             return view('testimonials.show', compact('testimonial'));
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
