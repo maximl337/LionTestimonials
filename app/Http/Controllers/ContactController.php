@@ -30,6 +30,8 @@ class ContactController extends Controller
 
         $this->middleware('contact.owner', ['only' => ['update', 'destroy']]);
 
+        $this->middleware('verified', ['only' => ['sendExternalLinksEmail', 'externalLinksEmailPreview', 'sendSMS', 'sendEmailSelf', 'sendEmail', 'smsPreview', 'emailPreview']]);
+
         $this->middleware('subscribed');
     }
 
