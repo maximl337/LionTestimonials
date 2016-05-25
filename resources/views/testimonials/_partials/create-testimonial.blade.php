@@ -1,4 +1,4 @@
-<div class="phone panel panel-default">
+<div class="panel panel-default">
     <div class="panel-heading">Add Testimonial</div>
 
     <div class="panel-body">
@@ -11,11 +11,17 @@
 
         @else
 
-            <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ env('APP_URL') . 'testimonials/phone' }}" role="form">
+            <form  enctype="multipart/form-data" id="create-testimonial" method="post" action="{{ env('APP_URL') . 'testimonials' }}" role="form" novalidate>
 
                 <input type="hidden" name="user_id" value="{{ $data['user']->id }}">
                 
                 <input type="hidden" name="contact_id" value="{{ $data['contact']->id }}">
+
+                <input type="hidden" name="token" />
+
+                <input type="hidden" name="thumbnail" />
+
+                <input type="hidden" name="url" />
 
                 {!! csrf_field() !!}
 
@@ -37,6 +43,7 @@
 
                 <div class="form-group{{ $errors->has('rating') ? ' has-error' : '' }}">
                     <label for="rating">Rating</label>
+                    <br />
                     <select id="rating" name="rating" class="form-control" required>
                         <option disabled selected value> -- select an option -- </option>
                         <option value="1">1</option>
@@ -55,12 +62,15 @@
 
                 <!-- Video -->
 
-                <div id="mobile-video" class="form-group{{ $errors->has('video') ? ' has-error' : '' }}">
+                <div id="video" class="form-group{{ $errors->has('token') ? ' has-error' : '' }}">
                     <label for="video">Video</label>
-                    <input class="form-control" id="video" type="file" name="video" accept="video/*,video/mp4,video/x-m4v" capture="camcorder">
-                    @if ($errors->has('video'))
+                    <ziggeo     ziggeo-width=320
+                                ziggeo-height=240
+                    >
+                    </ziggeo>
+                    @if ($errors->has('token'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('video') }}</strong>
+                            <strong>{{ $errors->first('token') }}</strong>
                         </span>
                     @endif
                 </div>

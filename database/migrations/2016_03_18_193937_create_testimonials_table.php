@@ -19,9 +19,11 @@ class CreateTestimonialsTable extends Migration
             $table->integer('rating')->unsigned();
             $table->string('email');
             $table->text('body')->nullable();
-            $table->string('video')->nullable();
-            $table->string('video_type')->nullable();
-            $table->string('storage_path')->nullable();
+
+            $table->string('token')->nullable()->comment = "Token received from Ziggeo";
+            $table->string('thumbnail')->nullable();
+            $table->string('url')->nullable();
+            
             $table->dateTime('approved_at')->nullable();
             $table->dateTime('seen_at')->nullable();
             $table->timestamps();

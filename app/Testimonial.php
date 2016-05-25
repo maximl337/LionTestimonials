@@ -12,9 +12,9 @@ class Testimonial extends Model
     	'rating',
         'email',
     	'body',
-    	'video',
-        'video_type',
-        'storage_path',
+    	'token',
+        'thumbnail',
+        'url',
         'approved_at',
         'seen_at',
     ];

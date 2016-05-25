@@ -23,6 +23,10 @@
     }
     
 </style>
+
+<link rel="stylesheet" href="//assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
+    <script src="//assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
+    <script>ZiggeoApi.token = "{{ env('ZIGGEO_APPLICATION_TOKEN') }}";</script>
 @endsection
 
 @section('content')
@@ -57,9 +61,36 @@
                         </div>
                     </div>
 
-                    <div class="testimonials">
-                        <iframe style="width:100%;" src="{{ url('users' . '/' . $user->id . '/testimonials/public') }}"></iframe>
-                    </div>
+                        @if(count($testimonials) > 0)
+                        <div class="row">
+                            
+                            @foreach($testimonials as $testimonial)
+                                <div class="col-md-12">
+
+                                    @if(!empty($testimonial))
+                                    <section>
+                                        <h2>Rating: {{ $testimonial->rating }}</h2>
+                                        <p>{{ $testimonial->body }}</p>
+                                        <p>
+                                            @if(!empty($testimonial->token)) 
+                                                <ziggeo ziggeo-video='{{ $testimonial->token }}'
+                                                        responsive=true>
+                                                </ziggeo>
+                                            @endif
+                                        </p>
+                                        <p>{{ $testimonial->created_at->diffForHumans() }}</p>
+                                        <hr />
+                                    </section>
+                                    @endif
+                                    
+                                </div> <!-- .col-md-4 -->
+                            @endforeach
+                            <div class="col-md-12">
+                            {!! $testimonials->render() !!}
+                            </div>
+                        </div><!-- .row -->
+                        @endif
+                  
 
                     @if(!empty($user->business_name) ||
                         !empty($user->business_logo))
