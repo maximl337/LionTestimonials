@@ -1,3 +1,555 @@
+/* ==========================================================================
+Template Name   :
+Author          :
+Website         :
+Date            :
+========================================================================== */ 
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Crimson+Text:400,700,600);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
+
+/* ==========================================================================
+HTML5 display-role reset for older browsers
+========================================================================== */ 
+html {font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0;
+font-size: 100%; font-family: inherit;  vertical-align: baseline; zoom: 1;}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}
+body {line-height: 1;}
+ol, ul {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none;}
+table { border-collapse: collapse; border-spacing: 0;}
+* {box-sizing: border-box; -o-box-sizing: border-box; -ms-box-sizing: border-box; -moz-box-sizing: border-box; -khtml-box-sizing: border-box; -webkit-box-sizing: border-box;}
+
+/* ==========================================================================
+Basic Styling
+========================================================================== */ 
+body { font-size: 14px; line-height: 26px; font-family: 'Open Sans', sans-serif; font-weight: 400; color: #888; letter-spacing: normal; -webkit-font-smoothing: antialiased!important; font-smoothing: antialiased!important; background-color: #FFF; height: 100%!important; }
+
+h1, h2, h3, h4, h5, h6 {font-family: "Montserrat", Lucida Sans Unicode,Arial,sans-serif; font-weight: normal; position: relative; color: #1d1d1d; letter-spacing: -0.5px;}
+h1, h2, h3, h4, h5, h6 { margin-top: 0;  margin-bottom: 10px; padding-top: 0;  position: relative;}
+
+h1 {font-size: 38px;}
+h2 {font-size: 28px; line-height: 38px; font-weight: 700; color: #444; letter-spacing: 0;}
+h3 {font-size: 24px; line-height: 34px;  }
+h4 {font-size: 16px; line-height: 26px; }
+h5 {font-size: 13px; line-height: 27px; text-transform: uppercase; letter-spacing: 0; padding-bottom: 10px; margin-bottom: 15px;}
+h5:after { content: ""; position: absolute; top: 100%; width: 50px; height: 2px; background-color: #DDD; left: 0; margin: 0 auto;}
+h6 {font-size: 14px; line-height: 25px;}
+
+p { margin-bottom: 20px;}
+
+a, button {-webkit-transition: all 150ms ease-in; -moz-transition: all 150ms ease-in; -o-transition: all 150ms ease-in; transition: all 150ms ease-in; color: #3598dc;}
+a:hover, a:focus { text-decoration: none; color: #007DA0; outline: none; } 
+
+ul { margin: 0; padding: 0; list-style: none;}
+
+::-moz-selection { text-shadow: none; background: #3AADF4 ; color: #FFF;}
+::selection { text-shadow: none; background: #3AADF4 ; color: #FFF; }
+
+img::selection { background: 0 0;}
+img::-moz-selection { background: 0 0;}
+
+hr {margin-top: 40px; margin-bottom: 40px; border-top: 1px solid rgba(0,0,0,0.03);}
+hr.medium {margin-top: 20px; margin-bottom: 20px; border-top: 1px solid rgba(0,0,0,0.1);}
+body { webkit-tap-highlight-color: rgba(255,255,255,.2);}
+
+form {margin-bottom: 0;}
+
+button {padding: 10px 14px; border-radius: 0; font-family: Montserrat,sans-serif; font-size: 11px; letter-spacing: .05em;text-transform: uppercase;}
+iframe {width: 100%;}
+
+/* ==========================================================================
+No margin hack
+========================================================================== */ 
+.row.no-gutters { margin-right: 0; margin-left: 0;}
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] { padding-right: 0; padding-left: 0;}
+
+/* ==========================================================================
+Classes
+========================================================================== */ 
+.section {padding: 40px 0; position: relative;}
+
+.hidden {display: none;}
+.margintop-10 {margin-top: 10px;}
+
+.paddingbottom-60 {padding-bottom: 60px;}
+.paddingbottom-150 {padding-bottom: 150px;}
+.padding-150 {padding: 150px 0;}
+.padding-120 {padding: 120px 0;}
+
+.nopadding-bottom {padding-bottom: 0!important;}
+.nopadding-top {padding-top: 0!important;}
+
+.border-top {border-top: 1px solid #EFEFEF;}
+.border-bottom {border-bottom: 1px solid #EFEFEF;}
+
+.text-border {border-bottom: 2px solid #DDD;}
+
+.text-center {text-align: center;}
+.text-center img {display: block; margin: 0 auto;}
+
+.bg-overlay { background-color: rgba(0,0,0, 0.3); position: absolute; top: 0; right: auto; bottom: auto; left: 0; width: 100%; height: 100%;}
+
+.capitalize {text-transform: capitalize!important;}
+.italic {font-style: italic;}
+.crimson-text {font-family: "Crimson Text", Georgia, "Lato";}
+.left-align {text-align: left!important;}
+
+.font18 {font-size: 18px;}
+
+/* ==========================================================================
+Buttons
+========================================================================== */ 
+.btn-blue { font-size: 14px; font-family: "Montserrat", sans-serif; letter-spacing: 1px; padding: 15px 30px; background: #3598dc!important; border: 2px solid #3598dc!important; color: #FFF; font-weight: bold; border-radius: 0; text-transform: uppercase;}
+
+.btn-blue:hover {background-color: #1a1a1a; color: #FFF;}
+
+.btn-del { font-size: 14px; font-family: "Montserrat", sans-serif; letter-spacing: 1px; padding: 15px 30px; background: #A94442!important; border: 2px solid #A94442!important; color: #FFF; font-weight: bold; border-radius: 0; text-transform: uppercase;}
+.btn-del:hover {background-color: #1a1a1a; color: #FFF;}
+
+.btn-black { font-size: 14px; font-family: "Montserrat", sans-serif; letter-spacing: 1px; padding: 15px 30px; background: #1a1a1a!important; border: 2px solid #1a1a1a!important; color: #FFF; font-weight: bold; border-radius: 0; text-transform: uppercase;}
+.btn-black:hover {background-color: #1a1a1a; color: #FFF;}
+
+.btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active {background-color: #000; color: #FFF; border-color: rgba(0,0,0,0.7);}
+
+/* ==========================================================================
+Color Customizations
+========================================================================== */
+.bg-grey {background-color: #F7F8FA;}
+.bg-blue {background-color: #3AADF4;}
+.bg-dark {background-color: #1d1d1d;}
+
+.white-text,
+.white-text p,
+.white-text h4,
+.white-text h3,
+.white-text h2,
+.white-text h1,
+.white-text li {color: #FFF!important;}
+
+.white-text i {
+  color: rgba(255,255,255,0.6)!important;
+}
+
+/* ==========================================================================
+Backgrounds
+========================================================================== */
+
+.bg-intro {background: url(../img/intro-bg.jpg) no-repeat center bottom; background-size: cover;  background-attachment: fixed;}
+.bg-footer {background: url(../img/footer-bg.jpg) no-repeat center bottom; background-size: cover;  background-attachment: fixed;}
+
+
+/* ==========================================================================
+Optins
+========================================================================== */ 
+.input-group-btn > .btn {border-radius: 0;}
+.form-control {font-size: 14px;}
+
+.bottom-form button { padding: 15px 20px; margin: 0 auto;}
+.bottom-form button:hover { background: #090C0F;}
+.bottom-form .form-control {padding: 23px 20px; }
+.bottom-form .input-group { margin: 0 auto;}
+.bottom-form .form-control,
+.bottom-form button { background: #fff; min-height: 60px; font-size: 14px; border-radius: 0; font-family: "Montserrat";}
+.bottom-form button {font-size: 13px;}
+.bottom-form button { line-height: 26px; padding: 15px 25px; background: #3598dc; color: #FFF;  border-radius: 0 3px 3px 0; border: none;  transition: all 0.2s ease-out;  font-family: "Montserrat";}
+.bottom-form button:hover { background: #000; color: #FFF;}
+
+/* ==========================================================================
+Line Font
+========================================================================== */ 
+.font-icon {font-size: 70px; color: #3598dc; display: block; margin-bottom: 5px; }
+
+/* ==========================================================================
+Headline
+========================================================================== */ 
+.title {margin-bottom: 80px; padding-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.03); text-align: center; position: relative;}
+.title:after {display:inline-block; text-align:center; font-family: Ionicons; content:"\f123"; position:absolute; right: 0; left: 0; margin:0 auto; font-size: 10px; margin-top: 5px; height: 30px; width: 30px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.03); background: #FFF; line-height: 30px;}
+.title p {font-family: "Crimson Text", serif; font-size: 18px; font-style: italic; color: #666;}
+.title h2 {text-transform: uppercase;}
+.title h1 {letter-spacing: -2px;}
+.title h1 strong {text-transform: capitalize}
+
+.white-text.title {border-bottom:1px solid rgba(255,255,255,0.1);}
+.white-text.title:after {background: rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1);}
+
+/* ==========================================================================
+ Navigation
+========================================================================== */ 
+.navbar-inverse { margin-bottom: 0; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out; -moz-transition: background .5s ease-in-out,padding .5s ease-in-out; transition: background .5s ease-in-out,padding .5s ease-in-out; border: none; width: 100%; z-index: 999; margin-bottom: 30px;}
+.navbar-inverse .navbar-nav > li {padding: 15px 15px;}
+.navbar-inverse .navbar-nav > li > a { color: #CCC; display: block; -webkit-transition: all 100ms ease-in-out; -moz-transition: all 100ms ease-in-out; -o-transition: all 100ms ease-in-out; -ms-transition: all 100ms ease-in-out; transition: all 100ms ease-in-out; text-transform: uppercase; font-size: 12px; font-family: "Montserrat", "Montserrat", Lucida Sans Unicode; padding: 0; display: inline-block; line-height: normal; }
+
+.navbar-inverse .navbar-nav > li > a, 
+.navbar-inverse .navbar-nav > li {-webkit-transition: all 400ms linear; -moz-transition: all 400ms linear; -o-transition: all 400ms linear; -ms-transition: all 400ms linear; transition: all 400ms linear;}
+
+.navbar-toggle { padding: 4px 6px; font-size: 16px; color: #fff;}
+.navbar-toggle:focus,
+.navbar-toggle:active { outline: 0;}
+
+.navbar-inverse .navbar-toggle {border: 1px solid #3598dc; border-radius: 50%; height: 40px; width: 40px; line-height: 40px; margin-right: 20px;}
+.navbar-toggle .icon-bar {width: 18px; height: 2px; border-radius: 0;}
+
+.navbar-inverse .navbar-toggle:hover {background: #000;}
+
+.navbar-nav {margin: 0;}
+.scroll-fixed-navbar {padding-bottom:0;}
+
+.navbar-inverse .navbar-nav > .active > a, 
+.navbar-inverse .navbar-nav > .active > a:hover, 
+.navbar-inverse .navbar-nav > .active > a:focus {background-color: transparent;}
+.navbar > .container .navbar-brand {margin-left: 0; margin-top: 18px;}
+.navbar-brand { height:auto;}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {color: #FFF; }
+
+.navbar-toggle { position: relative; float: right; background-color: transparent; padding: 10px; margin: 13px 30px 13px 0; margin-right:0; border: none; color: #fff; border: 2px solid #fff;}
+.navbar-toggle .icon-bar { background-color: #fff;}
+
+.navbar-inverse .navbar-collapse, 
+.navbar-inverse .navbar-form {border-color: rgba(0,0,0,0.1);}
+
+.nav li a:after {display: block; content: ''; padding-bottom: 5px; border-bottom: solid 2px #555; -webkit-transform: scaleX(0.0001); -ms-transform: scaleX(0.0001); transform: scaleX(0.0001); -webkit-transition: -webkit-transform 350ms ease-in-out; transition: transform 350ms ease-in-out; margin-bottom: -2px;}
+.nav li a:hover:after {-webkit-transform: scaleX(1); -ms-transform: scaleX(1); transform: scaleX(1); }
+
+.nav li.active a {border-bottom: solid 2px #555; }
+
+
+/* ==========================================================================
+Dropdown
+ ========================================================================== */
+ 
+.navbar-nav > li > .dropdown-menu {border-radius: 0; box-shadow: none; padding: 0; min-width: 200px;}
+.navbar-nav > li > .dropdown-menu > li { margin: 0;padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); background-color: #1a1a1a; }
+.navbar-nav > li > .dropdown-menu > li > a {color: #FFF;  font-size: 12px; font-family: "Montserrat", Lucida Sans Unicode; padding: 0; border: none; margin: 0; text-transform: uppercase;}
+.navbar-nav > li > .dropdown-menu > li > a:after {content: none;}
+.navbar-nav > li > .dropdown-menu > li:last-child {border: none;}
+.navbar-nav > li > .dropdown-menu > li:hover {background-color: #000;}
+.navbar-nav > li > .dropdown-menu > li > a:hover {background-color: transparent; padding: 0; border: none; margin: 0;}
+.navbar-nav > li > .dropdown-menu > li > a:hover:after {content: none;}
+
+/* ==========================================================================
+Dropdown Submenu
+ ========================================================================== */
+.dropdown-submenu { position: relative;}
+.dropdown-submenu>.dropdown-menu { top: 0; left: 100%; margin-top: -6px; margin-left: -1px; border-radius: 0;}
+.dropdown-submenu:hover>.dropdown-menu { display: block; padding: 0;}
+.dropdown-submenu > a:after { display: block; content: " "; float: right; width: 0; height: 0; border-color: transparent; border-style: solid; border-width: 5px 0 5px 5px; border-left-color: #ccc; margin-top: 5px; margin-right: -10px;}
+.dropdown-submenu:hover>a:after { border-left-color: #fff;}
+.dropdown-submenu.pull-left { float: none;}
+.dropdown-submenu.pull-left>.dropdown-menu { left: -100%; margin-left: 10px; -webkit-border-radius: 6px 0 6px 6px; -moz-border-radius: 6px 0 6px 6px; border-radius: 6px 0 6px 6px;}
+
+.dropdown-submenu > .dropdown-menu > li > a {padding: 15px; background-color: #131313; color: #FFF; border-bottom: 1px solid rgba(255,255,255,0.05);}
+
+
+/* ==========================================================================
+Logo
+======================================================.==================== */ 
+.navbar-inverse .navbar-brand  {color: #FFF; font-family: "Montserrat"; font-size: 30px; margin-top: 15px; padding: 0; letter-spacing: 0.05px;}
+.scroll-fixed-navbar.navbar-inverse .navbar-brand {color: #FFF;}
+.text-logo i {margin-right: 10px; font-size: 30px;}
+
+/* ==========================================================================
+Banner
+========================================================================== */ 
+.banner-content { clear: both; padding-top: 45px; padding-bottom: 20px; text-align: center; height: 100%; position: relative;}
+.banner-content h1 {font-weight: 700; text-transform: uppercase; margin-bottom: 15px; font-size: 52px; line-height: 72px; color: #FFF;}
+.banner-content h1 span {font-family: "Crimson Text", Georgia; font-style: italic; text-transform: none; letter-spacing: 0; font-size: 48px; font-weight: normal; border-bottom: double #FFF;}
+.banner-content h3 {font-family: "Crimson Text", Georgia; font-size: 28px; color: #CCC; margin: 20px 0;}
+.banner-content h4 {font-family: "Crimson Text", Georgia; font-size: 20px; color: #CCC; font-style: italic;}
+.banner-content p {color: rgba(255,255,255, 0.8);}
+.banner-content .video-container iframe {height: 360px;}
+.banner-content .video-container2 iframe {height: 410px;}
+
+.banner-content .buttons-group {margin-top: 30px;}
+.banner-content .buttons-group a {padding: 15px 25px; border-radius: 0; font-family: Montserrat,sans-serif; font-size: 14px; letter-spacing: .05em;text-transform: uppercase; background: transparent; margin-right: 10px; margin-top: 20px; color: #FFF;}
+
+.banner-list {margin-bottom: 20px;}
+.banner-list li {color: rgba(255,255,255, 0.8); margin-bottom: 10px; position: relative; padding-left: 40px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom: 10px;}
+.banner-list li:before {display:inline-block; text-align:center; font-family: Ionicons; content:"\f383"; position:absolute; left: 0; top: 4px; font-size: 14px; transition:all 0.3s ease-in; transition:all 0.3s ease-in;  transition:all 0.3s ease-in; color: #f8f8f8; height: 25px; width: 25px; border-radius: 50%; line-height: 25px; background: #f7941d;  border: 1px solid rgba(0,0,0,0.2);}
+.banner-list li:last-child {border-bottom: none;}
+.banner-list li i { margin-right: 10px; color:#0090D9;}
+
+/* ==========================================================================
+Lists
+========================================================================== */ 
+.list-blue {margin-bottom: 20px;}
+.list-blue li {margin-bottom: 10px; position: relative; padding-left: 40px; border-bottom:1px solid rgba(0,0,0,0.05); padding-bottom: 10px;}
+.list-blue li:last-child {border-bottom: none;}
+.list-blue li:before {display:inline-block; text-align:center; font-family: Ionicons; content:"\f383"; position:absolute; left: 0; top: 4px; font-size: 14px; transition:all 0.3s ease-in; transition:all 0.3s ease-in;  transition:all 0.3s ease-in; color: #f8f8f8; height: 25px; width: 25px; border-radius: 50%; line-height: 25px; background: #3598dc;  border: 1px solid rgba(0,0,0,0.2);}
+.list-blue li i { margin-right: 10px; color:#3AADF4 ;}
+
+.list-blue-arrow {list-style: none; margin-bottom: 15px;}
+.list-blue-arrow li {position: relative; padding-left: 35px; margin-bottom: 10px;}
+.list-blue-arrow li:before {display:inline-block; text-align:center; font-family: Ionicons; content:"\f120"; position:absolute; left:0; transition:all 0.3s ease-in; color: #8FB73C; font-size: 24px;}
+
+
+/* ==========================================================================
+Intro
+========================================================================== */
+.intro-section {padding-top: 125px; padding-bottom: 55px;}
+.full-height {height: 100vh;}
+
+.login-form {
+  padding: 30px;
+  background: #f8f8f8;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.page-title h2 {
+  text-align: left;
+  color: #FFF;
+  font-size: 36px;
+}
+
+.login-form input,
+.login-form textarea {
+  display: block;
+  padding: 10px 15px;
+  height: auto;
+  margin: 10px auto;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.login-form label {
+  text-transform: uppercase;
+  color: #1a1a1a;
+  display: block;
+}
+
+.login-form input[type="button"],
+.login-form input[type="submit"] {
+  display: block;
+  padding: 15px;
+  width: 100%;
+  background: #1a1a1a;
+  color: #FFF;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid #1a1a1a;
+}
+
+.btn-login {
+  background: #3AADF4;
+  border: 2px solid #3AADF4;
+}
+
+/* ==========================================================================
+Feature Block
+========================================================================== */ 
+.intro-feature {margin-bottom: 30px;}
+.feature {margin-bottom: 50px;}
+
+/* ==========================================================================
+Social Links
+ ========================================================================== */
+.social { margin: 0 0 50px 0; text-align: center;}
+.social li { display: inline-block; }
+.social li i {font-size: 22px; color: #fff; border-radius: 3px; background: #ddd; margin: 5px; width: 45px; height: 45px; line-height: 45px; display: block; -webkit-transition: all 0.2s ease-out; -moz-transition: all 0.2s ease-out; -ms-transition: all 0.2s ease-out; -o-transition: all 0.2s ease-out; transition: all 0.2s ease-out;}
+.social li .icon:hover { background: #1a1a1a;}
+
+.social .ion-social-twitter-outline { background: #00aced; }
+.social .ion-social-facebook { background: #3b5998; }
+.social .ion-social-dribbble-outline { background: #ea4c89; }
+.social .ion-social-googleplus-outline { background: #dd4b39; }
+.social .ion-social-linkedin-outline { background: #007bb6; }
+.social .ion-social-instagram-outline { background: #517fa4; }
+.social .ion-social-pinterest-outline { background: #cb2027; }
+
+/* ==========================================================================
+Footer
+ ========================================================================== */
+.footer-top {background-color: #1b1b1b; padding: 60px 0;}
+.footer-sub {background-color: #171717; padding-top: 20px; padding-bottom: 10px;}
+
+.footer h3 {color: #FFF; font-weight: bold; font-size: 17px; margin-bottom: 5px;}
+.footer p,
+.footer a {color: #ADADAD; margin-bottom: 10px;}
+    .footer a:hover {color: #FFF;}
+.footer li {padding: 3px 0;}
+.footer i {color: #f8f8f8;}
+
+.copyright {float: right;}
+.copyright i {color: #FF3D7F; margin:0 5px;}
+
+.quick-links li { padding-left:15px; position:relative;}
+.quick-links li:before {display:inline-block; text-align:center; font-family: Ionicons; content:"\f125"; position:absolute; left:0px; top:4px; font-size: 10px; transition:all 0.3s ease-in; color: #f8f8f8;}
+.quick-links .label {margin-left: 10px;}
+
+.footer-sub {font-family: "Montserrat", "Lato"; font-size: 12px; text-transform: uppercase; font-weight: 300; letter-spacing: 0.1px;}
+.footer-sub a {color: #FFF;}
+
+/* ==========================================================================
+Scroll To Top
+ ========================================================================== */
+a.scroll-up { display: none; position: fixed; right: 10px; bottom: 10px; padding: 0 10px; border:1px solid #090C0F; text-align: center;  transition: all 150ms ease-in; -webkit-backface-visibility: hidden;}
+a.scroll-up i {color: #090C0F; font-size: 13px; line-height: normal;}
+a.scroll-up:hover, 
+a.scroll-up:focus { background: #000; color: #FFF;}
+a.scroll-up:hover i { color: #FFF;}
+
+/* ==========================================================================
+Media Queries
+ ========================================================================== */
+ 
+/* ------ Tablet Portrait size to standard 960 (devices and browsers) ------*/
+@media only screen and (max-width: 959px) {
+
+
+}
+
+@media only screen and (min-width: 480px) and (max-width: 991px) {
+    .navbar-inverse .navbar-nav > li {padding: 15px 12px;}
+}
+
+/* ------ Mobile Landscape Size to Tablet Portrait (devices and browsers) ------*/
+@media only screen and (max-width: 767px) {
+  .section {padding: 40px 0;}
+  .intro-section {padding-top: 125px; padding-bottom: 30px;}
+  h1 {font-size: 28px; line-height: 38px;}
+  .navbar > .container .navbar-brand {margin-left: 20px; margin-top: 20px;}
+  .navbar-inverse .navbar-nav > li {border-bottom: 1px solid rgba(255,255,255,0.2);}
+  .navbar-inverse .navbar-nav > li:last-child {border: none;}
+  .video-container {margin-bottom: 10px;}
+  .scroll-fixed-navbar {background: rgba(0,0,0,0.95);}
+  .contact-list, 
+  .quick-links {margin-bottom: 30px;}
+  .copyright {float: none;}
+  .divider40-mobile {margin-bottom: 30px; padding-bottom: 40px; border-bottom: 1px solid rgba(0,0,0,0.03);}
+  .paddingbottom-150 {padding-bottom: 150px;}
+  .login-form {margin-bottom: 40px;}
+  .navbar-inverse {background-color: rgba(0,0,0,0.9);}
+  .banner-content h1 {font-size: 32px; line-height: 42px;}
+}
+
+/* ------ Mobile Portrait Size to Mobile Landscape Size (devices and browsers) ------*/
+@media only screen and (max-width: 479px) {
+  .social li i {height: 35px; width: 35px; line-height: 35px; margin: 0; font-size: 20px;}
+  .bottom-form .input-group {width: 100%;}
+  .bottom-form .input-group-btn {display: block; width: 100%;}
+  .bottom-form .input-group-btn button {display: block; margin: 0; width: 100%;}
+  .bottom-form .form-control, .bottom-form button {min-height: auto; border-radius: 0;}
+  .banner-content h1 { font-size: 36px; line-height: 49px;}
+  .video-container iframe {height: 200px;}
+}
+
+/* ==========================================================================
+Dashboard
+=========================================================================== */
+
+.left-sidebar {
+  background: #1a1a1a;
+}
+
+.left-sidebar li {
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.left-sidebar li.active {
+  background-color: #3598dc;
+}
+
+.left-sidebar li:last-child {
+  border-bottom: none;
+}
+
+.left-sidebar a {
+  color: #FFF;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: 'Montserrat';
+}
+
+/* ==========================================================================
+Tables
+=========================================================================== */
+.table > tbody > tr > td {
+  padding: 15px 10px;
+}
+
+.btn-dash i {
+  margin-right: 5px;
+}
+
+.edit-title {
+  font-size: 22px;
+}
+
+.surveytype {
+  text-align: center;
+}
+
+.surveytype i {
+  font-size: 70px;
+  color: #3598DC;
+  width: 120px;
+  height: 120px;
+  border: 4px solid #1a1a1a;
+  display: block;
+  line-height: 120px;
+  margin: 20px auto;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+Steps
+=========================================================================== */
+.steps {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.steps i {
+  font-size: 54px;
+  color: #3598dc;
+  border: 1px solid #1D1D1D;
+  display: block;
+  text-align: center;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  line-height: 100px;
+  margin: 20px auto;
+}
+
+.steps h4 {
+  font-size: 20px;
+}
+
+.steps h5 {
+  color: #909090;
+}
+
+.steps h5:after {
+  content: none;
+}
+
+ol {
+  list-style: decimal inside;
+}
+
+ol li {
+  display: list-item;
+}
+
+pre {
+  padding: 10px;
+}
+
 .br-theme-fontawesome-stars .br-widget {
   height: 28px;
   white-space: nowrap; }
