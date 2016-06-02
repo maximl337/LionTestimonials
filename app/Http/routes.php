@@ -69,6 +69,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('testimonials/approve', 'TestimonialController@approve');
 
+    Route::post('testimonials/remove', 'TestimonialController@destroy');
+
     Route::get('testimonials/{id}', 'TestimonialController@getTestimonial');
 
     Route::get('video/{id}', 'TestimonialController@showTestimonialVideo');

@@ -24,7 +24,7 @@ class TestimonialController extends Controller
     {
         $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials', 'thankyou', 'showTestimonialVideo']]);
 
-        $this->middleware('testimonial.owner', ['only' => ['approve']]);
+        $this->middleware('testimonial.owner', ['only' => ['approve', 'destroy']]);
 
         $this->middleware('subscribed', ['only' => ['getTestimonials', 'getTestimonial', 'approve', 'create', 'store']]);
 
@@ -533,6 +533,39 @@ class TestimonialController extends Controller
         } catch(\Exception $e) {
 
             echo $e->getMessage();
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $this->validate($request, [
+                'id' => 'required|exists:testimonials,id',
+            ]);
+
+        try {
+
+            $testimonial = Testimonial::findOrFail($request->get('id'));
+
+            $contact = $testimonial->contact()->first();
+
+            $data = [
+                'contact_name' => $contact->getName(),
+                'redirect_url' => url("contacts/".$contact->id."/email")
+            ];
+
+            return response()->json($data, 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            return response()->json([
+                'message' => 'Could not find the testimonial'
+            ], 404);
+
+        } catch(\Exception $e) {
+
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }

@@ -42,6 +42,9 @@
                         
                         @if(is_null($testimonial->approved_at))
                             <a href="#" data-id="{{ $testimonial->id }}" class="approve btn btn-small btn-primary">Approve</a>
+                            <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Disapprove</a>
+                        @else
+                            <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Delete</a>
                         @endif
                         
                     </p>
@@ -113,7 +116,65 @@ $(function() {
             } 
         });
 
-    });
+    }); // eo approve
+
+    $(document).on("click", ".remove", function(e) {
+        e.preventDefault();
+
+        $this = $(this);
+
+        $this.addClass('disabled');
+
+        $this.html('<i class="fa fa-cog fa-spin"></i>');
+
+        var sendData = {
+            _token: "{{ csrf_token() }}",
+            id: $this.data('id'),
+        };
+
+
+
+        $.ajax({
+            type : "POST",
+            url : "{{ url('testimonials/remove') }}",
+            data : sendData,
+            success: function (response) {  
+
+                
+                swal({
+                    title: 'Testimonial removed',
+                    text: "Would you like to send " + response.contact_name + " another request for testimonial",
+                    type: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonText: "Not right now",
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }, function(isConfirm) {   
+                    if (isConfirm) {     
+                        window.location.href= response.redirect_url;
+                    } 
+                });
+                
+                
+            },
+            statusCode: {
+                403: function() {
+                    swal("Uh oh!", "Forbidden request", "error");
+                },
+                404: function() {
+                    swal("Uh oh!", "Could not find the resource", "error");
+                },
+                500: function() {
+                    swal("Uh oh!", "Internal server error", "error");
+                }
+            },
+            error: function (e) {
+                swal("Uh oh!", e, "error");
+            } 
+        });
+
+    }); // EO remove
 });
 </script>
 @endsection
