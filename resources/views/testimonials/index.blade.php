@@ -171,7 +171,6 @@
             } 
           });
 
-<<<<<<< HEAD
     }); // EO approve
 
 
@@ -235,10 +234,6 @@
     }); // EO remove
     
 });
-=======
-    });
-  });
->>>>>>> 97b2fe291c12fd15cf169962c0dad4d04299a0eb
 </script>
 
 @endsection

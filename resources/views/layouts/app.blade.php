@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css">
 
-  <link rel="stylesheet" href="./css/ionicons.css">
-  <link rel="stylesheet" href="./css/app.css">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/ionicons.css">
 
   @yield('head')
 
@@ -33,9 +33,9 @@
         </button>
         <a class="navbar-brand" href="#">
         @if (Auth::guest())
-          <a class="navbar-brand" href="{{ url('/') }}"><img src="./images/logo.png" alt="" title="" class="logo"/></a>
+          <a class="navbar-brand" href="{{ url('/') }}"><img src="/images/logo.png" alt="" title="" class="logo"/></a>
         @else
-          <a class="navbar-brand" href="{{ url('/home') }}"><img src="./images/logo.png" alt="" title="" /></a>
+          <a class="navbar-brand" href="{{ url('/home') }}"><img src="/images/logo.png" alt="" title="" /></a>
         @endif
         </a>
       </div>
