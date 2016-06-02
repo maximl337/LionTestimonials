@@ -7,7 +7,6 @@ Date            :
 ========================================================================== */ 
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
-
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
 
 /* ==========================================================================
@@ -570,10 +569,11 @@ Navigation
   width: 100%;
   z-index: 999;
   margin-bottom: 30px;
+  padding: 10px 0;
 }
 
 .navbar-inverse .navbar-nav > li {
-  padding: 28px 15px;
+  padding: 0 15px;
 }
 
 .navbar-inverse .navbar-nav > li > a {
@@ -614,11 +614,16 @@ Navigation
 
 .navbar-inverse .navbar-toggle {
   border: 1px solid #3598dc;
+  background-color:#3B57A6;
   border-radius: 50%;
   height: 40px;
   width: 40px;
   line-height: 40px;
   margin-right: 20px;
+}
+
+.navbar-inverse .navbar-toggle:hover {
+  background-color:#3B57A6;
 }
 
 .navbar-toggle .icon-bar {
@@ -627,12 +632,8 @@ Navigation
   border-radius: 0;
 }
 
-.navbar-inverse .navbar-toggle:hover {
-  background: #000;
-}
-
 .navbar-nav {
-  margin: 0;
+  margin-top: 13px;
 }
 
 .scroll-fixed-navbar {
@@ -704,7 +705,7 @@ Dropdown
   margin: 0;
   padding: 15px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  background-color: #1a1a1a;
+  background-color: #3B57A6;
 }
 
 .navbar-nav > li > .dropdown-menu > li > a {
@@ -726,7 +727,7 @@ Dropdown
 }
 
 .navbar-nav > li > .dropdown-menu > li:hover {
-  background-color: #000;
+  background-color: #1a1a1a;
 }
 
 .navbar-nav > li > .dropdown-menu > li > a:hover {
@@ -1259,14 +1260,18 @@ Media Queries
 
 @media only screen and (min-width: 480px) and (max-width: 991px) {
   .navbar-inverse .navbar-nav > li {
-      padding: 15px 12px;
+     
   }
+
 }
 
 /* ------ Mobile Landscape Size to Tablet Portrait (devices and browsers) ------*/
 @media only screen and (max-width: 767px) {
   .section {
       padding: 40px 0;
+  }
+  .navbar-nav {
+    margin: 0;
   }
 
   .intro-section {
@@ -1281,7 +1286,7 @@ Media Queries
 
   .navbar > .container .navbar-brand {
       margin-left: 20px;
-      margin-top: 20px;
+      margin-top: 0;
   }
 
   .navbar-inverse .navbar-nav > li {
@@ -1324,12 +1329,15 @@ Media Queries
   }
 
   .navbar-inverse {
-      background-color: rgba(0,0,0,0.9);
+      background-color: #FFF;
   }
 
   .banner-content h1 {
       font-size: 32px;
       line-height: 42px;
+  }
+  .navbar-inverse .navbar-nav > li > a {
+    padding: 15px 0;
   }
 }
 
@@ -1371,6 +1379,8 @@ Media Queries
   .video-container iframe {
       height: 200px;
   }
+
+
 }
 
 /* ==========================================================================
@@ -1379,6 +1389,7 @@ Dashboard
 
 .left-sidebar {
   background: #3B57A6;
+  margin-bottom: 40px;
 }
 
 .left-sidebar li {
@@ -1615,11 +1626,41 @@ Logo
 
 .logo {
   max-width: 180px;
-  margin: 10px 0;
 }
 
 .panel-default>.panel-headingg {
 	background: #1a1a1a;
 	color: #FFF;
 	font-family: 'Montserrat';
+}
+
+.test {
+
+}
+
+
+.quick-options li a {
+  font-weight: bold;
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+.quick-options li i.font-icon {
+  color: #3B57A6;
+  display: block;
+  margin: 0 auto;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  background: #F8f8f8;
+  border: 1px solid #DDD;
+  border-radius: 50%;
+  line-height: 100px;
+  font-size: 55px;
+  margin-bottom: 10px;
+}
+
+.quick-options li {
+  text-align: center;
 }
