@@ -5,7 +5,6 @@
 <style type="text/css">
 	.panel-body .video {
 		width: 100%;
-
 	}
 </style>
 
