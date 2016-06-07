@@ -61,21 +61,23 @@ Route::group(['middleware' => 'web'], function () {
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
 
+    Route::get('testimonials/thankyou', 'TestimonialController@thankyou');
+
     Route::post('testimonials', 'TestimonialController@store');
 
     Route::get('testimonials', 'TestimonialController@getTestimonials');
 
     Route::post('testimonials/approve', 'TestimonialController@approve');
 
+    Route::post('testimonials/remove', 'TestimonialController@destroy');
+
     Route::get('testimonials/{id}', 'TestimonialController@getTestimonial');
-
-    Route::post('testimonials/desktop', 'TestimonialController@storeFromDesktop');
-
-    Route::post('testimonials/phone', 'TestimonialController@storeFromPhone');
 
     Route::get('video/{id}', 'TestimonialController@showTestimonialVideo');
 
     Route::get('users/{id}/testimonials/public', 'TestimonialController@publicTestimonials');
+
+    
 
     /** External Link */
 
@@ -94,6 +96,20 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('videos/send/email', 'VideoController@sendByEmail');
 
     Route::resource('videos', 'VideoController');
+
+    /** Subscription */
+    Route::get('billing', 'SubscriptionController@index');
+
+    Route::post('billing', 'SubscriptionController@subscribe');
+
+    Route::post('subscription/resume', 'SubscriptionController@resume');
+
+    Route::post('subscription/cancel', 'SubscriptionController@cancel');
+
+    Route::post(
+        'stripe/webhook',
+        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
+    );
 
     
 });

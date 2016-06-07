@@ -14,6 +14,7 @@ use Twilio;
 use Storage;
 use Session;
 use Validator;
+use App\Video;
 use App\Contact;
 use Carbon\Carbon;
 use App\Invitation;
@@ -28,6 +29,10 @@ class ContactController extends Controller
     	$this->middleware('auth');
 
         $this->middleware('contact.owner', ['only' => ['update', 'destroy']]);
+
+        $this->middleware('verified', ['only' => ['sendExternalLinksEmail', 'externalLinksEmailPreview', 'sendSMS', 'sendEmailSelf', 'sendEmail', 'smsPreview', 'emailPreview']]);
+
+        $this->middleware('subscribed');
     }
 
     /**
@@ -70,7 +75,7 @@ class ContactController extends Controller
                 'first_name' => $input['first_name'],
                 'last_name' => $input['last_name'],
                 'email' => $input['email'],
-                'phone' => $input['phone']
+                'phone' => !empty($input['phone']) ? $input['phone'] : ""
             ]);
 
         Auth::user()->contacts()->save($contact);
@@ -122,7 +127,7 @@ class ContactController extends Controller
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'email' => 'required|email|unique:contacts,email,'. $id .',id,user_id,' . Auth::id(),
-                'phone' => 'digits:10'
+                'phone' => 'integer',
             ],
             [
                 'email.unique' => "You already have a contact with that email"
@@ -334,13 +339,17 @@ class ContactController extends Controller
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    public function emailPreview($id)
+    public function emailPreview($id, Request $request)
     {
         try {
 
             $contact = Contact::findOrFail($id);
+
+            $video_id = $request->get('video_id');
+
+            $videos = Auth::user()->videos()->get(['title', 'id']);
             
-            return view('contacts.email', compact('contact'));
+            return view('contacts.email', compact('contact', 'videos', 'video_id'));
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
@@ -405,17 +414,26 @@ class ContactController extends Controller
 
             $token = md5(uniqid(Auth::user()->email . env('APP_KEY'), true));
 
+            $video = false;
+
             $params = [
                 'token' => $token,
                 'id' => $contact->id
             ];
+
+            if(!empty($input['video_id'])) {
+                $video = Video::find($input['video_id']);
+            }
+            
 
             //make url
             $url = env('APP_URL') . 'testimonials/create?' . http_build_query($params);
 
             $data = [
                 'url' => $url,
-                'body' => $input['message'] . " "
+                'body' => $input['message'] . " ",
+                'video' => $video ?: false,
+                'user' => Auth::user()
             ];
 
             // send mail
@@ -455,17 +473,26 @@ class ContactController extends Controller
      * [sendEmailSelf description]
      * @return [type] [description]
      */
-    public function sendEmailSelf()
+    public function sendEmailSelf(Request $request)
     {
 
         try {
 
             $user = Auth::user();
 
+            $input = $request->input();
+
+            $video = false;
+
+            if(!empty($input['video_id'])) {
+                $video = Video::find($input['video_id']);
+            }
+
             $data = [
-                'user' => $user,
-                'contact' => $user,
-                'url' => "#"
+                'url' => "#",
+                'body' => $input['message'] . " ",
+                'video' => $video ?: false,
+                'user' => Auth::user()
             ];
 
             // send mail

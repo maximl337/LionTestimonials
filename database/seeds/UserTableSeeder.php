@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 
 use App\User;
+use Carbon\Carbon;
 
 class UserTableSeeder extends Seeder
 {
@@ -25,7 +26,8 @@ class UserTableSeeder extends Seeder
         	'first_name' => 'Angad',
         	'last_name' => 'Dubey',
         	'email'		=> 'angad_dubey@hotmail.com',
-        	'password'  => bcrypt('test123')
+        	'password'  => bcrypt('test123'),
+            'verified_at' => Carbon::now()
         ];
 
         array_push($data, $admin);
@@ -34,13 +36,23 @@ class UserTableSeeder extends Seeder
         	'first_name' => 'Franz',
         	'last_name' => 'Kafka',
         	'email'		=> 'test@test.com',
-        	'password'  => bcrypt('test123')
+        	'password'  => bcrypt('test123'),
+            'verified_at' => Carbon::now()
         ];
 
         array_push($data, $user);
 
-        DB::table('users')->insert($data); 
+        $user2 = [
+            'first_name' => 'Admin',
+            'last_name' => 'admin',
+            'email'     => 'admin@sellwithreviews.com',
+            'password'  => bcrypt('test123'),
+            'verified_at' => Carbon::now()
+        ];
 
+        array_push($data, $user2);
+
+        DB::table('users')->insert($data); 
 
 
         $u = User::where('email', 'angad_dubey@hotmail.com')->first();
@@ -52,6 +64,12 @@ class UserTableSeeder extends Seeder
         $u->is_admin = true;
 
         $u->save();
+
+        $u2 = User::where('email', 'admin@sellwithreviews.com')->first();
+
+        $u2->is_admin = true;
+
+        $u2->save();
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1'); // enable foreign key 
 

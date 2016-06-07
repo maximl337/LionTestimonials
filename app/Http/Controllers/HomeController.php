@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
     /**
      * Create a new controller instance.
      *
@@ -16,6 +17,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['welcome']]);
+
+        //$this->middleware('subscribed', ['only' => ['index']]);
     }
 
     public function welcome()
@@ -32,5 +35,10 @@ class HomeController extends Controller
     {
 
         return view('home');
+    }
+
+    public function billing()
+    {
+        return view('billing');
     }
 }

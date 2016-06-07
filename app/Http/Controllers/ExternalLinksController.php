@@ -16,6 +16,8 @@ class ExternalLinksController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+        $this->middleware('subscribed');
 	}
     public function index(Request $request)
     {
