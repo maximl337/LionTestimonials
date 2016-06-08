@@ -10,7 +10,7 @@
   		<a href="{{ url('testimonials') }}"><i class="font-icon ion-ios-bookmarks-outline"></i>Testimonials</a>
   	</li>
   	<li class="col-md-3">
-  		<a href="{{ url('videos') }}"><i class="font-icon ion-ios-camera-outline"></i>Videos</a>
+  		<a href="{{ url('videos') }}"><i class="font-icon ion-ios-camera-outline"></i>My Videos</a>
   	</li>
   	<li class="col-md-3">
   		<a href="{{ url('profile') }}"><i class="font-icon ion-ios-cog-outline"></i>Profile</a>
