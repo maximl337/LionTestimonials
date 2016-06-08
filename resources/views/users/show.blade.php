@@ -7,7 +7,7 @@
   .avatar {
     width: 180px;
     height: 180px;
-    border-radius: 2px solid #DDD;
+    border: 2px solid #DDD;
     margin: 20px auto;
     border-radius: 50%;
     overflow: hidden;
