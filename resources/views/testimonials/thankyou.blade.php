@@ -6,7 +6,7 @@
 		Thankyou
 	</div>
 	<div class="panel-body text-center">
-		<p>You testimonial was created. Thank you for taking the time.</p>
+		<p>Your Testimonial Has Been Sent. Thanks Much</p>
 	</div>
 </div>
 @endsection

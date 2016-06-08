@@ -97,7 +97,7 @@
                   </div> -->
 
                   <div class="form-group">
-                    <input type="submit" value="Create" class="form-control btn btn-primary" />
+                    <input type="submit" value="Send Testimonial" class="form-control btn btn-primary" />
                   </div>
                   
                 </form>
