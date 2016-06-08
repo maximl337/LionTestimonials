@@ -19,7 +19,7 @@
 
   <hr/>
 
-  <div class="panel panel-default">
+  <div class="panel panel-default" class="display-none hidden-xs-up">
     <div class="panel-heading">Dashboard</div>
     <div class="panel-body">
       <a href="{{ url('contacts') }}" class="btn btn-primary"> Contacts </a>

@@ -5,8 +5,10 @@
 <style type="text/css">
 
   .avatar {
-    width: 200px;
-    margin: auto auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 2px solid #DDD;
+    margin: 20px auto;
     border-radius: 50%;
     overflow: hidden;
   }
@@ -132,7 +134,7 @@
     @endif
 
     <div class="row {{ Auth::check() ? '' : ' hidden' }}">
-      <div class="col-md-10 col-offset-md-1">
+      <div class="col-md-12">
         <h4>Copy the code below and add it to any website to show your approved testimonials</h4>
         <pre>&lt;iframe style="width: 100%;" src="{{ url('users' . '/' . $user->id . '/testimonials/public') }}"&gt;&lt;/iframe&gt;</pre>
       </div>
