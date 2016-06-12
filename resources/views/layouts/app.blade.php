@@ -63,8 +63,8 @@
   </nav>
 
   <section id="user-profile" class="section">
-    <div class="inner-border">
-      <div class="container">
+    <div class="container">
+      <div class="inner-border">
         <div class="row">
           <div class="col-md-3">
             <div class="left-sidebar">
