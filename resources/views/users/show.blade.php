@@ -41,7 +41,7 @@
     @endif
 
     @if(Auth::check())
-    <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a>
+      <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a>
     @endif
   </div>
 
@@ -72,9 +72,9 @@
           <p>{{ $testimonial->body }}</p>
           <p>
             @if(!empty($testimonial->token)) 
-            <ziggeo ziggeo-video='{{ $testimonial->token }}'
-              responsive=true>
-            </ziggeo>
+              <ziggeo ziggeo-video='{{ $testimonial->token }}'
+                      responsive=true>
+              </ziggeo>
             @endif
           </p>
           <p>{{ $testimonial->created_at->diffForHumans() }}</p>
@@ -82,7 +82,7 @@
         </section>
         @endif
 
-      </div> <!-- .col-md-4 -->
+      </div> <!-- .col-md-12 -->
       @endforeach
       <div class="col-md-12">
         {!! $testimonials->render() !!}

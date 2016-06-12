@@ -1,10 +1,43 @@
 @extends('layouts.app')
 
 @section('head')
+
+<style>
+@media screen and (min-width: 320px) {
+
+   .rating { 
+      font-size: 50px; 
+    }
+
+}
+@media screen and (min-width: 680px) {
+
+   .rating { 
+      font-size: 70px; 
+    }
+
+}
+@media screen and (min-width: 1224px) {
+
+   .rating { 
+      font-size: 100px; 
+    }
+
+}
+@media screen and (min-width: 1400px) {
+
+   .rating { 
+      font-size: 120px; 
+    }
+
+}
+</style>
+
 <link rel="stylesheet" href="//assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
 <script src="//assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
 <script>ZiggeoApi.token = "{{ env('ZIGGEO_APPLICATION_TOKEN') }}";</script>
 @endsection
+
 @section('content')
 
 <div class="panel panel-default">
@@ -14,22 +47,33 @@
 
   <div class="panel-body">
     
-    @if(!is_null($testimonial->approved_at))
-    <div class="pull-right"><span class="label label-success"></span></div>
-    @endif
-    <div class="text-center">
-      <h1 style="font-size: 120px;">{{ $testimonial->rating }}</h1>
-      <p><em>out of 5 (rating)</em></p>
+    <div class="row">
+        <div class="col-md-12">
+            @if(!is_null($testimonial->approved_at))
+              <div class="pull-right"><span class="label label-success"></span></div>
+            @endif
+            <div class="text-center">
+              <h1 class="rating">{{ $testimonial->rating }}</h1>
+              <p><em>out of 5 (rating)</em></p>
+            </div>
+        </div>
+        <!-- /.col-md-12 -->
     </div>
-    
-
-    <hr />
+    <!-- /.row -->
+   
 
     @if(!empty($testimonial->token)) 
-    
-    <ziggeo ziggeo-video='{{ $testimonial->token }}'
-      responsive=true>
-    </ziggeo>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div>
+                <ziggeo ziggeo-video='{{ $testimonial->token }}'
+                    ziggeo-responsive=true>
+                </ziggeo>
+            </div>
+        </div>
+        <!-- /.col-md-12 -->
+    </div>
+    <!-- /.row -->
     @endif
     
     <p>{{ $testimonial->body }}</p>
