@@ -63,21 +63,23 @@
   </nav>
 
   <section id="user-profile" class="section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="left-sidebar">
-            <ul>
-              <li><a href="{{ url('contacts') }}">Contacts</a></li>
-              <li><a href="{{ url('testimonials') }}">Testimonials</a></li>
-              <li><a href="{{ url('externalLinks') }}">External Links</a></li>
-              <li><a href="{{ url('videos') }}"> Videos</a></li>
-              <li><a href="{{ url('billing') }}"> Subscription</a></li>
-            </ul>
+    <div class="inner-border">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="left-sidebar">
+              <ul>
+                <li><a href="{{ url('contacts') }}">Contacts</a></li>
+                <li><a href="{{ url('testimonials') }}">Testimonials</a></li>
+                <li><a href="{{ url('externalLinks') }}">External Links</a></li>
+                <li><a href="{{ url('videos') }}"> Videos</a></li>
+                <li><a href="{{ url('billing') }}"> Subscription</a></li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-9">
-          @yield('content')
+          <div class="col-md-9">
+            @yield('content')
+          </div>
         </div>
       </div>
     </div>
