@@ -58,9 +58,9 @@ class GrabzitService implements VideoToGif {
 
 			$result = $this->client->GetResult($id);
 
-			$destinationPath = __DIR__ . DIRECTORY_SEPARATOR . 'storage';
+			$destinationPath = __DIR__ . DIRECTORY_SEPARATOR . 'gifs';
 
-			Log::info("grabzit", ["storage path" => __DIR__ . DIRECTORY_SEPARATOR . 'storage']);
+			Log::info("grabzit", ["storage path" => $destinationPath]);
 
 			file_put_contents($destinationPath . "/" . $filename, $result);
 
