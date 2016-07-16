@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\VideoToGif;
+use Log;
 use Auth;
 use App\Clients\GrabzIt\GrabzItClient;
 
