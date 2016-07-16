@@ -54,13 +54,18 @@ class GrabzitService implements VideoToGif {
 
 			$format = $input["format"];
 
-			$grabzit_endpoint = "http://api.grabz.it/services/getfile.ashx?id=";
+			//Log::info("grabzit", ["message" => "Image for ID: " . $id]);
 
-			$gif_url = $grabzit_endpoint . $id;
+			//$result = $this->client->GetResult($id);
 
-			$imgur_gif_link = (new ImageService)->upload($gif_url);
+			//$destinationPath = storage_path('media/videogifs');
 
-			Log::info("grabzit", ["imgur" => $imgur_gif_link]);
+			//file_put_contents($destinationPath . "/" . $filename, $result);
+
+			$link = (new ImageService)->upload("http://api.grabz.it/services/getfile.ashx?id=N2UzOWE1MGQ3ZWEzNDE3NmExMGRhMWQ2NmNiNDliNzQ=-837683d33bbb47dcadf2e7a3189fd5a9d");
+
+			Log::info("grabzit", ["imgur" => $link]);
+
 
 		} catch (Exception $e) {
 			throw $e;
