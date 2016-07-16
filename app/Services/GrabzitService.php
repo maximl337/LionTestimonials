@@ -62,7 +62,7 @@ class GrabzitService implements VideoToGif {
 
 			//file_put_contents($destinationPath . "/" . $filename, $result);
 
-			$link = (new ImageService)->upload("http://api.grabz.it/services/getfile.ashx?id=N2UzOWE1MGQ3ZWEzNDE3NmExMGRhMWQ2NmNiNDliNzQ=-837683d33bbb47dcadf2e7a3189fd5a9d");
+			$link = (new ImageService)->upload($result);
 
 			Log::info("grabzit", ["imgur" => $link]);
 
