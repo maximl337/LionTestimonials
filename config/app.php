@@ -164,6 +164,7 @@ return [
         Redeman\Imgur\ImgurServiceProvider::class,
         Aloha\Twilio\Support\Laravel\ServiceProvider::class,
         Laravel\Cashier\CashierServiceProvider::class,
+        App\Providers\GrabzitProvider::class,
 
     ],
 

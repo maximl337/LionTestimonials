@@ -18,4 +18,5 @@ class Video extends Model
     {
     	return $this->belongsTo('App\User');
     }
+
 }

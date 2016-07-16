@@ -39,5 +39,9 @@ class Testimonial extends Model
         return $this->belongsTo('App\Contact');
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
     
 }

@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Log;
 use Auth;
 use Mail;
 use App\User;
 use App\Video;
 use App\Contact;
 use App\Http\Requests;
+use App\Contracts\VideoToGif;
 
 class VideoController extends Controller
 {
 
 	public function __construct()
 	{
-		$this->middleware('auth', ['except' => ['show']]);
+		$this->middleware('auth', ['except' => ['show', 'convertToGif', 'saveConvertedGif']]);
 
-        $this->middleware('subscribed', ['except' => ['show']]);
+        $this->middleware('subscribed', ['except' => ['show', 'convertToGif', 'saveConvertedGif']]);
 	}
 
     public function index(Request $request)
@@ -173,5 +175,43 @@ class VideoController extends Controller
             
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function convertToGif(Request $request, VideoToGif $client)
+    {
+        try {
+
+            $input = $request->input();
+
+            $client->convert($input['url']);
+
+            Log::info("grabzit", ["message" => "Video saved"]);
+
+            return response(["message" => "Sent to convert"], 200);
+
+       } catch (Exception $e) {
+           
+           Log::info("grabzit", ["message" => $e->getMessage()]);
+
+           return response(["message" => $e->getMessage()], 500);
+       }   
+    }
+
+    public function saveConvertedGif(Request $request, VideoToGif $client)
+    {
+        
+        try {
+            
+            $client->save($request->input());
+
+            Log::info("grabzit", ["message" => "Video saved"]);
+
+        } catch (Exception $e) {
+
+            Log::info("grabzit", ["message" => $e->getMessage()]);
+
+        }
+
+        return response([], 200);
     }
 }

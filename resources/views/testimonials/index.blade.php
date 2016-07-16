@@ -63,49 +63,6 @@
     {!! $testimonials->render() !!}
   </div> <!-- .panel-body -->
 </div>
-<div class="panel-body">
-
-  @foreach($testimonials->chunk(3) as $testimonialRow)
-
-  <div class="row">
-    @foreach($testimonialRow as $testimonial)
-    <div class="col-md-4">
-
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <p class="pull-right"><a href="testimonials/{{ $testimonial->id }}">view</a></p>
-          <p>From: {{ $testimonial->contact->first_name . ' ' . $testimonial->contact->last_name }}</p>
-          <p>Email: {{ $testimonial->contact->email }}</p>
-          <p>Rating: {{ $testimonial->rating }}</p>
-          <p>Body: {{ str_limit($testimonial->body, 20) }}</p>   
-
-          @if(!empty($testimonial->token))
-
-          <p>
-            <span class="label label-success">Has video</span>
-          </p>
-
-
-          @endif
-
-          <p>
-            @if(!is_null($testimonial->approved_at))
-            <a href="#" class="btn btn-small btn-success disabled">Approved</a>
-            @else
-            <a href="#" data-id="{{ $testimonial->id }}" class="approve btn btn-small btn-primary">Approve</a>
-            @endif
-          </p>     
-        </div> <!-- .panel-body -->
-      </div> <!-- .panel -->
-
-    </div> <!-- .col-md-4 -->
-    @endforeach
-  </div><!-- .row -->
-
-  @endforeach
-
-  {!! $testimonials->render() !!}
-</div> <!-- .panel-body -->
 
 @endsection
 

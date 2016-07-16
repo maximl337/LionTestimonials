@@ -4,7 +4,7 @@ if (App::environment('staging') || App::environment('production')) {
     Log::useFiles('php://stderr');
 }
 
-Route::get('/', 'HomeController@welcome');
+Route::get('/', 'HomeController@index');
 
 Route::get('/video-test-2', function() {
     return view('video-test-2');
@@ -77,10 +77,11 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('users/{id}/testimonials/public', 'TestimonialController@publicTestimonials');
 
+    /** Categories */
+    Route::post('categories', 'CategoryController@store');
     
 
     /** External Link */
-
     Route::post('externalLinks/{id}', 'ExternalLinksController@update');
 
     Route::resource('externalLinks', 'ExternalLinksController');
@@ -94,6 +95,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('videos/{id}/email', 'VideoController@videoByEmailTemplate');
 
     Route::post('videos/send/email', 'VideoController@sendByEmail');
+
+    Route::post('videos/gif', 'VideoController@convertToGif');
+
+    Route::get('/grabzit', 'VideoController@saveConvertedGif');
 
     Route::resource('videos', 'VideoController');
 
