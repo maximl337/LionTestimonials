@@ -53,7 +53,7 @@ class GrabzitService implements VideoToGif {
 
 			$format = $input["format"];
 
-			Log::message("grabzit", ["message" => "Image for ID: " . $id]);
+			Log::info("grabzit", ["message" => "Image for ID: " . $id]);
 
 			$result = $this->client->GetResult($id);
 
