@@ -19,8 +19,12 @@ class GrabzitService implements VideoToGif {
 	{
 		try {
 			
-			$customid = uniqid() . "-" . Auth::id();
-
+			if(Auth::check()) {
+				$customid = uniqid() . "-" . Auth::id();	
+			} else {
+				$customid = uniqid()."-noid";	
+			}
+			
 			$this->client->SetAnimationOptions($video_url, $customid, null, null, null, 10);
 
 			$this->client->Save(url("/grabzit"));
@@ -48,9 +52,11 @@ class GrabzitService implements VideoToGif {
 
 			$format = $input["format"];
 
+			Log::message("grabzit", ["message" => "Image for ID: " . $id]);
+
 			$result = $this->client->GetResult($id);
 
-			$destinationPath = public_path('images/videogifs');
+			$destinationPath = storage_path('media/videogifs');
 
 			file_put_contents($destinationPath . "/" . $filename, $result);
 
