@@ -52,7 +52,7 @@ class GrabzitService implements VideoToGif {
 
 			$destinationPath = public_path('images/videogifs');
 
-			file_put_contents($destinationPath . $filename, $result);
+			file_put_contents($destinationPath . "/" . $filename, $result);
 
 		} catch (Exception $e) {
 			throw $e;
