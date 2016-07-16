@@ -64,8 +64,8 @@
 
       <div id="video" class="form-group{{ $errors->has('token') ? ' has-error' : '' }}">
         <label for="video">Video</label>
-        <ziggeo     ziggeo-width=320
-        ziggeo-height=240
+        <ziggeo ziggeo-width=320
+                ziggeo-height=240
         >
       </ziggeo>
       @if ($errors->has('token'))
@@ -97,7 +97,7 @@
                   </div> -->
 
                   <div class="form-group">
-                    <input type="submit" value="Create" class="form-control btn btn-primary" />
+                    <input type="submit" value="Send Testimonial" class="form-control btn btn-primary" />
                   </div>
                   
                 </form>

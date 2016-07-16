@@ -438,6 +438,9 @@ class ContactController extends Controller
 
             // send mail
             Mail::send('emails.invite', $data, function($m) use ($contact) {
+
+                $m->from('robot@sellwithreviews.com', Auth::user()->getName());
+
                 $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
             });
 
@@ -651,6 +654,7 @@ class ContactController extends Controller
 
             // send mail
             Mail::send('emails.inviteExternal', $data, function($m) use ($contact) {
+                $m->from('robot@sellwithreviews.com', Auth::user()->getName());
                 $m->to($contact->email, $contact->first_name)->subject('Testimonial Request');
             });
 

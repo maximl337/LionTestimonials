@@ -13,10 +13,29 @@
 	</div>
 	<!-- /.panel-heading -->
 	<div class="panel-body">
-		<ziggeo ziggeo-video='{{ $video->token }}'
-			responsive=true>
-		</ziggeo>
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div>
+					<ziggeo ziggeo-video='{{ $video->token }}'
+						ziggeo-width=320
+          				ziggeo-height=240
+						ziggeo-responsive=true>
+					</ziggeo>
+				</div>
+				
+			</div>
+			<!-- /.col-md-10 col-md-offset-1 -->
+		</div>
+		<!-- /.row -->
+		
 	</div>
 	<!-- /.panel-body -->
 </div>
+@endsection
+
+@section('footer')
+
+<script>	
+</script>
+	
 @endsection

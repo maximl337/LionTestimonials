@@ -10,7 +10,7 @@
   		<a href="{{ url('testimonials') }}"><i class="font-icon ion-ios-bookmarks-outline"></i>Testimonials</a>
   	</li>
   	<li class="col-md-3">
-  		<a href="{{ url('videos') }}"><i class="font-icon ion-ios-camera-outline"></i>Videos</a>
+  		<a href="{{ url('videos') }}"><i class="font-icon ion-ios-camera-outline"></i>My Videos</a>
   	</li>
   	<li class="col-md-3">
   		<a href="{{ url('profile') }}"><i class="font-icon ion-ios-cog-outline"></i>Profile</a>
@@ -19,7 +19,7 @@
 
   <hr/>
 
-  <div class="panel panel-default">
+  <div class="panel panel-default display-none hidden-xs-up">
     <div class="panel-heading">Dashboard</div>
     <div class="panel-body">
       <a href="{{ url('contacts') }}" class="btn btn-primary"> Contacts </a>

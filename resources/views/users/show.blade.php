@@ -5,8 +5,10 @@
 <style type="text/css">
 
   .avatar {
-    width: 200px;
-    margin: auto auto;
+    width: 180px;
+    height: 180px;
+    border: 2px solid #DDD;
+    margin: 20px auto;
     border-radius: 50%;
     overflow: hidden;
   }
@@ -39,7 +41,7 @@
     @endif
 
     @if(Auth::check())
-    <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a>
+      <a href="{{ url('profile/edit') }}" class="pull-right"><i class="fa fa-pencil"></i> Edit</a>
     @endif
   </div>
 
@@ -70,9 +72,9 @@
           <p>{{ $testimonial->body }}</p>
           <p>
             @if(!empty($testimonial->token)) 
-            <ziggeo ziggeo-video='{{ $testimonial->token }}'
-              responsive=true>
-            </ziggeo>
+              <ziggeo ziggeo-video='{{ $testimonial->token }}'
+                      responsive=true>
+              </ziggeo>
             @endif
           </p>
           <p>{{ $testimonial->created_at->diffForHumans() }}</p>
@@ -80,7 +82,7 @@
         </section>
         @endif
 
-      </div> <!-- .col-md-4 -->
+      </div> <!-- .col-md-12 -->
       @endforeach
       <div class="col-md-12">
         {!! $testimonials->render() !!}
@@ -132,7 +134,7 @@
     @endif
 
     <div class="row {{ Auth::check() ? '' : ' hidden' }}">
-      <div class="col-md-10 col-offset-md-1">
+      <div class="col-md-12">
         <h4>Copy the code below and add it to any website to show your approved testimonials</h4>
         <pre>&lt;iframe style="width: 100%;" src="{{ url('users' . '/' . $user->id . '/testimonials/public') }}"&gt;&lt;/iframe&gt;</pre>
       </div>

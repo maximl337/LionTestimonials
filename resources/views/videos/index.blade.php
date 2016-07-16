@@ -46,9 +46,7 @@
 					<div>
 
 						<ziggeo ziggeo-video='{{ $video->token }}'
-							ziggeo-width=320
-							ziggeo-height=240
-							ziggeo-responsive=true>
+								ziggeo-responsive=true>
 						</ziggeo>
 
 					</div>

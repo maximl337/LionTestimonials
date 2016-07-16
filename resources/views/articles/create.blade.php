@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('head')
+<link rel="stylesheet" type="text/css" href="/css/redactor.css">
+<style>
+.redactor_editor {
+    height: 250px;
+}
+</style>
+@endsection
+
 @section('content')
 
 <div class="panel panel-default">
@@ -40,5 +49,19 @@
 	</div>
 	<!-- /.panel-body -->
 </div>
+
+@endsection
+
+@section('footer')
+<script type="text/javascript" src="/js/redactor.js"></script>
+
+<script type="text/javascript">
+$(function() {
+
+$("#body").redactor();
+
+}); // EO DOM READY
+</script>
+
 
 @endsection

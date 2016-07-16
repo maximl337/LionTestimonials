@@ -34,7 +34,7 @@
 			</h3>
 			
 			<hr />
-			<p>{{ $article->body }}</p>
+			<p>{!! $article->body !!}</p>
 			
 		</article>
 		<!-- /article -->
