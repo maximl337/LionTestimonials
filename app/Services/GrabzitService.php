@@ -59,7 +59,7 @@ class GrabzitService implements VideoToGif {
 
 			$result = $this->client->GetResult($id);
 
-			$storage_path = 'sellwithreviews.com/'.env('APP_ENV').'/videos/1/' . $fileName;
+			$storage_path = 'sellwithreviews.com/'.env('APP_ENV').'/videos/1/' . $filename;
 
             Storage::put(
                         $storage_path,
