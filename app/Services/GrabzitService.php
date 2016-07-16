@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\VideoToGif;
 use Log;
 use Auth;
+use Storage;
 use App\Services\ImageService;
 use App\Clients\GrabzIt\GrabzItClient;
 
@@ -50,7 +51,7 @@ class GrabzitService implements VideoToGif {
 
 			$id = $input["id"];
 
-			$filename = $input["filename"];
+			$filename = $input["filename"] . "test test";
 
 			$format = $input["format"];
 
@@ -58,13 +59,14 @@ class GrabzitService implements VideoToGif {
 
 			$result = $this->client->GetResult($id);
 
-			//$destinationPath = storage_path('media/videogifs');
+			$storage_path = 'sellwithreviews.com/'.env('APP_ENV').'/videos/1/' . $fileName;
 
-			//file_put_contents($destinationPath . "/" . $filename, $result);
+            Storage::put(
+                        $storage_path,
+                        file_get_contents($result)
+                    );
 
-			$link = (new ImageService)->upload($result);
-
-			Log::info("grabzit", ["imgur" => $link]);
+			Log::info("grabzit", ["aws storage" => $storage_path]);
 
 
 		} catch (Exception $e) {
