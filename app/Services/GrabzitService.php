@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\VideoToGif;
 use Log;
 use Auth;
+use App\Services\ImageService;
 use App\Clients\GrabzIt\GrabzItClient;
 
 class GrabzitService implements VideoToGif {
@@ -53,13 +54,13 @@ class GrabzitService implements VideoToGif {
 
 			$format = $input["format"];
 
-			Log::info("grabzit", ["message" => "Image for ID: " . $id]);
+			$grabzit_endpoint = "http://api.grabz.it/services/getfile.ashx?id=";
 
-			$result = $this->client->GetResult($id);
+			$gif_url = $grabzit_endpoint . $id;
 
-			$destinationPath = storage_path('media/videogifs');
+			$imgur_gif_link = (new ImageService)->upload($gif_url);
 
-			file_put_contents($destinationPath . "/" . $filename, $result);
+			Log::info("grabzit", ["imgur" => $imgur_gif_link]);
 
 		} catch (Exception $e) {
 			throw $e;
