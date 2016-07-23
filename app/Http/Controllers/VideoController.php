@@ -23,6 +23,11 @@ class VideoController extends Controller
         $this->middleware('subscribed', ['except' => ['show', 'convertToGif', 'saveConvertedGif']]);
 	}
 
+    /**
+     * [index description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function index(Request $request)
     {
     	$limit = $request->get('limit') ?: 3;
@@ -34,6 +39,11 @@ class VideoController extends Controller
     	return view('videos.index', compact('videos'));
     }
 
+    /**
+     * [show description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function show($id)
     {
     	try {
@@ -49,6 +59,11 @@ class VideoController extends Controller
     	}
     }
 
+    /**
+     * [create description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function create(Request $request)
     {
 
@@ -59,6 +74,11 @@ class VideoController extends Controller
     	return view('videos.create', compact('testimonial_request', 'contact_id'));
     }
 
+    /**
+     * [store description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function store(Request $request)
     {
     	$this->validate($request, [
@@ -72,13 +92,26 @@ class VideoController extends Controller
     		]);
 
     	try {
+
+            // if making profile video
+            // remove all other profile videos
+            // As users can only have one profile video
+            if($request->get('profile_video')) {
+                $videos = Auth::user()->videos()->where('profile_video', true)->get();
+
+                foreach($videos as $video) {
+                    $video->update(['profile_video' => false]);
+                }    
+            }
+            
     		
     		$video  = new Video([
     			
 	    			'token' => $request->get('token'),
 	    			'title' => $request->get('title'),
                     'thumbnail' => $request->get('thumbnail'),
-                    'url'       => $request->get('url')
+                    'url'       => $request->get('url'),
+                    'profile_video' => $request->get('profile_video') ? true : false
 
 	    			]);
 
@@ -103,6 +136,11 @@ class VideoController extends Controller
 
     }
 
+    /**
+     * [destroy description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function destroy($id)
     {
     	try {
@@ -119,6 +157,11 @@ class VideoController extends Controller
     	}
     }
 
+    /**
+     * [videoByEmailTemplate description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function videoByEmailTemplate($id)
     {
         try {
@@ -140,6 +183,11 @@ class VideoController extends Controller
         }
     }
 
+    /**
+     * [sendByEmail description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function sendByEmail(Request $request)
     {
         $this->validate($request, [
@@ -177,6 +225,41 @@ class VideoController extends Controller
         }
     }
 
+    /**
+     * [makeProfileVideo description]
+     * @param  [type]  $id      [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function makeProfileVideo($id, Request $request)
+    {
+        try {
+
+            $video = Video::findOrFail($id);
+
+            // remove all other profile videos
+            $videos = Auth::user()->videos()->where('profile_video', true)->get();
+
+            foreach($videos as $vid) {
+                $vid->update(['profile_video' => false]);
+            }
+
+            $video->update(['profile_video' => true]);
+
+            return redirect()->back()->with("success", "Marked as profile video");
+
+        } catch (Exception $e) {
+
+            return redirect()->back()->with("error", $e->getMessage());
+        }
+    }
+
+    /**
+     * [convertToGif description]
+     * @param  Request    $request [description]
+     * @param  VideoToGif $client  [description]
+     * @return [type]              [description]
+     */
     public function convertToGif(Request $request, VideoToGif $client)
     {
         try {
@@ -197,6 +280,12 @@ class VideoController extends Controller
        }   
     }
 
+    /**
+     * [saveConvertedGif description]
+     * @param  Request    $request [description]
+     * @param  VideoToGif $client  [description]
+     * @return [type]              [description]
+     */
     public function saveConvertedGif(Request $request, VideoToGif $client)
     {
         

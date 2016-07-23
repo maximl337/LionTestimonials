@@ -40,6 +40,6 @@ class CreateCategoryTestimonialTable extends Migration
      */
     public function down()
     {
-        Schema::drop('category_video');
+        Schema::drop('category_testimonial');
     }
 }

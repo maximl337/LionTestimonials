@@ -19,6 +19,7 @@ class CreateVideosTable extends Migration
             $table->string('token')->comment = "Token received from Ziggeo";
             $table->string('thumbnail');
             $table->string('url');
+            $table->boolean('profile_video')->default(false);
             $table->timestamps();
         });
 

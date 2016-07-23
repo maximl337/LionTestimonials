@@ -25,6 +25,15 @@
 				<label for="title">Title</label>
 				<input id="title" class="form-control" type="text" name="title" placeholder="Enter a title" required />
 			</div>
+
+			<div class="form-group">
+				<div class="checkbox">
+					<label>
+						<input id="profile_video" type="checkbox" name="profile_video" value="1">Make this your profile video
+					</label>
+				</div>
+			</div>
+
 			
 			@if($testimonial_request)
 			

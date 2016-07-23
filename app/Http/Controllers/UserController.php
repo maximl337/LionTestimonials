@@ -35,9 +35,11 @@ class UserController extends Controller
 
         $user = Auth::user();
 
+        $video = $user->videos()->where('profile_video', true)->first();
+
         $testimonials = $user->testimonials()->approved()->with('contact')->paginate($limit);
 
-    	return view('users.show', compact('user', 'testimonials'));
+    	return view('users.show', compact('user', 'testimonials', 'video'));
     }
 
     public function showPublic($id, Request $request)

@@ -17,6 +17,7 @@
 
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/ionicons.css">
+  <link rel="stylesheet" href="/css/bootstrap-social.css">
 
   @yield('head')
 
