@@ -3,12 +3,28 @@
 
 @section('head')
 
+<!--FACEBOOK-->
+<meta property="og:site_name"     content="">
 <meta property="og:url"           content="{{ url('users/'.$user->id.'/public') }}" />
 <meta property="og:type"          content="website" />
 <meta property="og:title"         content="Sell with reviews: {{ $user->getName() }}" />
 <meta property="og:description"   content="Convert customers to your brand champions" />
 <meta property="og:image"         content="{{ $user->avatar ?: 'http://www.sellwithreviews.com/wp-content/uploads/2016/03/sell-with-reviews-logo-02.png' }}" />
+<meta property="fb:app_id" content="" >
+<meta property="og:locale" content="" >
 
+<!--TWITTER-->
+<meta property="twitter:card" content="summary" >
+<meta property="twitter:title" content="Sell with reviews: {{ $user->getName() }}" >
+<meta property="twitter:description" content="Convert customers to your brand champions" >
+<meta property="twitter:creator" content="Sell with reviews" >
+<meta property="twitter:url" content="{{ url('users/'.$user->id.'/public') }}" >
+<meta property="twitter:image" content="{{ $user->avatar ?: 'http://www.sellwithreviews.com/wp-content/uploads/2016/03/sell-with-reviews-logo-02.png' }}" >
+<meta property="twitter:image:alt" content="{{ $user->getName() }}" >
+
+<!--GOOGLE+-->
+<link rel="author" href="Sell with reviews: {{ $user->getName() }}">
+<link rel="publisher" href="Sell with reviews: {{ $user->getName() }}">
 
 <style type="text/css">
 
