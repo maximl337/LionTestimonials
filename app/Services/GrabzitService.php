@@ -27,7 +27,7 @@ class GrabzitService implements VideoToGif {
 				$customid = uniqid()."-noid";	
 			}
 			
-			$this->client->SetAnimationOptions($video_url);
+			$this->client->SetAnimationOptions($video_url, $customid);
 
 			$this->client->Save(url("/grabzit"));
 
