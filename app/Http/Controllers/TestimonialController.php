@@ -241,10 +241,9 @@ class TestimonialController extends Controller
                 $m->to($user->email, $user->getName())->subject("New Testimonial");
             });
 
+            $message = "Thank you for the review. Share the agents profile to let your friends know";
 
-            //Session::flash('success', 'Testimonial Created. Thank you.');
-
-            return redirect('testimonials/thankyou');
+            return redirect('users/' . $user->id . '/public')->with("success", $message);
 
         } catch (Exception $e) {
 
