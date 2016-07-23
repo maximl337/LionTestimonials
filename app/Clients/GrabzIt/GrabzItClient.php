@@ -5,7 +5,7 @@ namespace App\Clients\GrabzIt;
 use GrabzItCookie;
 use GrabzItStatus;
 use GrabzItWaterMark;
-use App\Clients\GrabzIt\GrabzItException;
+use GrabzItException;
 
 class GrabzItClient
 {
@@ -546,7 +546,7 @@ class GrabzItClient
 
 		if (!empty($obj->Message))
 		{
-			throw new \Exception("Couldnt gget result object");
+			throw new \Exception($obj->Message);
 		}
 
 		return $obj;
