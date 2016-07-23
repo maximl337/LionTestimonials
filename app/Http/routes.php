@@ -82,6 +82,10 @@ Route::group(['middleware' => 'web'], function () {
     
 
     /** External Link */
+    Route::get('externalLinks/send', 'ExternalLinksController@previewEmail');
+
+    Route::post('externalLinks/send', 'ExternalLinksController@sendEmail');
+
     Route::post('externalLinks/{id}', 'ExternalLinksController@update');
 
     Route::resource('externalLinks', 'ExternalLinksController');

@@ -4,10 +4,28 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		External Testimonial Sites
+		<div class="btn-group pull-right" style="padding-bottom: 5px;">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fa fa-gear"></i> <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a href="{{ url('externalLinks/create') }}">
+						<i class="fa fa-plus"></i>  Create
+					</a>
+				</li>
+				@if($links->count() > 0)
+					<li>
+						<a href="{{ url('externalLinks/send') }}">
+							<i class="fa fa-envelope"></i>  Send in Email
+						</a>
+					</li>
+				@endif
+				
+			</ul>
+		</div>
 
-		<a href="{{ url('externalLinks/create') }}" class="pull-right">
-			Create
-		</a>
+
 	</div>
 	<!-- /.panel-heading -->
 	<div class="panel-body">
