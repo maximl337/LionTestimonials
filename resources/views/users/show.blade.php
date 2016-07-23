@@ -142,15 +142,39 @@
         </div>
         <!-- /.row -->
 
-        @if(count($testimonials) > 0)
+        @if($user->thirdPartyTestimonialSites()->count() > 0)
+            <hr />
             <div class="row">
+                <div class="col-md-12">
+                    <h6 class="text-muted">External Profiles</h6>
+                </div>
+                <!-- /.col-md-12 -->
 
+                @foreach($user->thirdPartyTestimonialSites()->get() as $external_site)
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <a href="{{ $external_site->url }}" class="btn btn-primary form-control">{{ $external_site->provider }}</a>
+                        </div>
+                    </div>
+                    <!-- /.col-md-12 -->
+                @endforeach
+            </div>
+            <!-- /.row -->
+        @endif
+        
+        @if(count($testimonials) > 0)
+            <hr />
+            <div class="row">
+                
+                <div class="col-md-12">
+                    <h6 class="text-muted">Testimonials</h6>
+                </div>
                 @foreach($testimonials as $testimonial)
                     <div class="col-md-12">
 
                         @if(!empty($testimonial))
                             <section>
-                                <h2>Rating: {{ $testimonial->rating }}</h2>
+                                <h4>Rating: {{ $testimonial->rating }}</h4>
                                 <p>{{ $testimonial->body }}</p>
                                 <p>
                                 @if(!empty($testimonial->token)) 
@@ -169,6 +193,7 @@
                 <div class="col-md-12">
                     {!! $testimonials->render() !!}
                 </div>
+
             </div><!-- .row -->
         @endif
 
@@ -177,52 +202,51 @@
 
         <hr />
 
-<div class="row">
-    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
         
-         @if(!empty($user->business_name) ||
-            !empty($user->business_logo))
+                @if(!empty($user->business_name) ||
+                    !empty($user->business_logo))
 
-            <div class="business">
+                    <div class="business">
+                        @if(!empty($user->business_logo))
+                            <div class="business_logo">
+                                <img src="{{ $user->business_logo }}">
+                            </div>
+                        @endif
 
-  @if(!empty($user->business_logo))
-  <div class="business_logo">
-    <img src="{{ $user->business_logo }}">
-</div>
-@endif
+                        @if(!empty($user->business_name))
 
-@if(!empty($user->business_name))
+                            <div class="business_name">
+                                <h4>{{ $user->business_name }}</h4>
+                            </div>
+                        @endif
+                    </div>
 
-<div class="business_name">
-    <h4>{{ $user->business_name }}</h4>
-</div>
+                @endif
 
-@endif
-</div>
+                @if(!empty($user->bio))
 
-@endif
+                    <hr />
 
-@if(!empty($user->bio))
+                    <div class="about">
+                        <p>{{ $user->bio }}</p>
+                    </div>
 
-<hr />
+                    @if(!empty($user->getAddress()))
 
-<div class="about">
-  <p>{{ $user->bio }}</p>
-</div>
+                        <div class="address">
+                            <p>{{ $user->getAddress() }}</p>
+                        </div>
 
-@if(!empty($user->getAddress()))
+                    @endif
 
-<div class="address">
-  <p>{{ $user->getAddress() }}</p>
-</div>
-@endif
+                @endif
 
-@endif
-
-    </div>
-    <!-- /.col-md-12 -->
-</div>
-<!-- /.row -->
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
 
 
 
