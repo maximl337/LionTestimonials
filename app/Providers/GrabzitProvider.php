@@ -27,7 +27,7 @@ class GrabzitProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(VideoToGif::class, function($app) {
+        $this->app->bind(VideoToGif::class, function($app) {
             return new GrabzitService(
                     new GrabzItClient(env("GRABZIT_KEY"), env("GRABZIT_SECRET"))
                 );

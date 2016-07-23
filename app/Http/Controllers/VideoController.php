@@ -262,6 +262,10 @@ class VideoController extends Controller
      */
     public function convertToGif(Request $request, VideoToGif $client)
     {
+        $this->validate($request, [
+                'url' => 'required|url'
+            ]);
+
         try {
 
             $input = $request->input();
