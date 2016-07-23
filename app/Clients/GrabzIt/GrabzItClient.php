@@ -179,7 +179,7 @@ class GrabzItClient
 	{
 		if (empty($this->signaturePartOne) && empty($this->signaturePartTwo) && empty($this->request))
 		{
-			throw new \Exception("No screenshot parameters have been set.");
+			throw new GrabzItException("No screenshot parameters have been set.", GrabzItException::PARAMETER_MISSING_PARAMETERS);
 		}
 
 		$sig =  $this->encode($this->signaturePartOne.$callBackURL.$this->signaturePartTwo);
@@ -219,7 +219,7 @@ class GrabzItClient
 
 			if (!$status->Cached && !$status->Processing)
 			{
-				throw new \GrabzItException("The screenshot did not complete with the error: " . $status->Message, \GrabzItException::RENDERING_ERROR);
+				throw new GrabzItException("The screenshot did not complete with the error: " . $status->Message, GrabzItException::RENDERING_ERROR);
 				break;
 			}
 			else if ($status->Cached)
@@ -227,7 +227,7 @@ class GrabzItClient
 				$result = $this->GetResult($id);
 				if (!$result)
 				{
-					throw new \GrabzItException("The screenshot could not be found on GrabzIt.", \GrabzItException::RENDERING_MISSING_SCREENSHOT);
+					throw new GrabzItException("The screenshot could not be found on GrabzIt.", GrabzItException::RENDERING_MISSING_SCREENSHOT);
 					break;
 				}
 
@@ -386,7 +386,7 @@ class GrabzItClient
 	{
 		if (!file_exists($path))
 		{
-			throw new \GrabzItException("File: " . $path . " does not exist", \GrabzItException::FILE_NON_EXISTANT_PATH);
+			throw new GrabzItException("File: " . $path . " does not exist", GrabzItException::FILE_NON_EXISTANT_PATH);
 		}
 		$sig =  $this->encode($this->applicationSecret."|".$identifier."|".((int)$xpos)."|".((int)$ypos));
 
@@ -546,7 +546,7 @@ class GrabzItClient
 
 		if (!empty($obj->Message))
 		{
-			throw new \Exception($obj->Message);
+			throw new GrabzItException($obj->Message, $obj->Code);
 		}
 
 		return $obj;
@@ -589,18 +589,18 @@ class GrabzItClient
 			return $data;
 		}
 
-		throw new \GrabzItException("Unable to contact GrabzIt's servers. Please install the CURL extension or set allow_url_fopen to 1 in the php.ini file.", \GrabzItException::GENERIC_ERROR);
+		throw new GrabzItException("Unable to contact GrabzIt's servers. Please install the CURL extension or set allow_url_fopen to 1 in the php.ini file.", GrabzItException::GENERIC_ERROR);
 	}
 
 	private function checkHttpCode($httpCode)
 	{
 	    if ($httpCode == 403)
 	    {
-			throw new \GrabzItException('Potential DDOS Attack Detected. Please wait for your service to resume shortly. Also please slow the rate of requests you are sending to GrabzIt to ensure this does not happen in the future.', \GrabzItException::NETWORK_DDOS_ATTACK);
+			throw new GrabzItException('Potential DDOS Attack Detected. Please wait for your service to resume shortly. Also please slow the rate of requests you are sending to GrabzIt to ensure this does not happen in the future.', GrabzItException::NETWORK_DDOS_ATTACK);
 	    }
 	    else if ($httpCode >= 400)
 	    {
-			throw new \GrabzItException("A network error occured when connecting to the GrabzIt servers.", \GrabzItException::NETWORK_GENERAL_ERROR);
+			throw new GrabzItException("A network error occured when connecting to the GrabzIt servers.", GrabzItException::NETWORK_GENERAL_ERROR);
 	    }
 	}
 
@@ -610,4 +610,3 @@ class GrabzItClient
 		$this->checkHttpCode($httpCode);
 	}
 }
-?>
