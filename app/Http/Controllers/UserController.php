@@ -54,7 +54,9 @@ class UserController extends Controller
 
             $testimonials = $user->testimonials()->approved()->with('contact')->paginate($limit);
 
-            return view('users.show', compact('user', 'testimonials'));
+            $video = $user->videos()->where('profile_video', true)->first();
+
+            return view('users.show', compact('user', 'testimonials', 'video'));
         
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 
