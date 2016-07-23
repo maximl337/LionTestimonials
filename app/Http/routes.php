@@ -104,7 +104,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/grabzit', 'VideoController@saveConvertedGif');
 
-     Route::get('videos/{id}/profile', 'VideoController@makeProfileVideo');
+    Route::get('videos/{id}/profile', 'VideoController@makeProfileVideo');
 
     Route::resource('videos', 'VideoController');
 
