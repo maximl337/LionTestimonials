@@ -546,7 +546,7 @@ class GrabzItClient
 
 		if (!empty($obj->Message))
 		{
-			throw new \Exception($obj->Message);
+			throw new \Exception("Couldnt gget result object");
 		}
 
 		return $obj;

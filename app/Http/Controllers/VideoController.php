@@ -268,7 +268,7 @@ class VideoController extends Controller
 
             $client->convert($input['url']);
 
-            Log::info("grabzit", ["message" => "Video saved"]);
+            Log::info("grabzit", ["message" => "Video send to be converted"]);
 
             return response(["message" => "Sent to convert"], 200);
 
