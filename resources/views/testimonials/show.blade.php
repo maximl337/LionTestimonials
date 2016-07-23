@@ -128,11 +128,11 @@
         @if($testimonial->categories()->where('testimonial_id', $testimonial->id)->exists())
             <em>Category: </em>
             <strong>{{ $testimonial->categories()->where('testimonial_id', $testimonial->id)->first()->name }}</strong>
-            @if(Auth::check())
+            @if(Auth::check() && $testimonial->user_id == Auth::id())
                 <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">Change Category</a>
             @endif
         @else
-            @if(Auth::check())
+            @if(Auth::check() && $testimonial->user_id == Auth::id())
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Add Category</button>
             @endif
         @endif
@@ -142,11 +142,13 @@
 
         <p>
 
-        @if(is_null($testimonial->approved_at))
-        <a href="#" data-id="{{ $testimonial->id }}" class="approve btn btn-small btn-primary">Approve</a>
-        <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Disapprove</a>
-        @else
-        <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Delete</a>
+        @if(Auth::check() && $testimonial->user_id == Auth::id())
+            @if(is_null($testimonial->approved_at))
+                <a href="#" data-id="{{ $testimonial->id }}" class="approve btn btn-small btn-primary">Approve</a>
+                <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Disapprove</a>
+            @else
+                <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Delete</a>
+            @endif
         @endif
 
         </p>
@@ -167,7 +169,7 @@
                 <div class="panel panel-default">
                     
                     <div class="panel-body">
-                        
+                        @if(Auth::check())
                         <form id="add_category" method="POST" action="{{ url('categories') }}" role="form">
                             
                             {!! csrf_field() !!}
@@ -177,17 +179,18 @@
                                 <label for="">Add New Category</label>
                                 <input class="form-control" type="text" name="category_name" placeholder="Add a category name" />
                             </div>
-
-                            @if(Auth::user()->categories()->exists())
-                                <div class="form-group">
-                                    <label for="">Or select and existing category</label>
-                                    <select name="category_id" class="form-control">
-                                        @foreach(Auth::user()->categories()->get() as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
+                            
+                            
+                                @if(Auth::user()->categories()->exists())
+                                    <div class="form-group">
+                                        <label for="">Or select and existing category</label>
+                                        <select name="category_id" class="form-control">
+                                            @foreach(Auth::user()->categories()->get() as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
                             
 
                             <div class="form-group">
@@ -195,7 +198,7 @@
                             </div>
                             
                         </form>
-                        
+                        @endif
 
                     </div> <!-- /.panel-body -->
                 </div>
