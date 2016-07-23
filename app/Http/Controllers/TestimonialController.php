@@ -22,7 +22,7 @@ class TestimonialController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials', 'thankyou', 'showTestimonialVideo']]);
+        $this->middleware('auth', ['except' => ['create', 'store', 'storeFromDesktop', 'storeFromPhone', 'publicTestimonials', 'thankyou', 'showTestimonialVideo', 'getTestimonial']]);
 
         $this->middleware('testimonial.owner', ['only' => ['approve', 'destroy']]);
 
@@ -105,12 +105,21 @@ class TestimonialController extends Controller
             $testimonial = Testimonial::findOrFail($id);
 
             // if unapproved and not owner
-            if(is_null($testimonial->approved_at) &&
-                $testimonial->user()->first()->id != Auth::id()) {
-                return redirect()->back()->with("error", "Forbidden access");
+            if(is_null($testimonial->approved_at)) {
+
+                if(!Auth::check()) {
+                    return redirect()->back()->with("error", "Forbidden access");    
+                }
+                
+                if($testimonial->user()->first()->id != Auth::id()) {
+                    return redirect()->back()->with("error", "Forbidden access");       
+                } 
+                
             } 
 
-            return view('testimonials.show', compact('testimonial'));
+            $user = $testimonial->user()->first();
+
+            return view('testimonials.show', compact('testimonial', 'user'));
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
 

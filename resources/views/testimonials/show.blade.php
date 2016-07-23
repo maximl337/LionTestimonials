@@ -2,6 +2,31 @@
 
 @section('head')
 
+
+<!--FACEBOOK-->
+<meta property="og:site_name"     content="">
+<meta property="og:url"           content="{{ url('testimonials/'.$testimonial->id) }}" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Sell with reviews: {{ $user->getName() }}" />
+<meta property="og:description"   content="Convert customers to your brand champions" />
+<meta property="og:image"         content="{{ $user->avatar ?: 'http://www.sellwithreviews.com/wp-content/uploads/2016/03/sell-with-reviews-logo-02.png' }}" />
+<meta property="fb:app_id" content="" >
+<meta property="og:locale" content="" >
+
+<!--TWITTER-->
+<meta property="twitter:card" content="summary" >
+<meta property="twitter:title" content="Sell with reviews: {{ $user->getName() }}" >
+<meta property="twitter:description" content="Convert customers to your brand champions" >
+<meta property="twitter:creator" content="Sell with reviews" >
+<meta property="twitter:url" content="{{ url('testimonials/'.$testimonial->id) }}" >
+<meta property="twitter:image" content="{{ $user->avatar ?: 'http://www.sellwithreviews.com/wp-content/uploads/2016/03/sell-with-reviews-logo-02.png' }}" >
+<meta property="twitter:image:alt" content="{{ $user->getName() }}" >
+
+<!--GOOGLE+-->
+<link rel="author" href="Sell with reviews: {{ $user->getName() }}">
+<link rel="publisher" href="Sell with reviews: {{ $user->getName() }}">
+
+
 <style>
 @media screen and (min-width: 320px) {
 
@@ -45,55 +70,38 @@
     Testimonial
   </div>
 
-  <div class="panel-body">
-    
-    <div class="row">
-        <div class="col-md-12">
-            @if(!is_null($testimonial->approved_at))
-              <div class="pull-right"><span class="label label-success"></span></div>
-            @endif
-            <div class="text-center">
-              <h1 class="rating">{{ $testimonial->rating }}</h1>
-              <p><em>out of 5 (rating)</em></p>
-            </div>
-        </div>
-        <!-- /.col-md-12 -->
-    </div>
-    <!-- /.row -->
-   
-
-    @if(!empty($testimonial->token)) 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div>
-                <ziggeo ziggeo-video='{{ $testimonial->token }}'
-                    ziggeo-responsive=true>
-                </ziggeo>
-            </div>
-        </div>
-        <!-- /.col-md-12 -->
-    </div>
-    <!-- /.row -->
-    @endif
-    
-    <p>{{ $testimonial->body }}</p>
-
-    <p>From: <strong>{{ $testimonial->contact()->first()->first_name }}</strong> <span class="pull-right">{{ $testimonial->created_at->diffForHumans() }}</span></p>
-
-    <p>
-      
-      @if(is_null($testimonial->approved_at))
-      <a href="#" data-id="{{ $testimonial->id }}" class="approve btn btn-small btn-primary">Approve</a>
-      <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Disapprove</a>
-      @else
-      <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Delete</a>
-      @endif
-      
-    </p>
-    
-  </div> <!-- .panel-body -->
-
     <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-12">
+            
+                @if($testimonial->approved_at)    
+                    <ul class="list-inline pull-right">
+                        <li>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ url('testimonials/'.$testimonial->id) }}" class="btn btn-default btn-facebook popup">
+                            <i class="fa fa-facebook"></i>
+                            <span class="text">Share</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://twitter.com/home?status={{ url('testimonials/'.$testimonial->id) }}"  class="btn btn-default btn-twitter popup">
+                            <i class="fa fa-twitter"></i>
+                            <span class="text">Share</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://plus.google.com/share?url={{ url('testimonials/'.$testimonial->id) }}"  class="btn btn-default btn-googleplus popup">
+                            <i class="fa fa-google-plus"></i>
+                            <span class="text">Share</span>
+                            </a>
+                        </li>
+                    </ul>
+                @endif
+            
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row --> 
 
         @if(!is_null($testimonial->approved_at))
             <div class="pull-right"><span class="label label-success"></span></div>
