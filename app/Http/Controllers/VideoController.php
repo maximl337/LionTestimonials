@@ -79,7 +79,7 @@ class VideoController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function store(Request $request)
+    public function store(Request $request, VideoToGif $videoToGifClient)
     {
     	$this->validate($request, [
     			'title' => 'required|max:255',
@@ -116,6 +116,8 @@ class VideoController extends Controller
 	    			]);
 
     		Auth::user()->videos()->save($video);
+
+            $videoToGifClient->convert($request->get('url'), $video->id);
 
             // wants to send request
             if($request->get('testimonial_request') && $request->get('contact_id')) {

@@ -12,7 +12,8 @@ class Video extends Model
     	'title',
     	'thumbnail',
         'url',
-        'profile_video'
+        'profile_video',
+        'gif_path'
     ];
 
     public function user()

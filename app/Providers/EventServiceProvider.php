@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ImageUpload' => [
             'App\Listeners\ImageUploadListener',
         ],
+        'App\Events\VideoStoredEvent' => [
+            'App\Listeners\VideoStoredListener',
+        ],
     ];
 
     /**

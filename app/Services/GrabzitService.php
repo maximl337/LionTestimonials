@@ -18,17 +18,11 @@ class GrabzitService implements VideoToGif {
 		$this->client = $client;
 	}
 
-	public function convert($video_url)
+	public function convert($video_url, $custom_id)
 	{
 		try {
 			
-			if(Auth::check()) {
-				$customid = uniqid() . "-" . Auth::id();	
-			} else {
-				$customid = uniqid()."-noid";	
-			}
-			
-			$this->client->SetAnimationOptions($video_url, $customid);
+			$this->client->SetAnimationOptions($video_url, $custom_id, null, null, null, 10);
 
 			$this->client->Save(url("/grabzit"));
 
@@ -55,8 +49,6 @@ class GrabzitService implements VideoToGif {
 
 			$format = $input["format"];
 
-			//Log::info("grabzit", ["message" => "Image for ID: " . $id]);
-
 			$result = $this->client->GetResult($id);
 
 			$destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/images/' . $filename;
@@ -72,6 +64,9 @@ class GrabzitService implements VideoToGif {
                         file_get_contents($destinationPath)
                     );
 
+            $video = Video::findOrFail($customId);
+
+            $video->update(['gif_path' => $storage_path]);
 			
 		} catch (Exception $e) {
 			throw $e;
