@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\VideoToGif;
 use Log;
 use Auth;
+use Storage;
 use App\Services\ImageService;
 use App\Clients\GrabzIt\GrabzItClient;
 
@@ -60,9 +61,16 @@ class GrabzitService implements VideoToGif {
 
 			$destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/images/' . $filename;
 
-			Log::info("grabzit", ["storage path" => $destinationPath]);
+			//Log::info("grabzit", ["storage path" => $destinationPath]);
 
-			file_put_contents($destinationPath, $result);
+			//file_put_contents($destinationPath, $result);
+
+			$storage_path = 'sellwithreviews.com/'.env('APP_ENV').'/gifs/' . $fileName;
+
+            Storage::put(
+                        $storage_path,
+                        file_get_contents($result)
+                    );
 
 			
 		} catch (Exception $e) {
