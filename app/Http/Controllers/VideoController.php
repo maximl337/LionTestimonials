@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Log;
 use Auth;
 use Mail;
+use Storage;
 use App\User;
 use App\Video;
 use App\Contact;
@@ -208,10 +209,17 @@ class VideoController extends Controller
 
             $msg = $input['message'];
 
+            $gif = null;
+
+            if($video->gif_path) {
+                $gif = Storage::get($video->gif_path);
+            }
+
             $data = [
                 'contact' => $contact,
                 'video'  => $video,
-                'body'   => $msg
+                'body'   => $msg,
+                'gif'    => $gif
             ];
 
             // mail
