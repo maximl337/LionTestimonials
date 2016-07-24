@@ -61,15 +61,15 @@ class GrabzitService implements VideoToGif {
 
 			$destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/images/' . $filename;
 
-			//Log::info("grabzit", ["storage path" => $destinationPath]);
+			Log::info("grabzit", ["storage path" => $destinationPath]);
 
-			//file_put_contents($destinationPath, $result);
+			file_put_contents($destinationPath, $result);
 
 			$storage_path = 'sellwithreviews.com/'.env('APP_ENV').'/gifs/' . $filename;
 
             Storage::put(
                         $storage_path,
-                        file_get_contents($result)
+                        file_get_contents($destinationPath)
                     );
 
 			
