@@ -212,7 +212,7 @@ class VideoController extends Controller
             $gif = null;
 
             if($video->gif_path) {
-                $gif = Storage::get($video->gif_path);
+                $gif = Storage::url($video->gif_path);
             }
 
             $data = [
