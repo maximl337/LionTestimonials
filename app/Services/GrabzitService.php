@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\VideoToGif;
 use Log;
 use Auth;
+use App\Video;
 use Storage;
 use App\Services\ImageService;
 use App\Clients\GrabzIt\GrabzItClient;
