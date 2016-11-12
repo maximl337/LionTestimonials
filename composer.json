@@ -15,7 +15,8 @@
         "redeman/imgur-laravel": "^1.0",
         "aloha/twilio": "^2.0",
         "laravel/cashier": "~6.0",
-        "grabzit/grabzit":"2.2.2"
+        "grabzit/grabzit":"2.2.2",
+        "propaganistas/laravel-phone": "^2.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

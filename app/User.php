@@ -93,4 +93,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Category::class);
     }
+
+    public function branding()
+    {
+        return $this->hasMany(Branding::class);
+    }
 }

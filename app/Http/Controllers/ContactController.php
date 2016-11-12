@@ -14,8 +14,10 @@ use Twilio;
 use Storage;
 use Session;
 use Validator;
+use App\User;
 use App\Video;
 use App\Contact;
+use App\Branding;
 use Carbon\Carbon;
 use App\Invitation;
 use App\Http\Requests;
@@ -26,13 +28,13 @@ class ContactController extends Controller
 {
     public function __construct()
     {
-    	$this->middleware('auth');
+    	$this->middleware('auth', ['except' => ['getSelfRegister']]);
 
         $this->middleware('contact.owner', ['only' => ['update', 'destroy']]);
 
         $this->middleware('verified', ['only' => ['sendExternalLinksEmail', 'externalLinksEmailPreview', 'sendSMS', 'sendEmailSelf', 'sendEmail', 'smsPreview', 'emailPreview']]);
 
-        $this->middleware('subscribed');
+        $this->middleware('subscribed', ['except' => ['getSelfRegister']]);
     }
 
     /**
@@ -127,7 +129,7 @@ class ContactController extends Controller
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'email' => 'required|email|unique:contacts,email,'. $id .',id,user_id,' . Auth::id(),
-                'phone' => 'integer',
+                'phone' => 'phone:AUTO,US',
             ],
             [
                 'email.unique' => "You already have a contact with that email"
@@ -525,7 +527,11 @@ class ContactController extends Controller
         
     }
 
-
+    /**
+     * [sendSMS description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function sendSMS(Request $request)
     {
         $this->validate($request, [
@@ -591,6 +597,11 @@ class ContactController extends Controller
         }
     }
 
+    /**
+     * [externalLinksEmailPreview description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function externalLinksEmailPreview($id)
     {
         try {
@@ -619,6 +630,11 @@ class ContactController extends Controller
         }
     }
 
+    /**
+     * [sendExternalLinksEmail description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function sendExternalLinksEmail(Request $request)
     {
         $this->validate($request, [
@@ -673,6 +689,34 @@ class ContactController extends Controller
             Session::flash('error', $e->getMessage());
 
             return redirect()->back();
+
+        }
+    }
+
+    /**
+     * [getSelfRegister description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getSelfRegister($id)
+    {
+        try {
+            
+            $user = User::findOrFail($id);
+
+            $branding = $user->branding()->first();
+
+            if(!$branding) {
+                $branding = new Branding();
+            }
+
+            return view('contacts.register', compact('user', 'branding'));
+
+        } catch (Exception $e) {
+            
+            Session::flash('error', $e->getMessage());
+
+            return view('contacts.register');
 
         }
     }

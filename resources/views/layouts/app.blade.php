@@ -54,6 +54,7 @@
             </a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="{{ url('profile') }}">Profile</a></li>
+              <li><a href="{{ url('branding') }}">Branding</a></li>
               <li><a href="{{ url('logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
             </ul>
           </li>
@@ -62,11 +63,14 @@
       </div>
     </div>
   </nav>
+  
+  
 
   <section id="user-profile" class="section">
     <div class="container">
       <div class="inner-border">
         <div class="row">
+          @if(!Auth::guest())
           <div class="col-md-3">
             <div class="left-sidebar">
               <ul>
@@ -78,6 +82,7 @@
               </ul>
             </div>
           </div>
+          @endif
           <div class="col-md-9">
             @yield('content')
           </div>
@@ -85,6 +90,7 @@
       </div>
     </div>
   </section>
+ 
 
   <!-- JavaScripts -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>

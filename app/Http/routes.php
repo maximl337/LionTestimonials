@@ -58,6 +58,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::delete('contacts/{id}', 'ContactController@destroy');
 
+    Route::get('contact/register/{id}', 'ContactController@getSelfRegister');
+
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
 
@@ -121,6 +123,11 @@ Route::group(['middleware' => 'web'], function () {
         'stripe/webhook',
         '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
     );
+
+    /** Branding */
+    Route::get('branding', 'BrandingController@edit');
+
+    Route::post('branding', 'BrandingController@update');
 
     
 });
