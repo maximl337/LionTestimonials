@@ -10,12 +10,14 @@ use View;
 use Mail;
 use Storage;
 use Session;
+use App\Branding;
 use App\User;
 use App\Contact;
 use Carbon\Carbon;
 use App\Invitation;
 use App\Testimonial;
 use App\Http\Requests;
+use App\Http\Requests\StoreTestimonialRequest;
 
 class TestimonialController extends Controller
 {
@@ -163,6 +165,12 @@ class TestimonialController extends Controller
 
     		$user = $contact->user()->first();
 
+            $branding = $user->branding()->first();
+
+            if(!$branding) {
+                $branding = new Branding();
+            }
+
     		// check if token matches
     		if($invitation->token != $input['token']) {
     			throw new \Exception("Given token does not match the one on record");
@@ -170,7 +178,9 @@ class TestimonialController extends Controller
 
     		$data = [
     			'contact' => $contact,
-    			'user' => $user
+    			'user' => $user,
+                'branding' => $branding,
+                'invitation' => $invitation
     		];
 
     		return view('testimonials.create', compact('data'));
@@ -197,45 +207,28 @@ class TestimonialController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function store(Request $request)
+    public function store(StoreTestimonialRequest $request)
     {
-    	$this->validate($request, [
-
-    			'contact_id' => 'required|exists:contacts,id',
-    			'user_id' => 'required|exists:contacts,user_id|exists:users,id',
-    			'rating' => 'integer|max:5|min:1',
-    			'email' => 'email|required',
-                'body' => 'required_without:token',
-                'token' => 'required_without:body',
-                'thumbnail' => 'required_with:token',
-                'url' => 'required_with:token'
-                //'g-recaptcha-response' => 'required|recaptcha',
-
-    		],[
-                'token.required_without' => 'Please add a video if not adding any text',
-                'body.required_without' => 'Please add some text if not adding a video',
-                'email.email' => 'Email is not valid',
-                'email.required' => 'Email is required'
-            ]);
-
-    	$input = $request->input();
 
         try {
 
+            $input = $request->only(['contact_id', 'rating', 'body', 'token', 'thumbnail', 'url', 'email', 'invite_token']);
+
+            $input = array_filter($input, 'strlen');
+
+            $exists = Testimonial::where('user_id', $request->get('user_id'))
+                                    ->where('contact_id', $input['contact_id'])
+                                    ->where('invite_token', $input['invite_token'])
+                                    ->exists();
+
+            if($exists) {
+                throw new \Exception("Token to submit testimonial is exhausted");
+            }
+
             // create testimonial
-            $testimonial = new Testimonial([
+            $testimonial = new Testimonial($input);
 
-                    'contact_id' => $input['contact_id'],
-                    'rating' => $input['rating'],
-                    'body' => !empty($input['body']) ? $input['body'] : "",
-                    'token' => !empty($input['token']) ? $input['token'] : "",
-                    'thumbnail' => !empty($input['thumbnail']) ? $input['thumbnail'] : "",
-                    'url' => !empty($input['url']) ? $input['url'] : "",
-                    'email' => $input['email']
-
-                ]);
-
-            $user = User::findOrFail($input['user_id']);
+            $user = User::findOrFail($request->get('user_id'));
 
             $user->testimonials()->save($testimonial);
 
@@ -250,11 +243,18 @@ class TestimonialController extends Controller
                 $m->to($user->email, $user->getName())->subject("New Testimonial");
             });
 
-            $message = "Thank you for the review. Share the agents profile to let your friends know";
+            // get testimonial thanks vid
 
-            return redirect('users/' . $user->id . '/public')->with("success", $message);
+            // get third part sites
+            $video = $user->videos()->where('thanks_video', true)->first();
 
-        } catch (Exception $e) {
+            $external_sites = $user->thirdPartyTestimonialSites()->get();
+
+            $branding = $user->branding()->first();
+
+            return view('testimonials.thankyou', compact('video', 'external_sites', 'branding'));
+
+        } catch (\Exception $e) {
 
             return redirect()->back()->with("error", $e->getMessage());
 
@@ -312,11 +312,6 @@ class TestimonialController extends Controller
             ], 500);
         }
         
-    }
-
-    public function thankyou()
-    {
-        return view('testimonials.thankyou');
     }
 
     /**
@@ -544,6 +539,11 @@ class TestimonialController extends Controller
         }
     }
 
+    /**
+     * [destroy description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function destroy(Request $request)
     {
         $this->validate($request, [

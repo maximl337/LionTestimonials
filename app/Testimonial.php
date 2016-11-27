@@ -13,6 +13,7 @@ class Testimonial extends Model
         'email',
     	'body',
     	'token',
+        'invite_token',
         'thumbnail',
         'url',
         'approved_at',

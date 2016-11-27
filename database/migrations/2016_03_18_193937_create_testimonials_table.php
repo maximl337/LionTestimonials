@@ -19,6 +19,7 @@ class CreateTestimonialsTable extends Migration
             $table->integer('rating')->unsigned();
             $table->string('email');
             $table->text('body')->nullable();
+            $table->string('invite_token')->comment = "Invitation token to prevent multiple testimonials";
 
             $table->string('token')->nullable()->comment = "Token received from Ziggeo";
             $table->string('thumbnail')->nullable();
@@ -30,7 +31,11 @@ class CreateTestimonialsTable extends Migration
         });
 
         Schema::table('testimonials', function (Blueprint $table) {
+            
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unique(['contact_id', 'user_id', 'invite_token']);
+
         });
     }
 

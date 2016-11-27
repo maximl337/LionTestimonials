@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.public')
 
 @section('head')
 
@@ -14,6 +14,28 @@
 
 
 @section('footer')
+
+@if(!empty($data['branding']->primary_color) && !empty($data['branding']->text_color))
+
+<script type="text/javascript">
+  $(".branding-primary-color")
+            .css("color", "{{ $data['branding']->text_color }}");        
+
+    $(".branding-primary-color")
+        .css("background-color", "{{ $data['branding']->primary_color }}");
+</script>
+
+@endif
+
+@if(!empty($data['branding']->background_color))
+
+<script type="text/javascript">
+  
+  $('body > .container').css("background-color", "{{ $data['branding']->background_color }}")
+
+</script>
+
+@endif
 
 @if(Session::has('error'))
 <script type="text/javascript">
@@ -36,7 +58,6 @@
       var email = $(this).find('input#email').val();
       var rating = $(this).find('select#rating').val();
 
-      console.log(email);
       if(email === undefined || email === null || email.length == 0) {
         swal("Uh oh!", "Please enter an email", "error");   
         return false;

@@ -13,6 +13,7 @@ class Video extends Model
     	'thumbnail',
         'url',
         'profile_video',
+        'thanks_video',
         'gif_path'
     ];
 

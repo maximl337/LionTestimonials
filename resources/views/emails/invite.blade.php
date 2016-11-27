@@ -1,4 +1,12 @@
-<p>{{ $body }}</p>
+@if(!empty($body))
+	<p>{{ $body }}</p>
+@else
+
+	<p>Hi {{ $contact->first_name }}, <p>
+
+	 <p>{{ $user->getName() }} has requested a testimonial from you for his services. This should take no more than a couple of minutes.</p>
+
+@endif
 
 @if($video)
 <p>{{ $user->first_name }} has sent a video with the request. Click below to watch it.</p>

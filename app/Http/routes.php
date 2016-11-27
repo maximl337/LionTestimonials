@@ -60,6 +60,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('contact/register/{id}', 'ContactController@getSelfRegister');
 
+    Route::post('contact/register/{id}', 'ContactController@selfRegister');
+
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
 
