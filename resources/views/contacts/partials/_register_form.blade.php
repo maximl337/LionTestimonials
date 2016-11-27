@@ -1,4 +1,4 @@
-<form id="create_contact_form" method="POST" action="{{ url('contacts/create') }}" role="form">
+<form id="create_contact_form" method="POST" action="{{ url('contact/register/' . $user->id) }}" role="form">
 
     {!! csrf_field() !!}
 

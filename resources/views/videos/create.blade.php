@@ -34,6 +34,14 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+				<div class="checkbox">
+					<label>
+						<input id="thanks_video" type="checkbox" name="thanks_video" value="1">Make this the default thank you video after a client has submitted a testimonial
+					</label>
+				</div>
+			</div>
+
 			
 			@if($testimonial_request)
 			

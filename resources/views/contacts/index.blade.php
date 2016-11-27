@@ -4,7 +4,12 @@
 
 <div class="panel panel-default">
 
-  <div class="panel-heading">Contacts <a href="{{ url('contacts/create') }}" class="pull-right"><i class="fa fa-pencil"></i> Create</a></div>
+  <div class="panel-heading">
+    Contacts 
+    <a href="{{ url('contacts/create') }}" class="pull-right"><i class="fa fa-pencil"></i> Create</a>
+
+    <a href="{{ url('contact/register/' . Auth::id()) }}" target="_blank" title="Your clients can use this link to self register" class="pull-right"><i class="fa fa-plus"></i> Self register</a>
+  </div>
 
   <div class="panel-body">
 

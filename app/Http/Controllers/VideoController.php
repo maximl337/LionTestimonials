@@ -13,6 +13,7 @@ use App\Video;
 use App\Contact;
 use App\Http\Requests;
 use App\Contracts\VideoToGif;
+use App\Events\VideoStoredEvent;
 
 class VideoController extends Controller
 {
@@ -51,7 +52,11 @@ class VideoController extends Controller
     		
     		$video = Video::findOrFail($id);
 
-    		return view('videos.show', compact('video'));
+            $user = $video->user()->first();
+
+            $branding = $user->branding()->first();
+
+    		return view('videos.show', compact('user', 'video', 'branding'));
 
     	} catch (\Exception $e) {
     		
@@ -80,7 +85,7 @@ class VideoController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function store(Request $request, VideoToGif $videoToGifClient)
+    public function store(Request $request)
     {
     	$this->validate($request, [
     			'title' => 'required|max:255',
@@ -94,15 +99,27 @@ class VideoController extends Controller
 
     	try {
 
+            $user = Auth::user();
+
             // if making profile video
             // remove all other profile videos
             // As users can only have one profile video
             if($request->get('profile_video')) {
-                $videos = Auth::user()->videos()->where('profile_video', true)->get();
+                $videos = $user->videos()->where('profile_video', true)->get();
 
                 foreach($videos as $video) {
                     $video->update(['profile_video' => false]);
                 }    
+            }
+
+            // same for thanks video
+            if($request->get('thanks_video')) {
+
+                $videos = $user->videos()->where('thanks_video', true)->get();
+
+                foreach($videos as $video) {
+                    $video->update(['thanks_video' => false]);
+                }   
             }
             
     		
@@ -112,13 +129,14 @@ class VideoController extends Controller
 	    			'title' => $request->get('title'),
                     'thumbnail' => $request->get('thumbnail'),
                     'url'       => $request->get('url'),
-                    'profile_video' => $request->get('profile_video') ? true : false
+                    'profile_video' => $request->get('profile_video') ? true : false,
+                    'thanks_video'  => $request->get('thanks_video') ? true : false
 
 	    			]);
 
-    		Auth::user()->videos()->save($video);
+    		$user->videos()->save($video);
 
-            $videoToGifClient->convert($request->get('url'), $video->id);
+            event(new VideoStoredEvent($video));
 
             // wants to send request
             if($request->get('testimonial_request') && $request->get('contact_id')) {

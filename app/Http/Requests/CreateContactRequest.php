@@ -33,6 +33,10 @@ class CreateContactRequest extends Request
         ];
     }
 
+    /**
+     * [messages description]
+     * @return [type] [description]
+     */
     public function messages()
     {
         return [

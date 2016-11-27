@@ -21,6 +21,7 @@ class CreateVideosTable extends Migration
             $table->string('url');
             $table->string('gif_path')->nullable();
             $table->boolean('profile_video')->default(false);
+            $table->boolean('thanks_video')->default(false);
             $table->timestamps();
         });
 

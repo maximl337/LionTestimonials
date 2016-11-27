@@ -21,20 +21,26 @@ use App\Branding;
 use Carbon\Carbon;
 use App\Invitation;
 use App\Http\Requests;
+use App\Services\ContactService;
 use App\ThirdPartyTestimonialSite;
 use App\Http\Requests\CreateContactRequest;
 
 class ContactController extends Controller
 {
-    public function __construct()
+
+    protected $contactService;
+
+    public function __construct(ContactService $contactService)
     {
-    	$this->middleware('auth', ['except' => ['getSelfRegister']]);
+    	$this->middleware('auth', ['except' => ['getSelfRegister', 'selfRegister']]);
 
         $this->middleware('contact.owner', ['only' => ['update', 'destroy']]);
 
         $this->middleware('verified', ['only' => ['sendExternalLinksEmail', 'externalLinksEmailPreview', 'sendSMS', 'sendEmailSelf', 'sendEmail', 'smsPreview', 'emailPreview']]);
 
         $this->middleware('subscribed', ['except' => ['getSelfRegister']]);
+
+        $this->contactService = $contactService;
     }
 
     /**
@@ -710,14 +716,55 @@ class ContactController extends Controller
                 $branding = new Branding();
             }
 
-            return view('contacts.register', compact('user', 'branding'));
+            return view('contacts.register', compact('user', 'branding'));  
 
         } catch (Exception $e) {
-            
-            Session::flash('error', $e->getMessage());
+                
+            Session::flash('error', $e->getMessage());  
 
             return view('contacts.register');
 
+        }
+    }
+
+    /**
+     * [selfRegister description]
+     * @param  [type]  $id      [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function selfRegister($id, Request $request)
+    {
+        try {
+
+            $this->validate($request, [
+                    'first_name' => 'required',
+                    'last_name'  => 'required',
+                    'email'     => 'required|email|unique:contacts,email,NULL,id,user_id,' . $id,
+                    'phone'     => 'phone:AUTO,US' //'digits:10'
+                ]);
+            
+            $user = User::findOrFail($id);
+
+            $input = $request->only(['first_name', 'last_name', 'email', 'phone']);
+
+            $input = array_filter($input, 'strlen');
+
+            $contact = new Contact($input);
+
+            $user->contacts()->save($contact);
+
+            $this->contactService->sendEmailInvite($contact, $user);
+
+            Session::flash('success', 'Thank you for registering. We will be in touch soon');
+
+            return redirect()->back();
+
+        } catch (Exception $e) {
+            
+            Session::flash('error', 'Unable to register due to an internal error. Please try again');
+
+            return redirect()->back();
         }
     }
     
