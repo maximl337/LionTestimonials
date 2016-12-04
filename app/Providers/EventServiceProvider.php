@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\VideoStoredEvent' => [
             'App\Listeners\VideoStoredListener',
         ],
+        'App\Events\ExternalVendorStored' => [
+            'App\Listeners\ExternalVendorStoredListener',
+        ],
     ];
 
     /**

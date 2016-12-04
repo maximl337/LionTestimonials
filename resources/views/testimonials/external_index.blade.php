@@ -29,51 +29,24 @@
             <hr />
             <div class="col-md-12">
                 <p class="pull-right">
-                    <a href="{{ url('testimonials/external') }}" class="btn btn-primary"> External reviews: {{ $testimonials_by_providers['yelp'] + $testimonials_by_providers['google'] }}</a>
+                    <a href="{{ url('testimonials') }}" class="btn btn-primary"> Your Testimonials: {{ $testimonials_by_providers['local'] }}</a>
                 </p>
             </div>
         </div>
         
        
+        <div class="row">
+            @foreach($testimonials as $testimonial)        
+                
+                <div class="col-md-12">
 
-        @foreach($testimonials->chunk(3) as $testimonialRow)        
-            <div class="row">
-                @foreach($testimonialRow as $testimonial)
-                <div class="col-md-4">
-
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <p class="pull-right"><a href="testimonials/{{ $testimonial->id }}">view</a></p>
-                            <p>From: {{ $testimonial->contact->first_name . ' ' . $testimonial->contact->last_name }}</p>
-                            <p>Email: {{ $testimonial->contact->email }}</p>
-                            <p>Rating: {{ $testimonial->rating }}</p>
-                            <p>Body: {{ str_limit($testimonial->body, 20) }}</p>   
-
-                            @if(!empty($testimonial->token))
-
-                            <p>
-                                <span class="label label-success">Has video</span>
-                            </p>
-
-
-                            @endif
-
-                            <p>
-                                @if(!is_null($testimonial->approved_at))
-                                <a href="#" class="btn btn-small btn-success disabled">Approved</a>
-                                <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Delete</a>
-                                @else
-                                <a href="#" data-id="{{ $testimonial->id }}" class="approve btn btn-small btn-primary">Approve</a>
-                                <a href="#" data-id="{{ $testimonial->id }}" class="remove btn btn-small btn-danger">Disapprove</a>
-                                @endif
-                            </p>     
-                        </div> <!-- .panel-body -->
-                    </div> <!-- .panel -->
-
-                </div> <!-- .col-md-4 -->
-                @endforeach
-            </div><!-- .row -->
-        @endforeach
+                    {{ str_limit($testimonial->body) }}
+                    <hr />
+                </div>
+                <!-- /.col-md-12 -->
+                
+            @endforeach
+        </div><!-- .row -->
 
         {!! $testimonials->render() !!}
     </div> <!-- .panel-body -->

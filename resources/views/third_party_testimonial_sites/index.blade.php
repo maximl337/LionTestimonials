@@ -30,14 +30,13 @@
 	<!-- /.panel-heading -->
 	<div class="panel-body">
 
-		<table class="table">
+		<table class="table table-striped">
 			@foreach($links as $link)
 			
 			<tr>
-				<td><a href="{{ $link->url }}">{{ $link->url }}</a></td>
-				<td>{{ $link->provider }}</td>
-				<td><a href="{{ url('externalLinks/' . $link->id .'/edit') }}" class="edit" data-id="{{ $link->id }}"><i class="fa fa-pencil"></i></a></td>
-				<td><a href="#" class="delete-link" data-id="{{ $link->id }}"><i class="fa fa-trash"></i></a></td>
+				<td><a href="{{ $link->business_name }}"><a target="_blank" href="{{ $link->business_url }}">{{ str_limit($link->business_name, 50) }}</a></td>
+				<td>{{ ucfirst($link->provider) }}</td>
+				<td><a href="#" title="Delete" class="delete-link" data-id="{{ $link->id }}"><i class="fa fa-trash"></i></a></td>
 			</tr>
 			
 

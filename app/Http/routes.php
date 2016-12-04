@@ -71,6 +71,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('testimonials', 'TestimonialController@getTestimonials');
 
+    Route::get('testimonials/external', 'TestimonialController@getExternalTestimonials');
+
     Route::post('testimonials/approve', 'TestimonialController@approve');
 
     Route::post('testimonials/remove', 'TestimonialController@destroy');
@@ -93,6 +95,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('externalLinks/{id}', 'ExternalLinksController@update');
 
     Route::resource('externalLinks', 'ExternalLinksController');
+
+    Route::post('externalReviewSites/search', 'ExternalLinksController@searchBusiness');
     
     /** Support articles */
     Route::post('support/{id}', 'SupportArticleController@update');

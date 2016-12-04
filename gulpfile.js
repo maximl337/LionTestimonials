@@ -12,12 +12,16 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss').scripts([
+    mix.styles([
+    	'bootstrap-stars.css',
+    	'rateit.css'	
+    ]).scripts([
         'RecordRTC.js',
         'gumadapter.js',
-        'jquery.rateit.min.js'
+        'jquery.rateit.min.js',
+        'star_rating.min.js'
     ]).version(["public/build/css/all.css", "public/build/js/all.js"]);
 
-
+    
     
 }); 

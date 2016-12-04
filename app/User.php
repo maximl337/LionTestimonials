@@ -98,4 +98,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Branding::class);
     }
+
+    public function externalReviews()
+    {
+        return $this->hasMany(ExternalVendorReview::class);
+    }
 }
