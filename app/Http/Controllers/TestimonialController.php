@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use App\Invitation;
 use App\Testimonial;
 use App\Http\Requests;
+use App\Contracts\TestimonialInterface;
 use App\Http\Requests\StoreTestimonialRequest;
 
 class TestimonialController extends Controller
@@ -37,7 +38,7 @@ class TestimonialController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function getTestimonials(Request $request)
+    public function getTestimonials(Request $request, TestimonialInterface $testimonialService)
     {
         $limit = $request->get('limit') ?: 9;
 
@@ -45,20 +46,59 @@ class TestimonialController extends Controller
 
         $filter = $request->get('filter') ?: 'all';
 
+        $user = Auth::user();
+
         if($filter == 'approved') {
 
-            $testimonials = Auth::user()->testimonials()->approved()->with('contact')->paginate($limit);
-        }
-        elseif ($filter == 'unapproved') {
+            $testimonials = $user->testimonials()->approved()->with('contact')->paginate($limit);
 
-            $testimonials = Auth::user()->testimonials()->unapproved()->with('contact')->paginate($limit);
-        }
-        else {
+        } elseif ($filter == 'unapproved') {
 
-            $testimonials = Auth::user()->testimonials()->with('contact')->paginate($limit);
+            $testimonials = $user->testimonials()->unapproved()->with('contact')->paginate($limit);
+
+        } else {
+
+            $testimonials = $user->testimonials()->with('contact')->paginate($limit);
         }
 
-        return view('testimonials.index', compact('testimonials'));
+        // average rating
+        $average_rating = $testimonialService->getAverageRating($user);
+
+        $testimonials_by_providers = $testimonialService->getReviewCountByProvider($user);
+
+        return view('testimonials.index', compact('testimonials', 'average_rating', 'testimonials_by_providers'));
+    }
+
+    /**
+     * [getExternalTestimonials description]
+     * @param  Request              $request            [description]
+     * @param  TestimonialInterface $testimonialService [description]
+     * @return [type]                                   [description]
+     */
+    public function getExternalTestimonials(Request $request, TestimonialInterface $testimonialService)
+    {
+        try {
+
+            $limit = $request->get('limit') ?: 2;
+
+            $page = $request->get('page') ?: 0;
+
+            $filter = $request->get('filter') ?: 'all';
+
+            $user = Auth::user();
+
+            $testimonials = $user->externalReviews()->with('vendor')->paginate($limit);
+
+            // average rating
+            $average_rating = $testimonialService->getAverageRating($user);
+
+            $testimonials_by_providers = $testimonialService->getReviewCountByProvider($user);
+
+            return view('testimonials.external_index', compact('testimonials', 'average_rating', 'testimonials_by_providers'));
+            
+        } catch (Exception $e) {
+            
+        }
     }
 
     /**

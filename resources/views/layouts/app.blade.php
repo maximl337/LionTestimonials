@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/animatecss/3.5.1/animate.min.css">
 
   <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/all.css">
   <link rel="stylesheet" href="/css/ionicons.css">
   <link rel="stylesheet" href="/css/bootstrap-social.css">
 

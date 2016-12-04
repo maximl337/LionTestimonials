@@ -155,6 +155,11 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\YelpServiceProvider::class,
+        App\Providers\GooglePlacesServiceProvider::class,
+        App\Providers\ExternalVendorServiceProvider::class,
+        App\Providers\TestimonialServiceProvider::class,
+
 
         /*
          * Vendor Service Providers

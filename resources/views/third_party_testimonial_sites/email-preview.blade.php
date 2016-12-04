@@ -42,7 +42,7 @@
         @foreach($links as $link)
         <label>
           <input name="links[]" value="{{ $link->id }}" type="checkbox">
-          {{ $link->url }}    
+          {{ $link->business_name . ' - ' . ucfirst($link->provider) }}    
         </label> <br />
         @endforeach
 

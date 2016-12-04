@@ -14,7 +14,9 @@ class CreateThirdPartyTestimonialSitesTable extends Migration
     {
         Schema::create('third_party_testimonial_sites', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('url');
+            $table->string('business_id');
+            $table->string('business_name');
+            $table->string('business_url');
             $table->string('provider');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
@@ -25,6 +27,8 @@ class CreateThirdPartyTestimonialSitesTable extends Migration
                     ->references('id')
                     ->on('users')
                     ->onDelete('cascade');
+
+            $table->unique(['provider', 'business_id']);
         });
     }
 

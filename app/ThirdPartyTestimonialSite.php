@@ -10,12 +10,19 @@ class ThirdPartyTestimonialSite extends Model
 
     protected $fillable = [
     	'provider',
-    	'url',
+    	'business_url',
+        'business_name',
+        'business_id',
     	'user_id'
     ];
 
     public function user()
     {
-    	return $this->belongsTo('App\User');
+    	return $this->belongsTo(User::class);
+    }
+
+    public function externalReviews()
+    {
+        return $this->hasMany(ExternalVendorReview::class, 'external_review_site_id', 'id');
     }
 }
