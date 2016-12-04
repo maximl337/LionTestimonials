@@ -87,7 +87,7 @@ class TestimonialController extends Controller
 
             $user = Auth::user();
 
-            $testimonials = $user->externalReviews()->with('vendor')->paginate($limit);
+            $testimonials = $user->externalReviews()->paginate($limit);
 
             // average rating
             $average_rating = $testimonialService->getAverageRating($user);

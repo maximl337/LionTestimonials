@@ -13,11 +13,6 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 filter <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li><a href="?filter=approved">Approved</a></li>
-                <li><a href="?filter=unapproved">Unapproved</a></li>
-                <li><a href="?">Clear</a></li>
-            </ul>
         </div>
     </div>
 
@@ -40,8 +35,54 @@
                 
                 <div class="col-md-12">
 
-                    {{ str_limit($testimonial->body) }}
-                    <hr />
+                    <div class="row">
+
+                        <hr />
+                        
+                        <div class="col-md-2">
+
+                            @if($testimonial->vendor()->first()->provider == 'yelp')
+                                
+                                <div style="width: 100%;">
+                                    <img src="//i.imgur.com/FJKbhrg.png" style="width:100%;" />
+                                </div>
+                            
+                            @elseif($testimonial->vendor()->first()->provider == 'google')
+
+                                <div style="width: 100%;">
+                                    <img src="//i.imgur.com/WCpc79f.jpg" style="width:100%;" />
+                                </div>
+                            @endif
+
+
+                            
+                        </div>
+
+                        <div class="col-md-10">
+                        
+                            <h4>{{ str_limit($testimonial->body, 150) }}</h4>
+                            <p class="small-text">
+                                <strong>{{ $testimonial->author }}</strong> 
+                                <em>{{ $testimonial->review_date->diffForHumans() }}</em>
+                                <a href="{{ $testimonial->url }}" target="_blank">view</a>
+                            </p>
+
+
+                            <select class="rating_stars">
+                                @foreach(range(1, 5) as $rating)
+                                    <option value="{{ $rating }}"
+                                        {{ $rating == $testimonial->rating ? ' selected="selected"' : '' }}
+                                    >
+                                    {{ $rating }}</option>
+                                @endforeach
+                            </select>
+                    
+                        </div>
+
+                    </div>
+                    <!-- /.row -->
+
+                    
                 </div>
                 <!-- /.col-md-12 -->
                 
@@ -56,108 +97,56 @@
 
 @section('footer')
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
 <script type="text/javascript">
-$(function() {
+    $(function() {
 
-    $(document).on("click", ".approve", function(e) {
+        $('.rating_stars').barrating({
+            theme: 'bootstrap-stars',
+            readonly: true
 
-        e.preventDefault();
-        $this = $(this);
-        $this.addClass('disabled');
-        $this.html('<i class="fa fa-cog fa-spin"></i>');
-
-        var sendData = {
-            _token: "{{ csrf_token() }}",
-            id: $this.data('id'),
-        };
-
-        $.ajax({
-            type : "POST",
-            url : "{{ url('testimonials/approve') }}",
-            data : sendData,
-            //contentType: "application/json; charset=UTF-8",
-            success: function (response) {  
-                $this.removeClass('btn-primary').addClass('btn-success').html('Approved');
-            },
-            statusCode: {
-                403: function() {
-                    swal("Uh oh!", "Forbidden request", "error");
-                },
-                404: function() {
-                    swal("Uh oh!", "Could not find the resource", "error");
-                },
-                500: function() {
-                    swal("Uh oh!", "Internal server error", "error");
-                }
-            },
-            error: function (e) {
-                swal("Uh oh!", e, "error");
-            } 
         });
 
-    }); // EO approve
-
-
-    $(document).on("click", ".remove", function(e) {
-        e.preventDefault();
-
-        $this = $(this);
-
-        $this.addClass('disabled');
-
-        $this.html('<i class="fa fa-cog fa-spin"></i>');
-
-        var sendData = {
-            _token: "{{ csrf_token() }}",
-            id: $this.data('id'),
-        };
-
-
-
-        $.ajax({
-            type : "POST",
-            url : "{{ url('testimonials/remove') }}",
-            data : sendData,
-            success: function (response) {  
-
-                $this.remove();
-
-                swal({
-                    title: 'Testimonial removed',
-                    text: "Would you like to send " + response.contact_name + " another request for testimonial",
-                    type: 'success',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonText: "Not right now",
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes'
-                }, function(isConfirm) {   
-                    if (isConfirm) {     
-                        window.location.href= response.redirect_url;
-                    } 
-                });
-
-
-            },
-            statusCode: {
-                403: function() {
-                    swal("Uh oh!", "Forbidden request", "error");
-                },
-                404: function() {
-                    swal("Uh oh!", "Could not find the resource", "error");
-                },
-                500: function() {
-                    swal("Uh oh!", "Internal server error", "error");
-                }
-            },
-            error: function (e) {
-                swal("Uh oh!", e, "error");
-            } 
-        });
-
-    }); // EO remove
-
-});
+    });
 </script>
+
+
+
+@if(!empty($average_rating) && !empty($testimonials_by_providers))
+<script type="text/javascript">
+(function() {
+
+    $('#average_rating_stars').barrating({
+        theme: 'bootstrap-stars',
+        readonly: true
+    });
+
+    var ctx = document.getElementById("chartTwo").getContext('2d');
+
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Google", "Yelp", "Sell with reviews"],
+        datasets: [{
+          backgroundColor: [
+            "#3498db",
+            "#e74c3c",
+            "#34495e"
+          ],
+          data: [
+            parseInt("{{ $testimonials_by_providers['google'] }}"), 
+            parseInt("{{ $testimonials_by_providers['yelp'] }}"), 
+            parseInt("{{ $testimonials_by_providers['local'] }}")
+          ]
+        }]
+      }
+    });
+
+})();
+    
+
+</script>
+@endif
 
 @endsection
