@@ -21,98 +21,43 @@
 	<!-- /.panel-heading -->
 	<div class="panel-body">
 
-		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#find" aria-controls="home" role="tab" data-toggle="tab">Find</a></li>
-			<li role="presentation"><a href="#add" aria-controls="profile" role="tab" data-toggle="tab">Add Manually</a></li>
-		</ul>
-
-		<!-- Tab panes -->
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="find">
-
-				<form id="search_external_review_sites" method="POST" action="{{ url('externalLinks') }}" role="form">
+		<form id="search_external_review_sites" method="POST" action="{{ url('externalLinks') }}" role="form">
 					
-					{!! csrf_field() !!}
+			{!! csrf_field() !!}
 
 
-					<div class="form-group">
-						<label for="provider">Select a provider</label>
-						<select id="provider" class="form-control" name="provider">
-							<option value="yelp">Yelp</option>
-							<option value="google">Google</option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label for="location">Business location</label>
-						<input id="location" class="form-control " type="text" name="location" value="" placeholder="Enter a combination of address, neighborhood, city, state or zip, optional country" required="required" />
-					</div>
-
-					<div class="form-group">
-						<label for="query_string">Business name</label>
-						<input id="query_string" class="form-control " type="search" name="query_string" value="" placeholder="Enter business name" autocomplete="off" />
-						<div class="businesses form-control collapse">
-							
-						</div>
-					</div>
-
-					<input id="business_id" type="hidden" name="business_id">
-
-					<input id="business_name" type="hidden" name="business_name">
-
-					<input id="business_url" type="hidden" name="business_url">
-
-					<div class="form-group">
-						<input type="submit" class="form-control btn btn-primary" value="Save" />
-					</div>
-					
-				</form>
-				
-				
+			<div class="form-group">
+				<label for="provider">Select a provider</label>
+				<select id="provider" class="form-control" name="provider">
+					<option value="yelp">Yelp</option>
+					<option value="google">Google</option>
+				</select>
 			</div>
-			<!-- /#find -->
 
-			<div role="tabpanel" class="tab-pane" id="add">
-
-				<form id="create_third_party_site_links" method="POST" action="{{ url('externalLinks') }}" role="form">
-
-					{!! csrf_field() !!}
-					
-					<div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
-						<label for="url">url for the site</label>
-						<p class="help-block">
-							Enter a link that will direct customers to your profile on third party testimonial sites.
-						</p>
-						<!-- /.help-block -->
-						<input id="url" class="form-control " type="text" name="url" value="{{ old('url') }}" placeholder="www.yelp.com/yourProfile" required />
-						@if ($errors->has('url'))
-						<span class="help-block">
-							<strong>{{ $errors->first('url') }}</strong>
-						</span>
-						@endif
-					</div>
-					
-					<div class="form-group{{ $errors->has('provider') ? ' has-error' : '' }}">
-						<label for="provider">Provider</label>
-						<input id="provider" class="form-control" type="text" name="provider" value="{{ old('provider') }}" placeholder="Yelp" required />
-						@if ($errors->has('provider'))
-						<span class="help-block">
-							<strong>{{ $errors->first('provider') }}</strong>
-						</span>
-						@endif
-					</div>
-
-					<div class="form-group">
-						<input type="submit" class="form-control btn btn-primary" value="Create">
-					</div>
-				</form>
-				
+			<div class="form-group">
+				<label for="location">Business location</label>
+				<input id="location" class="form-control " type="text" name="location" value="" placeholder="Enter a combination of address, neighborhood, city, state or zip, optional country" required="required" />
 			</div>
-			<!-- /#add -->
-		</div>
-		
-		
+
+			<div class="form-group">
+				<label for="query_string">Business name</label>
+				<input id="query_string" class="form-control " type="search" name="query_string" value="" placeholder="Enter business name" autocomplete="off" />
+				<div class="businesses form-control collapse">
+					
+				</div>
+			</div>
+
+			<input id="business_id" type="hidden" name="business_id">
+
+			<input id="business_name" type="hidden" name="business_name">
+
+			<input id="business_url" type="hidden" name="business_url">
+
+			<div class="form-group">
+				<input type="submit" class="form-control btn btn-primary" value="Save" />
+			</div>
+			
+		</form>	
 		
 	</div>
 	<!-- /.panel-body -->
