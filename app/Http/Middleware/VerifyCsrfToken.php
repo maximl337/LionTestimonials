@@ -15,6 +15,7 @@ class VerifyCsrfToken extends BaseVerifier
         //'billing'
     	'stripe/*',
     	'grabzit',
-    	'videos/gif'
+    	'videos/gif',
+        'oauth2/*'
     ];
 }

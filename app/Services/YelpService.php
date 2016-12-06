@@ -82,7 +82,9 @@ class YelpService implements Yelp {
 
 				]);
 
-			return json_decode($results->getBody(), true);
+			$resp = json_decode($results->getBody());
+
+			return $resp->email;
 			
 		} catch (GuzzleException $e) {
 

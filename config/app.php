@@ -159,6 +159,7 @@ return [
         App\Providers\GooglePlacesServiceProvider::class,
         App\Providers\ExternalVendorServiceProvider::class,
         App\Providers\TestimonialServiceProvider::class,
+        App\Providers\GoogleApiServiceProvider::class,
 
 
         /*
