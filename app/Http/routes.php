@@ -62,6 +62,9 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('contact/register/{id}', 'ContactController@selfRegister');
 
+    /** OAuth for importing contacts */
+    Route::get('oauth2/google/callback', 'ContactController@googleOauthCallback');
+
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
 
@@ -129,6 +132,7 @@ Route::group(['middleware' => 'web'], function () {
         'stripe/webhook',
         '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
     );
+
 
     /** Branding */
     Route::get('branding', 'BrandingController@edit');

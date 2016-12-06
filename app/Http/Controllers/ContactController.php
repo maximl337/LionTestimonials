@@ -21,26 +21,32 @@ use App\Branding;
 use Carbon\Carbon;
 use App\Invitation;
 use App\Http\Requests;
+use App\Contracts\GoogleApi;
 use App\Services\ContactService;
 use App\ThirdPartyTestimonialSite;
 use App\Http\Requests\CreateContactRequest;
+use App\Transformers\GoogleContactsImportTransformer;
 
 class ContactController extends Controller
 {
 
     protected $contactService;
 
-    public function __construct(ContactService $contactService)
+    protected $googleApi;
+
+    public function __construct(ContactService $contactService, GoogleApi $googleApi)
     {
-    	$this->middleware('auth', ['except' => ['getSelfRegister', 'selfRegister']]);
+    	$this->middleware('auth', ['except' => ['getSelfRegister', 'selfRegister', 'googleOauthCallback']]);
 
         $this->middleware('contact.owner', ['only' => ['update', 'destroy']]);
 
         $this->middleware('verified', ['only' => ['sendExternalLinksEmail', 'externalLinksEmailPreview', 'sendSMS', 'sendEmailSelf', 'sendEmail', 'smsPreview', 'emailPreview']]);
 
-        $this->middleware('subscribed', ['except' => ['getSelfRegister']]);
+        $this->middleware('subscribed', ['except' => ['getSelfRegister', 'googleOauthCallback']]);
 
         $this->contactService = $contactService;
+
+        $this->googleApi = $googleApi;
     }
 
     /**
@@ -67,7 +73,9 @@ class ContactController extends Controller
      */
     public function create()
     {
-    	return view('contacts.create');
+        $google_oauth_url = $this->googleApi->getOauthUrl();
+
+    	return view('contacts.create', compact('google_oauth_url'));
     }
 
     /**
@@ -765,6 +773,72 @@ class ContactController extends Controller
             Session::flash('error', 'Unable to register due to an internal error. Please try again');
 
             return redirect()->back();
+        }
+    }
+
+    /**
+     * Google OAuth sends user back here
+     *
+     * 
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function googleOauthCallback(Request $request, GoogleContactsImportTransformer $googleContactImportTransformer)
+    {
+        try {
+            
+            $input = $request->input();
+
+            if(!empty($input['error'])) {
+                throw new Exception($input['error']);
+            }
+
+            if(empty($input['code'])) {
+                throw new Exception("Google did not provide an authorization code");
+            }
+
+            $code = $input['code'];
+
+            // get access token
+            $access_token = $this->googleApi->getAccessToken($code);
+
+            $email = $this->googleApi->getUserEmail($access_token);
+
+            $ugly_contacts = $this->googleApi->getUserContacts($access_token, $email);
+
+            if(empty($ugly_contacts['feed']['entry'])) {
+                throw new Exception("Google did not return any contacts!");
+            }
+
+            $google_contacts = $googleContactImportTransformer->transformCollection($ugly_contacts['feed']['entry']);
+
+            $google_contacts = array_filter($google_contacts);
+
+            return view('contacts.import', compact('google_contacts'));
+
+        } catch (Exception $e) {
+
+            Session::flash('error', "Could not import contacts from Google: " . $e->getMessage());
+
+            $google_oauth_url = $this->googleApi->getOauthUrl();
+
+            return redirect()->action('ContactController@create', compact('google_oauth_url'));
+        }
+    }
+
+    /**
+     * [googleOauthStandby description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function importContacts(Request $request)
+    {
+        try {
+
+            $input = $request->input();
+            
+        } catch (Exception $e) {
+            
         }
     }
     

@@ -4,7 +4,24 @@
 
 <div class="panel panel-default">
 
-    <div class="panel-heading">Create <a href="{{ url('contacts/import') }}" class="pull-right"><i class="fa fa-pencil"></i> Import CSV</a></div>
+    <div class="panel-heading">Create 
+        <a href="{{ url('contacts/import') }}" class="pull-right"><i class="fa fa-pencil"></i> Import CSV</a>
+        <!-- Single button -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Import <span class="caret"></span>
+            </button>
+                <ul class="dropdown-menu">
+                @if(!empty($google_oauth_url))
+                    <li><a href="{{ $google_oauth_url }}">Google Contacts</a></li>
+                @endif
+                <li><a href="#">Outlook Contacts</a></li>
+                <li><a href="{{ url('contacts/import') }}">Import CSV</a></li>
+            </ul>
+        </div>
+        <!-- /.btn-group -->
+    </div>
+    <!-- /.panel-heading -->
 
     <div class="panel-body">
 
