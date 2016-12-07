@@ -25,7 +25,7 @@ class MicrosoftApiService implements MicrosoftApi {
 		$base_url = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?';
 
 		$params = [
-			'redirect_uri' 	=> url('/oauth2/outlook/callback'),
+			'redirect_uri' 	=> secure_url('/oauth2/outlook/callback'),
 			'response_type'	=> 'code',
 			'client_id'		=> env('MICROSOFT_API_CLIENT_ID'),
 			'scope' 		=> 'https://outlook.office.com/contacts.read'
@@ -46,7 +46,7 @@ class MicrosoftApiService implements MicrosoftApi {
 				'code' => $authorization_code,
 				'client_id'		=> env('MICROSOFT_API_CLIENT_ID'),
 				'client_secret'		=> env('MICROSOFT_API_CLIENT_SECRET'),
-				'redirect_uri' 	=> url('/oauth2/outlook/callback'),
+				'redirect_uri' 	=> secure_url('/oauth2/outlook/callback'),
 				'grant_type' => 'authorization_code'
 			];
 
