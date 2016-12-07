@@ -160,6 +160,7 @@ return [
         App\Providers\ExternalVendorServiceProvider::class,
         App\Providers\TestimonialServiceProvider::class,
         App\Providers\GoogleApiServiceProvider::class,
+        App\Providers\MicrosoftApiServiceProvider::class,
 
 
         /*

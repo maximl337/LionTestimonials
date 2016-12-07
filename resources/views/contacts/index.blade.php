@@ -6,12 +6,25 @@
 
   <div class="panel-heading">
     Contacts 
-    <a href="{{ url('contacts/create') }}" class="pull-right"><i class="fa fa-pencil"></i> Create</a>
 
-    <a href="{{ url('contact/register/' . Auth::id()) }}" target="_blank" title="Your clients can use this link to self register" class="pull-right"><i class="fa fa-plus"></i> Self register</a>
+    <!-- Single button -->
+    <div class="btn-group pull-right">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="fa fa-gear"></i> <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="{{ url('contact/register/' . Auth::id()) }}" target="_blank" title="Your clients can use this link to self register">Client registration page</a></li>
+        <li><a href="{{ url('contacts/create') }}">Create / Import Contacts</a></li>
+      </ul>
+    </div>
+    <!-- /.btn-group -->
+
+   <!--  <a href="{{ url('contacts/create') }}" class="pull-right"><i class="fa fa-pencil"></i> Create</a>
+
+    <a href="{{ url('contact/register/' . Auth::id()) }}" target="_blank" title="Your clients can use this link to self register" class="pull-right"><i class="fa fa-plus"></i> Self register</a> -->
   </div>
 
-  <div class="panel-body">
+<div class="panel-body">
 
     @if(count($contacts) == 0)
 
