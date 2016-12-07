@@ -834,7 +834,7 @@ class ContactController extends Controller
 
             return redirect()->back();
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             
             Session::flash('error', 'Unable to register due to an internal error. Please try again');
 
@@ -856,11 +856,11 @@ class ContactController extends Controller
             $input = $request->input();
 
             if(!empty($input['error'])) {
-                throw new Exception($input['error']);
+                throw new \Exception($input['error']);
             }
 
             if(empty($input['code'])) {
-                throw new Exception("Google did not provide an authorization code");
+                throw new \Exception("Google did not provide an authorization code");
             }
 
             $code = $input['code'];
@@ -873,7 +873,7 @@ class ContactController extends Controller
             $ugly_contacts = $this->googleApi->getUserContacts($access_token, $email);
 
             if(empty($ugly_contacts['feed']['entry'])) {
-                throw new Exception("Google did not return any contacts!");
+                throw new \Exception("Google did not return any contacts!");
             }
 
             $google_contacts = $googleContactImportTransformer->transformCollection($ugly_contacts['feed']['entry']);
@@ -902,7 +902,7 @@ class ContactController extends Controller
 
             return view('contacts.import', compact('contacts'));
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             Session::flash('error', "Could not import contacts from Google: " . $e->getMessage());
 
@@ -925,11 +925,11 @@ class ContactController extends Controller
             $input = $request->input();
 
             if(!empty($input['error'])) {
-                throw new Exception($input['error']);
+                throw new \Exception($input['error']);
             }
 
             if(empty($input['code'])) {
-                throw new Exception("Microsoft did not provide an authorization code");
+                throw new \Exception("Microsoft did not provide an authorization code");
             }
 
             $code = $input['code'];
@@ -940,7 +940,7 @@ class ContactController extends Controller
             $ugly_contacts = $this->microsoftApi->getUserContacts($access_token);
 
             if(empty($ugly_contacts['value'])) {
-                throw new Exception("Microsoft did not return any contacts!");
+                throw new \Exception("Microsoft did not return any contacts!");
             }
 
             $outlook_contacts = $outlookContactsImportTransformer->transformCollection($ugly_contacts['value']);
@@ -969,7 +969,7 @@ class ContactController extends Controller
 
             return view('contacts.import', compact('contacts'));
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             Session::flash('error', "Could not import contacts from Outlook: " . $e->getMessage());
 
