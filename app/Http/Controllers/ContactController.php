@@ -23,10 +23,12 @@ use App\Invitation;
 use App\Http\Requests;
 use App\ContactImport;
 use App\Contracts\GoogleApi;
+use App\Contracts\MicrosoftApi;
 use App\Services\ContactService;
 use App\ThirdPartyTestimonialSite;
 use App\Http\Requests\CreateContactRequest;
 use App\Transformers\GoogleContactsImportTransformer;
+use App\Transformers\OutlookContactsImportTransformer;
 
 class ContactController extends Controller
 {
@@ -35,7 +37,9 @@ class ContactController extends Controller
 
     protected $googleApi;
 
-    public function __construct(ContactService $contactService, GoogleApi $googleApi)
+    protected $microsoftApi;
+
+    public function __construct(ContactService $contactService, GoogleApi $googleApi, MicrosoftApi $microsoftApi)
     {
     	$this->middleware('auth', ['except' => ['getSelfRegister', 'selfRegister', 'googleOauthCallback']]);
 
@@ -43,11 +47,13 @@ class ContactController extends Controller
 
         $this->middleware('verified', ['only' => ['sendExternalLinksEmail', 'externalLinksEmailPreview', 'sendSMS', 'sendEmailSelf', 'sendEmail', 'smsPreview', 'emailPreview']]);
 
-        $this->middleware('subscribed', ['except' => ['getSelfRegister', 'googleOauthCallback']]);
+        $this->middleware('subscribed', ['except' => ['getSelfRegister', 'googleOauthCallback', 'outlookOauthCallback']]);
 
         $this->contactService = $contactService;
 
         $this->googleApi = $googleApi;
+
+        $this->microsoftApi = $microsoftApi;
     }
 
     /**
@@ -76,7 +82,9 @@ class ContactController extends Controller
     {
         $google_oauth_url = $this->googleApi->getOauthUrl();
 
-    	return view('contacts.create', compact('google_oauth_url'));
+        $outlook_oauth_url = $this->microsoftApi->getOauthUrl();
+
+    	return view('contacts.create', compact('google_oauth_url', 'outlook_oauth_url'));
     }
 
     /**
@@ -874,13 +882,22 @@ class ContactController extends Controller
 
             $contacts = [];
 
+            $user_id = Auth::id();
+
             foreach($google_contacts as $contact) {
                 
                 $contact['provider'] = 'google';
 
-                $contact['user_id'] = Auth::id();
+                $contact['user_id'] = $user_id;
 
-                $contacts[] = ContactImport::firstOrCreate($contact);
+                // chheck if exists
+                $exists = ContactImport::where('email', $contact['email'])->where('user_id', $user_id)->exists();
+
+                if($exists) {
+                    continue;
+                }
+
+                $contacts[] = ContactImport::create($contact);
             }
 
             return view('contacts.import', compact('contacts'));
@@ -891,23 +908,76 @@ class ContactController extends Controller
 
             $google_oauth_url = $this->googleApi->getOauthUrl();
 
-            return redirect()->action('ContactController@create', compact('google_oauth_url'));
+            $outlook_oauth_url = $this->microsoftApi->getOauthUrl();
+
+            return redirect()->action('ContactController@create', compact('google_oauth_url', 'outlook_oauth_url'));
         }
     }
 
     /**
-     * [googleOauthStandby description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * [FunctionName description]
+     * @param string $value [description]
      */
-    public function importContacts(Request $request)
+    public function outlookOauthCallback(Request $request, OutlookContactsImportTransformer $outlookContactsImportTransformer)
     {
         try {
-
+            
             $input = $request->input();
-            
+
+            if(!empty($input['error'])) {
+                throw new Exception($input['error']);
+            }
+
+            if(empty($input['code'])) {
+                throw new Exception("Microsoft did not provide an authorization code");
+            }
+
+            $code = $input['code'];
+
+            // get access token
+            $access_token = $this->microsoftApi->getAccessToken($code);
+
+            $ugly_contacts = $this->microsoftApi->getUserContacts($access_token);
+
+            if(empty($ugly_contacts['value'])) {
+                throw new Exception("Microsoft did not return any contacts!");
+            }
+
+            $outlook_contacts = $outlookContactsImportTransformer->transformCollection($ugly_contacts['value']);
+
+            $outlook_contacts = array_filter($outlook_contacts);
+
+            $contacts = [];
+
+            $user_id = Auth::id();
+
+            foreach($outlook_contacts as $contact) {
+                
+                $contact['provider'] = 'outlook';
+
+                $contact['user_id'] = $user_id;
+
+                // chheck if exists
+                $exists = ContactImport::where('email', $contact['email'])->where('user_id', $user_id)->exists();
+
+                if($exists) {
+                    continue;
+                }
+
+                $contacts[] = ContactImport::create($contact);
+            }
+
+            return view('contacts.import', compact('contacts'));
+
         } catch (Exception $e) {
-            
+
+            Session::flash('error', "Could not import contacts from Outlook: " . $e->getMessage());
+
+            $google_oauth_url = $this->googleApi->getOauthUrl();
+
+            $outlook_oauth_url = $this->microsoftApi->getOauthUrl();
+
+            return redirect()->action('ContactController@create', compact('google_oauth_url', 'outlook_oauth_url'));
         }
     }
     

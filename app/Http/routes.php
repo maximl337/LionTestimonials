@@ -32,7 +32,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('contacts/create', 'ContactController@create');
 
-    Route::get('contacts/import', 'ContactController@import');
+    Route::get('contacts/import/csv', 'ContactController@import');
 
     Route::post('contacts/create', 'ContactController@store');
 
@@ -66,6 +66,8 @@ Route::group(['middleware' => 'web'], function () {
 
     /** OAuth for importing contacts */
     Route::get('oauth2/google/callback', 'ContactController@googleOauthCallback');
+
+    Route::get('oauth2/outlook/callback', 'ContactController@outlookOauthCallback');
 
     /** Testimonials */
     Route::get('testimonials/create', 'TestimonialController@create');
