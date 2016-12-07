@@ -103,4 +103,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ExternalVendorReview::class);
     }
+
+    public function contactImports()
+    {
+        return $this->hasMany(ContactImport::class);
+    }
 }
