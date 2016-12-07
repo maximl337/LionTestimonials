@@ -13,14 +13,15 @@ use Cache;
 use Twilio;
 use Storage;
 use Session;
-use Validator;
 use App\User;
 use App\Video;
+use Validator;
 use App\Contact;
 use App\Branding;
 use Carbon\Carbon;
 use App\Invitation;
 use App\Http\Requests;
+use App\ContactImport;
 use App\Contracts\GoogleApi;
 use App\Services\ContactService;
 use App\ThirdPartyTestimonialSite;
@@ -299,6 +300,63 @@ class ContactController extends Controller
             return redirect('/contacts');
 
         }
+
+    }
+
+    /**
+     * [importCsv description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function importVendor(Request $request)
+    {
+        $this->validate($request, [
+                'contact_imports' => 'required|array',
+            ]);
+
+        
+
+        try {
+
+            $input = $request->input();
+
+            $user = Auth::user();
+
+            foreach($input['contact_imports'] as $contact_import_id) {
+
+                $contact_import = ContactImport::find($contact_import_id);
+
+                if(!$contact_import) {
+                    continue;
+                }
+
+                $exists = $user->contacts()->where('email', $contact_import->email)->exists();
+
+                if($exists) {
+                    continue;
+                }
+
+                $user->contacts()->save(new Contact([
+                    'first_name' => $contact_import->first_name,
+                    'last_name' => $contact_import->last_name,
+                    'email' => $contact_import->email,
+                    'phone' => $contact_import->phone ?: ""
+                ]));
+
+            }
+
+            Session::flash('success', 'Contacts imported');
+
+            return redirect()->action('ContactController@index');
+
+        } catch(\Exception $e) {
+
+            Session::flash('error', $e->getMessage());
+
+            return redirect()->action('ContactController@index');
+
+        }
+
 
     }
 
@@ -814,7 +872,18 @@ class ContactController extends Controller
 
             $google_contacts = array_filter($google_contacts);
 
-            return view('contacts.import', compact('google_contacts'));
+            $contacts = [];
+
+            foreach($google_contacts as $contact) {
+                
+                $contact['provider'] = 'google';
+
+                $contact['user_id'] = Auth::id();
+
+                $contacts[] = ContactImport::firstOrCreate($contact);
+            }
+
+            return view('contacts.import', compact('contacts'));
 
         } catch (Exception $e) {
 

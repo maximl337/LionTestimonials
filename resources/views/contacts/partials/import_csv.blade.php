@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="col-md-12">
-        <form enctype="multipart/form-data" id="import_csv_form" method="POST" action="{{ url('contacts/import') }}" role="form">
+        <form enctype="multipart/form-data" id="import_csv_form" method="POST" action="{{ url('contacts/import/csv') }}" role="form">
 
             {!! csrf_field() !!}
 
